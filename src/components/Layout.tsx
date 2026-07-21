@@ -3,7 +3,6 @@ import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
 import NotificationsBell from './NotificationsBell'
 import ThemeSwitcher from './ThemeSwitcher'
-import './layout.css'
 
 interface NavItem {
   to: string
@@ -102,7 +101,6 @@ function Icon({ children }: { children: ReactNode }) {
   )
 }
 
-/** Walk the nav tree to find a label for the current path (topbar title). */
 function useActiveLabel(): string {
   const { pathname } = useLocation()
   for (const g of NAV_GROUPS) {
@@ -121,7 +119,6 @@ export default function Layout() {
   const [query, setQuery] = useState('')
   const searchRef = useRef<HTMLInputElement>(null)
 
-  // Focus the search bar when "/" is pressed (command-palette style).
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       if (e.key === '/' && !/^(INPUT|TEXTAREA|SELECT)$/i.test((e.target as HTMLElement)?.tagName)) {
@@ -133,15 +130,11 @@ export default function Layout() {
     return () => window.removeEventListener('keydown', onKey)
   }, [])
 
-  // Close the drawer + clear search on every navigation.
   useEffect(() => {
-    // Intentional: reset transient UI state when the route changes.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setOpen(false)
     setQuery('')
   }, [location.pathname])
 
-  // Lock body scroll while the drawer is open.
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
     return () => {
@@ -174,74 +167,155 @@ export default function Layout() {
   const title = useActiveLabel()
 
   return (
-    <div className="layout">
-      {open && <div className="scrim" onClick={() => setOpen(false)} aria-hidden />}
+    <div className="grid grid-cols-[280px_1fr] min-h-screen">
+      {/* Scrim overlay for mobile */}
+      {open && (
+        <div
+          className="fixed inset-0 bg-black/70 backdrop-blur-[4px] z-40 animate-fade-in md:hidden"
+          onClick={() => setOpen(false)}
+          aria-hidden
+        />
+      )}
 
-      <aside className="sidebar" data-open={open}>
-        <div className="brand">
-          <span className="brand-mark">🪔</span>
+      {/* Sidebar */}
+      <aside
+        className={`
+          bg-gradient-to-b from-bg-2 to-bg-1 border-r border-border-soft
+          p-6 p-5 flex flex-col sticky top-0 h-screen z-40
+          max-md:fixed max-md:inset-y-0 max-md:left-0 max-md:w-[300px]
+          max-md:-translate-x-full transition-transform duration-[320ms] ease-[cubic-bezier(0.22,0.61,0.36,1)]
+          max-md:shadow-[0_24px_80px_rgba(2,2,12,0.6)]
+          ${open ? 'max-md:translate-x-0' : ''}
+        `}
+      >
+        {/* Decorative glow */}
+        <div className="absolute top-0 left-0 right-0 h-[200px] bg-[radial-gradient(ellipse_at_50%_0%,var(--color-saffron-soft),transparent_70%)] opacity-50 pointer-events-none" />
+
+        {/* Brand */}
+        <div className="flex items-center gap-3.5 px-2.5 pt-1.5 mb-7 relative z-10">
+          <span className="text-[28px] w-12 h-12 flex items-center justify-center rounded-[--radius-md] bg-gradient-to-br from-saffron-soft to-transparent border border-border-soft shadow-[0_0_20px_var(--color-saffron-glow)] animate-[brand-glow_4s_ease-in-out_infinite]">
+            🪔
+          </span>
           <div>
-            <div className="brand-name">Hindustani Jyotish</div>
-            <div className="brand-sub faint">Admin Console</div>
+            <div className="font-display text-[17px] font-semibold tracking-tight leading-tight">Hindustani Jyotish</div>
+            <div className="text-[11px] tracking-widest uppercase mt-1 text-saffron font-medium max-md:hidden">Admin Console</div>
           </div>
         </div>
 
-        <div className="topbar-search topbar-search-mobile" style={{ margin: '0 8px 12px', maxWidth: 'none' }}>
-          <Icon><circle cx="11" cy="11" r="7" /><path d="m21 21-4.3-4.3" /></Icon>
-          <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search pages…" />
+        {/* Mobile search */}
+        <div className="mb-3 mx-2 max-md:block hidden">
+          <div className="relative">
+            <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-ivory-faint">
+              <Icon><circle cx="11" cy="11" r="7" /><path d="m21 21-4.3-4.3" /></Icon>
+            </span>
+            <input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search pages…"
+              className="w-full pl-10 pr-4 py-2.5 bg-surface-1 border border-border-soft rounded-[--radius-sm] text-[14px]"
+            />
+          </div>
         </div>
 
-        <nav>
-          {groups.length === 0 && <div className="empty" style={{ padding: 24 }}>No pages match “{query}”.</div>}
+        {/* Navigation */}
+        <nav className="flex flex-col gap-0.5 flex-1 overflow-y-auto -mx-2 px-2 pb-2 relative z-10">
+          {groups.length === 0 && (
+            <div className="text-center py-6 text-ivory-faint text-[14px]">No pages match "{query}".</div>
+          )}
           {groups.map((group) => (
-            <div className="nav-group" key={group.heading}>
-              <div className="nav-heading">{group.heading}</div>
+            <div key={group.heading} className="mb-1.5">
+              <div className="text-[10px] tracking-widest uppercase text-ivory-faint px-3.5 pt-4 pb-1.5 font-bold">
+                {group.heading}
+              </div>
               {group.items.map((n) => (
                 <NavLink
                   key={n.to}
                   to={n.to}
                   end={n.end}
-                  className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
+                  className={({ isActive }) => `
+                    flex items-center gap-3 text-ivory-dim
+                    py-[11px] px-3.5 rounded-[--radius-sm]
+                    font-semibold text-[13.5px]
+                    transition-all duration-200
+                    relative overflow-hidden
+                    hover:bg-surface-1 hover:text-ivory hover:no-underline
+                    ${isActive ? 'bg-gradient-to-r from-saffron-soft to-transparent text-ivory' : ''}
+                  `}
                 >
-                  <span aria-hidden>{ICONS[n.icon]}</span>
-                  {n.label}
+                  {({ isActive }) => (
+                    <>
+                      {isActive && (
+                        <span className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-[60%] bg-gradient-to-b from-saffron-bright to-saffron rounded-full shadow-[0_0_12px_var(--color-saffron-glow)]" />
+                      )}
+                      <span aria-hidden>{ICONS[n.icon]}</span>
+                      {n.label}
+                    </>
+                  )}
                 </NavLink>
               ))}
             </div>
           ))}
         </nav>
 
-        <div className="sidebar-foot">
-          <span className="sidebar-avatar" aria-hidden>{initials}</span>
-          <div className="sidebar-user">
-            <div className="email">{admin?.email}</div>
-            <div className="role faint">Administrator</div>
+        {/* Footer */}
+        <div className="border-t border-border-soft pt-4 px-2.5 pb-1 flex items-center gap-3 mt-3 relative z-10">
+          <span className="w-10 h-10 rounded-[--radius-md] flex items-center justify-center font-bold text-[15px] text-on-accent bg-gradient-to-br from-saffron-bright to-saffron shadow-[0_0_20px_var(--color-saffron-glow)] shrink-0" aria-hidden>
+            {initials}
+          </span>
+          <div className="min-w-0 flex-1">
+            <div className="text-[13px] font-semibold truncate">{admin?.email}</div>
+            <div className="text-[11px] text-saffron mt-0.5 font-medium">Administrator</div>
           </div>
-          <button className="btn-ghost btn-icon" onClick={handleLogout} title="Sign out" aria-label="Sign out">
+          <button
+            className="w-9 h-9 rounded-[--radius-sm] bg-surface-2 border border-border-soft flex items-center justify-center text-ivory hover:bg-surface-3 hover:border-border-mid transition-all shrink-0"
+            onClick={handleLogout}
+            title="Sign out"
+            aria-label="Sign out"
+          >
             <Icon><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" /></Icon>
           </button>
         </div>
       </aside>
 
-      <main className="content">
-        <div className="topbar">
-          <button className="btn-ghost btn-icon menu-btn" onClick={() => setOpen(true)} aria-label="Open menu">
+      {/* Main content */}
+      <main className="min-w-0 flex flex-col" style={{ background: 'linear-gradient(180deg, transparent, rgba(0,0,0,0.02))' }}>
+        {/* Topbar */}
+        <div className="sticky top-0 z-30 flex items-center gap-4 px-9 py-4 bg-bg-1/85 backdrop-blur-[20px] saturate-150 border-b border-border-soft max-lg:px-5 max-md:px-4">
+          {/* Mobile menu button */}
+          <button
+            className="hidden max-lg:flex w-11 h-11 rounded-[--radius-md] bg-surface-2 border border-border-soft items-center justify-center text-ivory"
+            onClick={() => setOpen(true)}
+            aria-label="Open menu"
+          >
             <Icon><path d="M3 6h18M3 12h18M3 18h18" /></Icon>
           </button>
 
-          <div className="topbar-search">
-            <Icon><circle cx="11" cy="11" r="7" /><path d="m21 21-4.3-4.3" /></Icon>
-            <input ref={searchRef} value={query} onChange={(e) => setQuery(e.target.value)} placeholder={`Search ${title}…`} />
-            <kbd>/</kbd>
+          {/* Search */}
+          <div className="flex-1 max-w-[500px] relative">
+            <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-ivory-faint transition-colors focus-within:text-saffron">
+              <Icon><circle cx="11" cy="11" r="7" /><path d="m21 21-4.3-4.3" /></Icon>
+            </span>
+            <input
+              ref={searchRef}
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder={`Search ${title}…`}
+              className="w-full rounded-full py-3 px-4 pl-11 pr-16 bg-surface-1 border border-border-soft text-[14px] transition-all focus:outline-none focus:bg-surface-2 focus:border-saffron focus:shadow-[0_0_0_4px_var(--color-saffron-soft)]"
+            />
+            <kbd className="absolute right-3 top-1/2 -translate-y-1/2 font-mono text-[11px] text-ivory-faint bg-surface-2 border border-border-soft rounded-[--radius-xs] px-2 py-1 transition-all focus-within:bg-saffron-soft focus-within:border-saffron focus-within:text-saffron-bright">
+              /
+            </kbd>
           </div>
 
-          <div className="topbar-actions">
+          {/* Actions */}
+          <div className="flex items-center gap-2.5 ml-auto">
             <ThemeSwitcher />
             <NotificationsBell />
           </div>
         </div>
 
-        <div className="content-body">
+        {/* Page content */}
+        <div className="px-9 py-8 pb-16 max-w-[1400px] w-full max-lg:px-5 max-md:px-4 max-md:py-5 max-md:pb-12">
           <Outlet />
         </div>
       </main>
