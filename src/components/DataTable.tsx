@@ -22,7 +22,7 @@ export function DataTable({ columns, rows, onRowClick }: DataTableProps) {
   }
   return (
     <div className="card" style={{ padding: 0, overflow: 'auto' }}>
-      <table className="table">
+      <table className="table table-cards">
         <thead>
           <tr>
             {columns.map((c) => (
@@ -38,7 +38,7 @@ export function DataTable({ columns, rows, onRowClick }: DataTableProps) {
               onClick={onRowClick ? () => onRowClick(row) : undefined}
             >
               {columns.map((c) => (
-                <td key={c.key} className={c.mono ? 'mono' : undefined}>
+                <td key={c.key} data-label={c.label} className={c.mono ? 'mono' : undefined}>
                   {c.render ? c.render(row[c.key], row) : cell(row[c.key])}
                 </td>
               ))}

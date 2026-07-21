@@ -133,7 +133,7 @@ export default function SimpleCrudPage({ title, subtitle, endpoint, fields, disp
       </form>
 
       <div className="card" style={{ padding: 0, overflow: 'auto' }}>
-        <table className="table">
+        <table className="table table-cards">
           <thead>
             <tr>
               {display.map((d) => <th key={d.key}>{d.label}</th>)}
@@ -146,19 +146,19 @@ export default function SimpleCrudPage({ title, subtitle, endpoint, fields, disp
                 {display.map((d) => {
                   const field = fields.find((f) => f.key === d.key)
                   return (
-                    <td key={d.key}>
+                    <td key={d.key} data-label={d.label}>
                       {renderDisplayValue(r[d.key], field, optionsMap)}
                     </td>
                   )
                 })}
-                <td style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
+                <td data-actions style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
                   <button className="btn-ghost" onClick={() => setEditing(r)}>Edit</button>
                   <button className="btn-danger" style={{ marginLeft: 8 }} onClick={() => remove(r.id as string)}>Delete</button>
                 </td>
               </tr>
             ))}
             {rows.length === 0 && (
-              <tr><td colSpan={display.length + 1}><div className="empty">Nothing here yet.</div></td></tr>
+              <tr><td data-empty colSpan={display.length + 1}><div className="empty">Nothing here yet.</div></td></tr>
             )}
           </tbody>
         </table>

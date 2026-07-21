@@ -52,23 +52,23 @@ export default function CosmicServicesPage() {
       {error && <div className="error-banner">{error}</div>}
 
       <div className="card" style={{ padding: 0, overflow: 'auto' }}>
-        <table className="table">
+        <table className="table table-cards">
           <thead>
             <tr><th>Service</th><th>Price (₹)</th><th>Active</th><th></th></tr>
           </thead>
           <tbody>
             {rows.map((s) => (
               <tr key={s.key}>
-                <td>{s.name}</td>
-                <td>
+                <td data-label="Service">{s.name}</td>
+                <td data-label="Price (₹)">
                   <input
-                    style={{ maxWidth: 120 }}
+                    style={{ maxWidth: 150 }}
                     value={drafts[s.key] ?? ''}
                     onChange={(e) => setDrafts({ ...drafts, [s.key]: e.target.value })}
                   />
                 </td>
-                <td><span className={`badge badge-${s.is_active ? 'approved' : 'rejected'}`}>{s.is_active ? 'on' : 'off'}</span></td>
-                <td style={{ textAlign: 'right' }}>
+                <td data-label="Status"><span className={`badge badge-${s.is_active ? 'approved' : 'rejected'}`}>{s.is_active ? 'on' : 'off'}</span></td>
+                <td data-actions style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
                   <button className="btn-primary" onClick={() => save(s)}>Save</button>
                   <button className="btn-ghost" style={{ marginLeft: 8 }} onClick={() => toggle(s)}>
                     {s.is_active ? 'Disable' : 'Enable'}

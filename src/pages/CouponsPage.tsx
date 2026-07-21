@@ -94,7 +94,7 @@ export default function CouponsPage() {
       </form>
 
       <div className="card" style={{ padding: 0, overflow: 'auto' }}>
-        <table className="table">
+        <table className="table table-cards">
           <thead>
             <tr>
               <th>Code</th><th>Type</th><th>Value</th><th>Min</th><th>Used</th><th>Active</th><th></th>
@@ -103,20 +103,20 @@ export default function CouponsPage() {
           <tbody>
             {rows.map((c) => (
               <tr key={c.id}>
-                <td className="mono">{c.code}</td>
-                <td>{c.discount_type}</td>
-                <td>{c.discount_type === 'percent' ? `${c.value}%` : `₹${c.value}`}</td>
-                <td>₹{c.min_amount}</td>
-                <td>{c.used_count}{c.usage_limit ? ` / ${c.usage_limit}` : ''}</td>
-                <td><span className={`badge badge-${c.is_active ? 'approved' : 'rejected'}`}>{c.is_active ? 'active' : 'off'}</span></td>
-                <td style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
+                <td data-label="Code" className="mono">{c.code}</td>
+                <td data-label="Type">{c.discount_type}</td>
+                <td data-label="Value">{c.discount_type === 'percent' ? `${c.value}%` : `₹${c.value}`}</td>
+                <td data-label="Min">₹{c.min_amount}</td>
+                <td data-label="Used">{c.used_count}{c.usage_limit ? ` / ${c.usage_limit}` : ''}</td>
+                <td data-label="Status"><span className={`badge badge-${c.is_active ? 'approved' : 'rejected'}`}>{c.is_active ? 'active' : 'off'}</span></td>
+                <td data-actions style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
                   <button className="btn-ghost" onClick={() => setEdit(c)}>Edit</button>
                   <button className="btn-ghost" style={{ marginLeft: 8 }} onClick={() => toggle(c)}>{c.is_active ? 'Disable' : 'Enable'}</button>
                   <button className="btn-danger" style={{ marginLeft: 8 }} onClick={() => remove(c)}>Delete</button>
                 </td>
               </tr>
             ))}
-            {rows.length === 0 && <tr><td colSpan={7}><div className="empty">No coupons yet.</div></td></tr>}
+            {rows.length === 0 && <tr><td data-empty colSpan={7}><div className="empty">No coupons yet.</div></td></tr>}
           </tbody>
         </table>
       </div>

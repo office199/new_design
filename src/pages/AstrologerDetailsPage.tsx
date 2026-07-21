@@ -93,7 +93,7 @@ export default function AstrologerDetailsPage() {
         <div className="empty">No astrologers found.</div>
       ) : (
         <div className="card" style={{ padding: 0, overflow: 'auto' }}>
-          <table className="table">
+          <table className="table table-cards">
             <thead>
               <tr>
                 <th>Name</th>
@@ -112,15 +112,15 @@ export default function AstrologerDetailsPage() {
                 const blocked = a.kyc_status === 'rejected'
                 return (
                   <tr key={a.id}>
-                    <td>{a.name ?? <span className="faint">—</span>}</td>
-                    <td className="mono">{a.mobile ?? <span className="faint">—</span>}</td>
-                    <td>{a.skills && a.skills.length ? a.skills.join(', ') : <span className="faint">—</span>}</td>
-                    <td>{a.experience ?? <span className="faint">—</span>}</td>
-                    <td><StatusBadge status={a.kyc_status} /></td>
-                    <td>{a.is_online ? 'Yes' : 'No'}</td>
-                    <td>{a.avg_rating}</td>
-                    <td>₹{a.available_balance}</td>
-                    <td style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
+                    <td data-label="Name">{a.name ?? <span className="faint">—</span>}</td>
+                    <td data-label="Mobile" className="mono">{a.mobile ?? <span className="faint">—</span>}</td>
+                    <td data-label="Skills">{a.skills && a.skills.length ? a.skills.join(', ') : <span className="faint">—</span>}</td>
+                    <td data-label="Exp (yrs)">{a.experience ?? <span className="faint">—</span>}</td>
+                    <td data-label="KYC"><StatusBadge status={a.kyc_status} /></td>
+                    <td data-label="Online">{a.is_online ? 'Yes' : 'No'}</td>
+                    <td data-label="Rating">{a.avg_rating}</td>
+                    <td data-label="Balance">₹{a.available_balance}</td>
+                    <td data-actions style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
                       <button className="btn-ghost" onClick={() => setDetailId(a.id)}>View</button>
                       <button className="btn-ghost" style={{ marginLeft: 8 }} onClick={() => setEdit(a)}>Edit</button>
                       {blocked ? (

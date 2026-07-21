@@ -101,7 +101,7 @@ export default function AstrologerChargesPage() {
         <div className="empty">No approved astrologers found.</div>
       ) : (
         <div className="card" style={{ padding: 0, overflow: 'auto' }}>
-          <table className="table">
+          <table className="table table-cards">
             <thead>
               <tr>
                 <th>Astrologer</th>
@@ -116,32 +116,32 @@ export default function AstrologerChargesPage() {
                 const d = drafts[c.id]
                 return (
                   <tr key={c.id}>
-                    <td>{c.name ?? <span className="faint">—</span>}</td>
-                    <td>
+                    <td data-label="Astrologer">{c.name ?? <span className="faint">—</span>}</td>
+                    <td data-label="Chat / msg (₹)">
                       <input
-                        style={{ maxWidth: 110 }}
+                        style={{ maxWidth: 140 }}
                         inputMode="decimal"
                         value={d?.chat_per_msg ?? ''}
                         onChange={(e) => edit(c.id, 'chat_per_msg', e.target.value)}
                       />
                     </td>
-                    <td>
+                    <td data-label="Call / min (₹)">
                       <input
-                        style={{ maxWidth: 110 }}
+                        style={{ maxWidth: 140 }}
                         inputMode="decimal"
                         value={d?.call_per_min ?? ''}
                         onChange={(e) => edit(c.id, 'call_per_min', e.target.value)}
                       />
                     </td>
-                    <td>
+                    <td data-label="Video / min (₹)">
                       <input
-                        style={{ maxWidth: 110 }}
+                        style={{ maxWidth: 140 }}
                         inputMode="decimal"
                         value={d?.video_per_min ?? ''}
                         onChange={(e) => edit(c.id, 'video_per_min', e.target.value)}
                       />
                     </td>
-                    <td style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
+                    <td data-actions style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
                       {savedId === c.id && <span className="muted" style={{ marginRight: 8 }}>Saved</span>}
                       <button className="btn-primary" disabled={savingId === c.id} onClick={() => save(c)}>
                         {savingId === c.id ? 'Saving…' : 'Save'}
