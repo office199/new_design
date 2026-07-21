@@ -85,7 +85,7 @@ export default function NotificationsBell() {
               .map((i) => (
                 <button key={i.to} className="notif-item" onClick={() => go(i.to)}>
                   <span style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                    <span style={{ width: 28, height: 28, borderRadius: 'var(--r-sm)', background: 'var(--gold-bg)', color: 'var(--gold)', display: 'grid', placeItems: 'center' }}>
+                    <span style={{ width: 28, height: 28, borderRadius: 'var(--radius-sm)', background: 'var(--color-gold-bg)', color: 'var(--color-gold)', display: 'grid', placeItems: 'center' }}>
                       {i.icon === 'user' ? (
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                           <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />

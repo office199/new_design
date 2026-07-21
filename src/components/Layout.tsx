@@ -181,7 +181,7 @@ export default function Layout() {
       <aside
         className={`
           bg-gradient-to-b from-bg-2 to-bg-1 border-r border-border-soft
-          p-6 p-5 flex flex-col sticky top-0 h-screen z-40
+          p-5 flex flex-col sticky top-0 h-screen z-40
           max-md:fixed max-md:inset-y-0 max-md:left-0 max-md:w-[300px]
           max-md:-translate-x-full transition-transform duration-[320ms] ease-[cubic-bezier(0.22,0.61,0.36,1)]
           max-md:shadow-[0_24px_80px_rgba(2,2,12,0.6)]

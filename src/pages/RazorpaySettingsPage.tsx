@@ -111,7 +111,7 @@ export default function RazorpaySettingsPage() {
                 marginTop: 8,
                 fontSize: 12,
                 whiteSpace: 'pre-wrap',
-                background: 'var(--surface-1)',
+                background: 'var(--color-surface-1)',
                 padding: 10,
                 borderRadius: 8,
               }}
@@ -208,7 +208,7 @@ function SecretField({
         </div>
       ) : (
         <div className="row" style={{ gap: 8 }}>
-          <input className="mono" value={masked ?? 'Not set'} readOnly style={{ color: 'var(--ivory-faint)' }} />
+          <input className="mono" value={masked ?? 'Not set'} readOnly style={{ color: 'var(--color-ivory-faint)' }} />
           <button className="btn-ghost" type="button" onClick={onEdit}>Replace</button>
         </div>
       )}

@@ -117,7 +117,7 @@ export default function SimpleCrudPage({ title, subtitle, endpoint, fields, disp
         <div className="row" style={{ flexWrap: 'wrap', gap: 12, alignItems: 'flex-end' }}>
           {fields.map((f) => (
             <div key={f.key} style={{ flex: '1 1 200px' }}>
-              <label style={{ display: 'block', fontSize: 13, color: 'var(--ivory-dim)', marginBottom: 6 }}>
+              <label style={{ display: 'block', fontSize: 13, color: 'var(--color-ivory-dim)', marginBottom: 6 }}>
                 {f.label}
               </label>
               <FieldControl

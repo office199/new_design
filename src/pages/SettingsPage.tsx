@@ -102,7 +102,7 @@ export default function SettingsPage({ title, subtitle, endpoint, fields }: Sett
                   {f.label}
                 </label>
                 {f.type === 'bool' ? (
-                  <label className="row" style={{ gap: 12, cursor: 'pointer', padding: '8px 12px', background: 'var(--surface-1)', borderRadius: 'var(--r-sm)', border: '1px solid var(--border-soft)' }}>
+                  <label className="row" style={{ gap: 12, cursor: 'pointer', padding: '8px 12px', background: 'var(--color-surface-1)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--color-border-soft)' }}>
                     <input
                       type="checkbox"
                       style={{ width: 'auto' }}

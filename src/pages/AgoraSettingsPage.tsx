@@ -179,7 +179,7 @@ function mask(s: string): string {
 function Field({ label, flex, children }: { label: string; flex: string; children: React.ReactNode }) {
   return (
     <div style={{ flex }}>
-      <label style={{ display: 'block', fontSize: 13, color: 'var(--ivory-dim)', marginBottom: 6 }}>{label}</label>
+      <label style={{ display: 'block', fontSize: 13, color: 'var(--color-ivory-dim)', marginBottom: 6 }}>{label}</label>
       {children}
     </div>
   )
