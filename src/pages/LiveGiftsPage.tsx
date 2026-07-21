@@ -1,230 +1,112 @@
 import { useCallback, useEffect, useState, type FormEvent } from 'react'
 import { api } from '../api/client'
+import { PageHeader, Card } from '../components/ui/PageShell'
 
-interface LiveGift {
-  id: string
-  key: string
-  name: string
-  price: string
-  emoji: string | null
-  position: number
-  is_active: boolean
-}
+interface LiveGift { id:string; key:string; name:string; price:string; emoji:string|null; position:number; is_active:boolean }
 
-/** Live-stream gift catalog: list + add + edit + delete. Key is set at creation and immutable. */
-export default function LiveGiftsPage() {
-  const [rows, setRows] = useState<LiveGift[]>([])
-  const [error, setError] = useState<string | null>(null)
-  const [key, setKey] = useState('')
-  const [name, setName] = useState('')
-  const [price, setPrice] = useState('')
-  const [emoji, setEmoji] = useState('')
-  const [position, setPosition] = useState('')
-  const [edit, setEdit] = useState<LiveGift | null>(null)
+export default function LiveGiftsPage(){
+  const [rows,setRows]=useState<LiveGift[]>([])
+  const [error,setError]=useState<string|null>(null)
+  const [key,setKey]=useState('')
+  const [name,setName]=useState('')
+  const [price,setPrice]=useState('')
+  const [emoji,setEmoji]=useState('')
+  const [position,setPosition]=useState('')
+  const [edit,setEdit]=useState<LiveGift|null>(null)
 
-  const load = useCallback(async () => {
-    try {
-      setRows(await api<LiveGift[]>('/admin/live-gifts'))
-      setError(null)
-    } catch (e) {
-      setError((e as Error).message)
-    }
-  }, [])
+  const load=useCallback(async()=>{ try{ setRows(await api<LiveGift[]>('/admin/live-gifts')); setError(null) } catch(e){ setError((e as Error).message) } },[])
+  useEffect(()=>{ void load() },[load])
 
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    void load()
-  }, [load])
-
-  async function create(e: FormEvent) {
-    e.preventDefault()
-    setError(null)
-    try {
-      const body: Record<string, unknown> = { key: key.trim(), name: name.trim(), price: price.trim() }
-      if (emoji.trim()) body.emoji = emoji.trim()
-      if (position.trim()) body.position = Number(position.trim())
-      await api('/admin/live-gifts', { method: 'POST', body })
-      setKey('')
-      setName('')
-      setPrice('')
-      setEmoji('')
-      setPosition('')
-      await load()
-    } catch (err) {
-      setError((err as Error).message)
-    }
+  async function create(e:FormEvent){
+    e.preventDefault(); setError(null)
+    try{
+      const body:Record<string,unknown>={ key:key.trim(), name:name.trim(), price:price.trim() }
+      if(emoji.trim()) body.emoji=emoji.trim()
+      if(position.trim()) body.position=Number(position.trim())
+      await api('/admin/live-gifts',{method:'POST',body})
+      setKey(''); setName(''); setPrice(''); setEmoji(''); setPosition(''); await load()
+    }catch(err){ setError((err as Error).message) }
   }
-
-  async function toggle(g: LiveGift) {
-    await api(`/admin/live-gifts/${g.id}`, { method: 'PATCH', body: { is_active: !g.is_active } })
-    await load()
-  }
-
-  async function remove(g: LiveGift) {
-    await api(`/admin/live-gifts/${g.id}`, { method: 'DELETE' })
-    await load()
-  }
+  async function toggle(g:LiveGift){ await api(`/admin/live-gifts/${g.id}`,{method:'PATCH',body:{is_active:!g.is_active}}); await load() }
+  async function remove(g:LiveGift){ await api(`/admin/live-gifts/${g.id}`,{method:'DELETE'}); await load() }
 
   return (
-    <div>
-      <div className="page-head">
-        <h1>Live Gifts</h1>
-        <p className="muted">Manage the gift catalog customers can send astrologers during live streams.</p>
-      </div>
-      {error && <div className="error-banner">{error}</div>}
+    <div className="space-y-6">
+      <PageHeader title="Live Gifts" subtitle="Gift catalog for live streams — emojis, prices and ordering. Viewers send these during live sessions." icon={<span className="text-[18px]">🎁</span>} />
 
-      <form className="card" style={{ marginBottom: 20 }} onSubmit={create}>
-        <div className="row" style={{ flexWrap: 'wrap', gap: 12, alignItems: 'flex-end' }}>
-          <Field label="Key">
-            <input value={key} onChange={(e) => setKey(e.target.value)} placeholder="rose" required />
-          </Field>
-          <Field label="Name">
-            <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Rose" required />
-          </Field>
-          <Field label="Price (₹)">
-            <input inputMode="decimal" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="1" required />
-          </Field>
-          <Field label="Emoji">
-            <input value={emoji} onChange={(e) => setEmoji(e.target.value)} placeholder="🌹" style={{ width: 80 }} />
-          </Field>
-          <Field label="Position">
-            <input inputMode="numeric" value={position} onChange={(e) => setPosition(e.target.value)} placeholder="0" style={{ width: 80 }} />
-          </Field>
-          <button className="btn-primary" type="submit">Add gift</button>
+      {error && <div className="rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-[13px] text-red-300">{error}</div>}
+
+      <Card className="p-5 sm:p-6">
+        <div className="text-[11px] font-bold uppercase tracking-widest text-ivory-faint flex items-center gap-2"><span className="grid h-6 w-6 place-items-center rounded-full bg-amber-500/10 border border-amber-500/15">+</span> Add gift</div>
+        <form onSubmit={create} className="mt-4 grid gap-3 sm:grid-cols-5">
+          <label className="text-[11px] font-semibold text-ivory-dim">Key<input value={key} onChange={e=>setKey(e.target.value)} placeholder="rose" required className="mt-1.5 h-11 w-full rounded-xl border border-border-soft bg-surface-1 px-3.5 text-[13px] outline-none focus:border-saffron" /></label>
+          <label className="text-[11px] font-semibold text-ivory-dim">Name<input value={name} onChange={e=>setName(e.target.value)} placeholder="Rose Bouquet" required className="mt-1.5 h-11 w-full rounded-xl border border-border-soft bg-surface-1 px-3.5 text-[13px] outline-none focus:border-saffron" /></label>
+          <label className="text-[11px] font-semibold text-ivory-dim">Price<input value={price} onChange={e=>setPrice(e.target.value)} placeholder="10" required className="mt-1.5 h-11 w-full rounded-xl border border-border-soft bg-surface-1 px-3.5 text-[13px] outline-none focus:border-saffron" /></label>
+          <label className="text-[11px] font-semibold text-ivory-dim">Emoji<input value={emoji} onChange={e=>setEmoji(e.target.value)} placeholder="🌹" className="mt-1.5 h-11 w-full rounded-xl border border-border-soft bg-surface-1 px-3.5 text-[13px] outline-none focus:border-saffron" /></label>
+          <label className="text-[11px] font-semibold text-ivory-dim">Position<input value={position} onChange={e=>setPosition(e.target.value)} placeholder="1" className="mt-1.5 h-11 w-full rounded-xl border border-border-soft bg-surface-1 px-3.5 text-[13px] outline-none focus:border-saffron" /></label>
+          <div className="sm:col-span-5"><button type="submit" className="h-11 rounded-xl bg-ivory text-bg-0 px-6 text-[13px] font-bold hover:bg-white">Add gift</button></div>
+        </form>
+      </Card>
+
+      <div className="overflow-hidden rounded-[20px] border border-border-soft bg-surface-raised shadow-sm">
+        <div className="hidden md:block overflow-x-auto">
+          <table className="w-full border-collapse">
+            <thead><tr className="border-b border-border-soft bg-surface-1/60 text-left text-[11px] font-bold uppercase tracking-wider text-ivory-faint"><th className="px-5 py-3.5">Gift</th><th className="px-5 py-3.5">Key</th><th className="px-5 py-3.5">Price</th><th className="px-5 py-3.5">Pos</th><th className="px-5 py-3.5">Status</th><th className="px-5 py-3.5 text-right">Actions</th></tr></thead>
+            <tbody className="divide-y divide-border-soft/60">
+              {rows.map(g=>(
+                <tr key={g.id} className="hover:bg-surface-1/50">
+                  <td className="px-5 py-4"><div className="flex items-center gap-3"><span className="grid h-9 w-9 place-items-center rounded-xl bg-surface-1 border border-border-soft text-[18px]">{g.emoji ?? '🎁'}</span><span className="font-semibold text-[13.5px]">{g.name}</span></div></td>
+                  <td className="px-5 py-4 font-mono text-[12px] text-ivory-dim">{g.key}</td>
+                  <td className="px-5 py-4"><span className="rounded-full bg-amber-500/10 border border-amber-500/20 px-3 py-1 font-mono text-[12px] font-bold text-amber-400">₹{g.price}</span></td>
+                  <td className="px-5 py-4 text-[12px]">{g.position}</td>
+                  <td className="px-5 py-4"><span className={`rounded-full border px-3 py-1 text-[11px] font-bold uppercase ${g.is_active?'border-emerald-500/20 bg-emerald-500/10 text-emerald-400':'border-border-soft bg-surface-2 text-ivory-faint'}`}>{g.is_active?'active':'off'}</span></td>
+                  <td className="px-5 py-4 text-right"><div className="inline-flex gap-1.5"><button onClick={()=>setEdit(g)} className="h-8 rounded-full border border-border-soft bg-surface-1 px-4 text-[12px] font-semibold">Edit</button><button onClick={()=>toggle(g)} className={`h-8 rounded-full border px-4 text-[12px] font-bold ${g.is_active?'border-amber-500/20 bg-amber-500/10 text-amber-400':'border-emerald-500/20 bg-emerald-500/10 text-emerald-400'}`}>{g.is_active?'Disable':'Enable'}</button><button onClick={()=>remove(g)} className="h-8 rounded-full bg-red-500/10 border border-red-500/20 px-4 text-[12px] font-bold text-red-400">Delete</button></div></td>
+                </tr>
+              ))}
+              {rows.length===0 && <tr><td colSpan={6} className="py-16 text-center text-[13px] text-ivory-faint">No gifts yet — add your first live gift above.</td></tr>}
+            </tbody>
+          </table>
         </div>
-      </form>
 
-      <div className="card" style={{ padding: 0, overflow: 'auto' }}>
-        <table className="table table-cards">
-          <thead>
-            <tr>
-              <th>Key</th><th>Name</th><th>Price</th><th>Emoji</th><th>Position</th><th>Active</th><th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((g) => (
-              <tr key={g.id}>
-                <td data-label="Key" className="mono">{g.key}</td>
-                <td data-label="Name">{g.name}</td>
-                <td data-label="Price">₹{g.price}</td>
-                <td data-label="Emoji" style={{ fontSize: 18 }}>{g.emoji || <span className="faint">—</span>}</td>
-                <td data-label="Position">{g.position}</td>
-                <td data-label="Status"><span className={`badge badge-${g.is_active ? 'approved' : 'rejected'}`}>{g.is_active ? 'active' : 'off'}</span></td>
-                <td data-actions style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
-                  <button className="btn-ghost" onClick={() => setEdit(g)}>Edit</button>
-                  <button className="btn-ghost" style={{ marginLeft: 8 }} onClick={() => toggle(g)}>{g.is_active ? 'Disable' : 'Enable'}</button>
-                  <button className="btn-danger" style={{ marginLeft: 8 }} onClick={() => remove(g)}>Delete</button>
-                </td>
-              </tr>
-            ))}
-            {rows.length === 0 && <tr><td data-empty colSpan={7}><div className="empty">No gifts yet.</div></td></tr>}
-          </tbody>
-        </table>
+        <div className="grid gap-3 p-3 md:hidden">
+          {rows.map(g=>(
+            <div key={g.id} className="rounded-[16px] border border-border-soft bg-surface-1 p-4 flex items-center justify-between">
+              <div className="flex items-center gap-3"><span className="text-[22px]">{g.emoji ?? '🎁'}</span><div><div className="font-semibold text-[13px]">{g.name}</div><div className="font-mono text-[11px] text-ivory-faint">{g.key} · ₹{g.price}</div></div></div>
+              <button onClick={()=>setEdit(g)} className="h-8 rounded-full border border-border-soft bg-surface-raised px-3 text-[11px] font-bold">Edit</button>
+            </div>
+          ))}
+        </div>
       </div>
 
-      {edit && (
-        <EditGiftModal
-          gift={edit}
-          onClose={() => setEdit(null)}
-          onDone={() => {
-            setEdit(null)
-            void load()
-          }}
-        />
-      )}
+      {edit && <EditModal gift={edit} onClose={()=>setEdit(null)} onDone={()=>{setEdit(null); void load()}} />}
     </div>
   )
 }
 
-function EditGiftModal({
-  gift,
-  onClose,
-  onDone,
-}: {
-  gift: LiveGift
-  onClose: () => void
-  onDone: () => void
-}) {
-  const [name, setName] = useState(gift.name)
-  const [price, setPrice] = useState(gift.price)
-  const [emoji, setEmoji] = useState(gift.emoji ?? '')
-  const [position, setPosition] = useState(String(gift.position ?? 0))
-  const [isActive, setIsActive] = useState(gift.is_active)
-  const [error, setError] = useState<string | null>(null)
-  const [saving, setSaving] = useState(false)
-
-  useEffect(() => {
-    function onKey(e: KeyboardEvent) {
-      if (e.key === 'Escape') onClose()
-    }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [onClose])
-
-  async function submit() {
-    setSaving(true)
-    setError(null)
-    try {
-      await api(`/admin/live-gifts/${gift.id}`, {
-        method: 'PATCH',
-        body: {
-          name: name.trim(),
-          price: price.trim(),
-          emoji: emoji.trim(),
-          position: position.trim() === '' ? 0 : Number(position.trim()),
-          is_active: isActive,
-        },
-      })
-      onDone()
-    } catch (e) {
-      setError((e as Error).message)
-    } finally {
-      setSaving(false)
-    }
+function EditModal({gift,onClose,onDone}:{gift:LiveGift; onClose:()=>void; onDone:()=>void}){
+  const [name,setName]=useState(gift.name)
+  const [price,setPrice]=useState(gift.price)
+  const [emoji,setEmoji]=useState(gift.emoji??'')
+  const [position,setPosition]=useState(String(gift.position))
+  const [error,setError]=useState<string|null>(null)
+  const [saving,setSaving]=useState(false)
+  async function submit(){
+    setSaving(true); setError(null)
+    try{ await api(`/admin/live-gifts/${gift.id}`,{method:'PATCH',body:{name:name.trim(),price:price.trim(),emoji:emoji.trim()||null,position:Number(position)||0}}); onDone() }
+    catch(e){ setError((e as Error).message) } finally{ setSaving(false) }
   }
-
   return (
-    <div className="modal-backdrop" onClick={onClose}>
-      <div className="card modal" onClick={(e) => e.stopPropagation()}>
-        <h2 style={{ fontSize: 20 }}>Edit gift</h2>
-        <p className="muted mono" style={{ marginTop: 4 }}>{gift.key}</p>
-        {error && <div className="error-banner" style={{ marginTop: 12 }}>{error}</div>}
-        <div className="field">
-          <label>Name</label>
-          <input value={name} onChange={(e) => setName(e.target.value)} />
+    <div className="fixed inset-0 z-[60] grid place-items-center bg-black/60 backdrop-blur-xl p-4" onClick={onClose}>
+      <div className="w-full max-w-[440px] animate-pop-in rounded-[22px] border border-border-mid bg-surface-raised p-6 shadow-2xl" onClick={e=>e.stopPropagation()}>
+        <div className="flex items-center justify-between"><h3 className="text-[15px] font-bold">Edit gift · {gift.key}</h3><button onClick={onClose} className="grid h-8 w-8 place-items-center rounded-full bg-surface-1 border border-border-soft">✕</button></div>
+        {error && <div className="mt-4 rounded-xl border border-red-500/20 bg-red-500/10 px-3 py-2 text-[13px] text-red-400">{error}</div>}
+        <div className="mt-5 grid gap-4">
+          <label className="text-[12px] font-semibold">Name<input value={name} onChange={e=>setName(e.target.value)} className="mt-1.5 h-11 w-full rounded-xl border border-border-soft bg-surface-1 px-3.5 text-[13px]" /></label>
+          <div className="grid grid-cols-2 gap-3"><label className="text-[12px]">Price<input value={price} onChange={e=>setPrice(e.target.value)} className="mt-1.5 h-11 w-full rounded-xl border border-border-soft bg-surface-1 px-3.5 text-[13px]" /></label><label className="text-[12px]">Emoji<input value={emoji} onChange={e=>setEmoji(e.target.value)} className="mt-1.5 h-11 w-full rounded-xl border border-border-soft bg-surface-1 px-3.5 text-[13px]" /></label></div>
+          <label className="text-[12px]">Position<input value={position} onChange={e=>setPosition(e.target.value)} className="mt-1.5 h-11 w-full rounded-xl border border-border-soft bg-surface-1 px-3.5 text-[13px]" /></label>
         </div>
-        <div className="field">
-          <label>Price (₹)</label>
-          <input inputMode="decimal" value={price} onChange={(e) => setPrice(e.target.value)} />
-        </div>
-        <div className="field">
-          <label>Emoji</label>
-          <input value={emoji} onChange={(e) => setEmoji(e.target.value)} />
-        </div>
-        <div className="field">
-          <label>Position</label>
-          <input inputMode="numeric" value={position} onChange={(e) => setPosition(e.target.value)} />
-        </div>
-        <label className="row" style={{ gap: 8, marginTop: 12, cursor: 'pointer' }}>
-          <input type="checkbox" checked={isActive} onChange={(e) => setIsActive(e.target.checked)} style={{ width: 'auto' }} />
-          <span>Active</span>
-        </label>
-        <div className="row" style={{ marginTop: 16, justifyContent: 'flex-end' }}>
-          <button className="btn-ghost" onClick={onClose} disabled={saving}>Cancel</button>
-          <button className="btn-primary" disabled={saving} onClick={submit}>
-            {saving ? 'Saving…' : 'Save changes'}
-          </button>
-        </div>
+        <div className="mt-6 flex justify-end gap-2.5"><button onClick={onClose} className="h-10 rounded-full border border-border-soft bg-surface-1 px-5 text-[13px]">Cancel</button><button disabled={saving} onClick={submit} className="h-10 rounded-full bg-ivory text-bg-0 px-6 text-[13px] font-bold disabled:opacity-50">{saving?'Saving…':'Save'}</button></div>
       </div>
-    </div>
-  )
-}
-
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <div>
-      <label style={{ display: 'block', fontSize: 13, color: 'var(--color-ivory-dim)', marginBottom: 6 }}>{label}</label>
-      {children}
     </div>
   )
 }

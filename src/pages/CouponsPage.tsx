@@ -1,336 +1,118 @@
 import { useCallback, useEffect, useState, type FormEvent } from 'react'
 import { api } from '../api/client'
+import { PageHeader, Card } from '../components/ui/PageShell'
 
-interface Coupon {
-  id: string
-  code: string
-  description: string | null
-  discount_type: string
-  value: string
-  max_discount: string | null
-  min_amount: string
-  usage_limit: number
-  used_count: number
-  expires_on: string | null
-  is_active: boolean
-}
+interface Coupon { id:string; code:string; description:string|null; discount_type:string; value:string; max_discount:string|null; min_amount:string; usage_limit:number; used_count:number; expires_on:string|null; is_active:boolean }
 
-export default function CouponsPage() {
-  const [rows, setRows] = useState<Coupon[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const [code, setCode] = useState('')
-  const [type, setType] = useState('percent')
-  const [value, setValue] = useState('')
-  const [minAmount, setMinAmount] = useState('0')
-  const [edit, setEdit] = useState<Coupon | null>(null)
+export default function CouponsPage(){
+  const [rows,setRows]=useState<Coupon[]>([])
+  const [loading,setLoading]=useState(true)
+  const [error,setError]=useState<string|null>(null)
+  const [code,setCode]=useState('')
+  const [type,setType]=useState('percent')
+  const [value,setValue]=useState('')
+  const [minAmount,setMinAmount]=useState('0')
+  const [edit,setEdit]=useState<Coupon|null>(null)
 
-  const load = useCallback(async () => {
-    try {
-      setLoading(true)
-      setRows(await api<Coupon[]>('/admin/coupons'))
-    } catch (e) {
-      setError((e as Error).message)
-    } finally {
-      setLoading(false)
-    }
-  }, [])
+  const load=useCallback(async()=>{ try{ setLoading(true); setRows(await api<Coupon[]>('/admin/coupons')) } catch(e){ setError((e as Error).message) } finally{ setLoading(false) } },[])
+  useEffect(()=>{ void load() },[load])
 
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    void load()
-  }, [load])
-
-  async function create(e: FormEvent) {
-    e.preventDefault()
-    setError(null)
-    try {
-      await api('/admin/coupons', {
-        method: 'POST',
-        body: { code, discount_type: type, value, min_amount: minAmount },
-      })
-      setCode('')
-      setValue('')
-      setMinAmount('0')
-      await load()
-    } catch (err) {
-      setError((err as Error).message)
-    }
+  async function create(e:FormEvent){
+    e.preventDefault(); setError(null)
+    try{ await api('/admin/coupons',{method:'POST',body:{code,discount_type:type,value,min_amount:minAmount}}); setCode(''); setValue(''); setMinAmount('0'); await load() }
+    catch(err){ setError((err as Error).message) }
   }
-
-  async function toggle(c: Coupon) {
-    await api(`/admin/coupons/${c.id}`, { method: 'PATCH', body: { is_active: !c.is_active } })
-    await load()
-  }
-
-  async function remove(c: Coupon) {
-    await api(`/admin/coupons/${c.id}`, { method: 'DELETE' })
-    await load()
-  }
+  async function toggle(c:Coupon){ await api(`/admin/coupons/${c.id}`,{method:'PATCH',body:{is_active:!c.is_active}}); await load() }
+  async function remove(c:Coupon){ await api(`/admin/coupons/${c.id}`,{method:'DELETE'}); await load() }
 
   return (
-    <div>
-      <div className="page-head-gradient">
-        <h1>Coupons</h1>
-        <p className="muted">Create and manage discount codes for your customers.</p>
-      </div>
-      {error && (
-        <div className="error-banner">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="12" cy="12" r="10" />
-            <line x1="12" y1="8" x2="12" y2="12" />
-            <line x1="12" y1="16" x2="12.01" y2="16" />
-          </svg>
-          {error}
+    <div className="space-y-6">
+      <PageHeader title="Coupons" subtitle="Discount codes for wallet recharges and consultations. Create, manage expiry and usage limits." icon={<span className="text-[18px]">🎟️</span>} />
+
+      {error && <div className="rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-[13px] text-red-300">{error}</div>}
+
+      <Card className="p-5 sm:p-6">
+        <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-ivory-faint"><span className="grid h-6 w-6 place-items-center rounded-full bg-saffron-soft border border-saffron/15 text-saffron">+</span> Create coupon</div>
+        <form onSubmit={create} className="mt-4 grid gap-3 sm:grid-cols-5 items-end">
+          <label className="text-[11px] font-semibold text-ivory-dim">Code<input value={code} onChange={e=>setCode(e.target.value.toUpperCase())} placeholder="WELCOME50" required className="mt-1.5 h-11 w-full rounded-xl border border-border-soft bg-surface-1 px-3.5 text-[13px] font-mono font-bold outline-none focus:border-saffron" /></label>
+          <label className="text-[11px] font-semibold text-ivory-dim">Type<select value={type} onChange={e=>setType(e.target.value)} className="mt-1.5 h-11 w-full rounded-xl border border-border-soft bg-surface-1 px-3.5 text-[13px] outline-none focus:border-saffron"><option value="percent">Percent %</option><option value="flat">Flat ₹</option></select></label>
+          <label className="text-[11px] font-semibold text-ivory-dim">Value<input value={value} onChange={e=>setValue(e.target.value)} placeholder={type==='percent'?'50':'100'} required className="mt-1.5 h-11 w-full rounded-xl border border-border-soft bg-surface-1 px-3.5 text-[13px] outline-none focus:border-saffron" /></label>
+          <label className="text-[11px] font-semibold text-ivory-dim">Min amount<input value={minAmount} onChange={e=>setMinAmount(e.target.value)} className="mt-1.5 h-11 w-full rounded-xl border border-border-soft bg-surface-1 px-3.5 text-[13px] outline-none focus:border-saffron" /></label>
+          <button type="submit" className="h-11 rounded-xl bg-ivory text-bg-0 px-5 text-[13px] font-bold hover:bg-white shadow-sm">Add coupon</button>
+        </form>
+      </Card>
+
+      {loading ? <Card><div className="p-16 text-center text-[13px] text-ivory-faint">Loading coupons…</div></Card> : (
+        <div className="overflow-hidden rounded-[20px] border border-border-soft bg-surface-raised shadow-sm">
+          <div className="hidden md:block overflow-x-auto">
+            <table className="w-full border-collapse">
+              <thead><tr className="border-b border-border-soft bg-surface-1/60 text-left text-[11px] font-bold uppercase tracking-wider text-ivory-faint"><th className="px-5 py-3.5">Code</th><th className="px-5 py-3.5">Type</th><th className="px-5 py-3.5">Value</th><th className="px-5 py-3.5">Min</th><th className="px-5 py-3.5">Used</th><th className="px-5 py-3.5">Expires</th><th className="px-5 py-3.5">Status</th><th className="px-5 py-3.5 text-right">Actions</th></tr></thead>
+              <tbody className="divide-y divide-border-soft/60">
+                {rows.map(c=>(
+                  <tr key={c.id} className="hover:bg-surface-1/50 transition-colors">
+                    <td className="px-5 py-4"><span className="rounded-full bg-saffron-soft border border-saffron/15 px-3 py-1 font-mono text-[12px] font-bold text-saffron">{c.code}</span></td>
+                    <td className="px-5 py-4"><span className="rounded-full border border-violet-500/20 bg-violet-500/10 px-2.5 py-1 text-[11px] font-bold text-violet-400 uppercase">{c.discount_type}</span></td>
+                    <td className="px-5 py-4 text-[13px] font-bold">{c.discount_type==='percent'?`${c.value}%`:`₹${c.value}`}{c.max_discount && <span className="ml-1 text-[11px] text-ivory-faint font-normal">max ₹{c.max_discount}</span>}</td>
+                    <td className="px-5 py-4 font-mono text-[12px]">₹{c.min_amount}</td>
+                    <td className="px-5 py-4 font-mono text-[12px]"><span className="rounded-full bg-surface-1 border border-border-soft px-2.5 py-1">{c.used_count}{c.usage_limit?` / ${c.usage_limit}`:''}</span></td>
+                    <td className="px-5 py-4 text-[12px] text-ivory-faint">{c.expires_on ? new Date(c.expires_on).toLocaleDateString('en-IN') : 'Never'}</td>
+                    <td className="px-5 py-4"><span className={`rounded-full border px-3 py-1 text-[11px] font-bold uppercase ${c.is_active?'border-emerald-500/20 bg-emerald-500/10 text-emerald-400':'border-border-soft bg-surface-2 text-ivory-faint'}`}>{c.is_active?'active':'off'}</span></td>
+                    <td className="px-5 py-4 text-right"><div className="inline-flex gap-1.5"><button onClick={()=>setEdit(c)} className="grid h-8 w-8 place-items-center rounded-full border border-border-soft bg-surface-1 text-ivory-dim hover:text-ivory">✎</button><button onClick={()=>toggle(c)} className={`h-8 rounded-full px-3 text-[11px] font-bold border ${c.is_active?'bg-amber-500/10 border-amber-500/20 text-amber-400':'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'}`}>{c.is_active?'Disable':'Enable'}</button><button onClick={()=>remove(c)} className="grid h-8 w-8 place-items-center rounded-full bg-red-500/10 border border-red-500/20 text-red-400">✕</button></div></td>
+                  </tr>
+                ))}
+                {rows.length===0 && <tr><td colSpan={8} className="py-16 text-center text-[13px] text-ivory-faint">No coupons yet — create your first promo code above.</td></tr>}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="grid gap-3 p-3 md:hidden">
+            {rows.map(c=>(
+              <div key={c.id} className="rounded-[16px] border border-border-soft bg-surface-1 p-4">
+                <div className="flex items-center justify-between"><span className="rounded-full bg-saffron-soft border border-saffron/15 px-3 py-1 font-mono text-[12px] font-bold text-saffron">{c.code}</span><span className={`rounded-full border px-2.5 py-1 text-[10px] font-bold uppercase ${c.is_active?'bg-emerald-500/10 text-emerald-400 border-emerald-500/20':'bg-surface-2 text-ivory-faint border-border-soft'}`}>{c.is_active?'active':'off'}</span></div>
+                <div className="mt-3 flex items-center justify-between text-[13px]"><span className="font-bold">{c.discount_type==='percent'?`${c.value}%`:`₹${c.value}`}</span><span className="font-mono text-[11px] text-ivory-faint">Used {c.used_count}{c.usage_limit?`/${c.usage_limit}`:''}</span></div>
+                <div className="mt-3 flex gap-2"><button onClick={()=>setEdit(c)} className="flex-1 h-8 rounded-full border border-border-soft bg-surface-raised text-[12px] font-semibold">Edit</button><button onClick={()=>toggle(c)} className={`flex-1 h-8 rounded-full text-[12px] font-bold border ${c.is_active?'bg-amber-500/10 border-amber-500/20 text-amber-400':'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'}`}>{c.is_active?'Disable':'Enable'}</button></div>
+              </div>
+            ))}
+          </div>
         </div>
       )}
 
-      <form className="card" style={{ marginBottom: 24 }} onSubmit={create}>
-        <div className="card-head" style={{ marginBottom: 16 }}>
-          <h3>Create new coupon</h3>
-        </div>
-        <div className="row" style={{ flexWrap: 'wrap', gap: 14, alignItems: 'flex-end' }}>
-          <div style={{ flex: '1 1 140px' }}>
-            <Field label="Code">
-              <input value={code} onChange={(e) => setCode(e.target.value.toUpperCase())} placeholder="WELCOME50" required />
-            </Field>
-          </div>
-          <div style={{ flex: '0 0 120px' }}>
-            <Field label="Type">
-              <select value={type} onChange={(e) => setType(e.target.value)}>
-                <option value="percent">Percent</option>
-                <option value="flat">Flat ₹</option>
-              </select>
-            </Field>
-          </div>
-          <div style={{ flex: '0 0 100px' }}>
-            <Field label="Value">
-              <input value={value} onChange={(e) => setValue(e.target.value)} placeholder={type === 'percent' ? '50' : '100'} required />
-            </Field>
-          </div>
-          <div style={{ flex: '0 0 110px' }}>
-            <Field label="Min amount">
-              <input value={minAmount} onChange={(e) => setMinAmount(e.target.value)} placeholder="0" />
-            </Field>
-          </div>
-          <button className="btn-primary" type="submit">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="12" y1="5" x2="12" y2="19" />
-              <line x1="5" y1="12" x2="19" y2="12" />
-            </svg>
-            Add coupon
-          </button>
-        </div>
-      </form>
-
-      {loading ? (
-        <div className="empty">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ margin: '0 auto 16px', opacity: 0.5 }}>
-            <circle cx="12" cy="12" r="10" />
-            <path d="M12 6v6l4 2" />
-          </svg>
-          Loading coupons...
-        </div>
-      ) : (
-        <div className="table-wrap">
-          <table className="table table-cards">
-            <thead>
-              <tr>
-                <th>Code</th><th>Type</th><th>Value</th><th>Min</th><th>Used</th><th>Expires</th><th>Status</th><th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((c) => (
-                <tr key={c.id}>
-                  <td data-label="Code">
-                    <span className="mono" style={{ fontWeight: 600, color: 'var(--color-saffron-bright)', background: 'var(--color-saffron-soft)', padding: '4px 10px', borderRadius: 'var(--radius-xs)' }}>
-                      {c.code}
-                    </span>
-                  </td>
-                  <td data-label="Type">
-                    <span className="badge badge-info">{c.discount_type}</span>
-                  </td>
-                  <td data-label="Value" className="text-warning" style={{ fontWeight: 600 }}>
-                    {c.discount_type === 'percent' ? `${c.value}%` : `₹${c.value}`}
-                    {c.max_discount && <span className="faint" style={{ fontSize: 11, marginLeft: 6 }}>max ₹{c.max_discount}</span>}
-                  </td>
-                  <td data-label="Min" className="mono">₹{c.min_amount}</td>
-                  <td data-label="Used">
-                    <span className="mono">{c.used_count}</span>
-                    {c.usage_limit ? ` / ${c.usage_limit}` : ''}
-                  </td>
-                  <td data-label="Expires" className="mono faint">{c.expires_on ? new Date(c.expires_on).toLocaleDateString('en-IN') : 'Never'}</td>
-                  <td data-label="Status">
-                    <span className={`badge badge-${c.is_active ? 'approved' : 'rejected'}`}>
-                      {c.is_active ? 'active' : 'off'}
-                    </span>
-                  </td>
-                  <td data-actions style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
-                    <button className="btn-ghost btn-icon-sm" onClick={() => setEdit(c)} title="Edit coupon">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-                      </svg>
-                    </button>
-                    <button
-                      className={c.is_active ? 'btn-warning' : 'btn-success'}
-                      style={{ marginLeft: 6 }}
-                      onClick={() => toggle(c)}
-                      title={c.is_active ? 'Disable coupon' : 'Enable coupon'}
-                    >
-                      {c.is_active ? 'Disable' : 'Enable'}
-                    </button>
-                    <button className="btn-danger btn-icon-sm" style={{ marginLeft: 6 }} onClick={() => remove(c)} title="Delete coupon">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="3 6 5 6 21 6" />
-                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                      </svg>
-                    </button>
-                  </td>
-                </tr>
-              ))}
-              {rows.length === 0 && (
-                <tr><td data-empty colSpan={8}>
-                  <div className="empty">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ margin: '0 auto 16px', opacity: 0.5 }}>
-                      <path d="M4.5 6h15A1.5 1.5 0 0 1 21 7.5v2.6a2.4 2.4 0 0 0 0 4.8v2.6a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5v-2.6a2.4 2.4 0 0 0 0-4.8V7.5A1.5 1.5 0 0 1 4.5 6Z" />
-                      <path d="M13.5 8v1.7M13.5 11.7v1.7M13.5 15.4V17" strokeDasharray="0.1 2.6" />
-                    </svg>
-                    No coupons yet. Create your first coupon above!
-                  </div>
-                </td></tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      )}
-
-      {edit && (
-        <EditCouponModal
-          coupon={edit}
-          onClose={() => setEdit(null)}
-          onDone={() => {
-            setEdit(null)
-            void load()
-          }}
-        />
-      )}
+      {edit && <EditCouponModal coupon={edit} onClose={()=>setEdit(null)} onDone={()=>{setEdit(null); void load()}} />}
     </div>
   )
 }
 
-function EditCouponModal({
-  coupon,
-  onClose,
-  onDone,
-}: {
-  coupon: Coupon
-  onClose: () => void
-  onDone: () => void
-}) {
-  const [description, setDescription] = useState(coupon.description ?? '')
-  const [value, setValue] = useState(coupon.value)
-  const [maxDiscount, setMaxDiscount] = useState(coupon.max_discount ?? '')
-  const [minAmount, setMinAmount] = useState(coupon.min_amount)
-  const [usageLimit, setUsageLimit] = useState(String(coupon.usage_limit ?? 0))
-  const [expiresOn, setExpiresOn] = useState(coupon.expires_on ?? '')
-  const [error, setError] = useState<string | null>(null)
-  const [saving, setSaving] = useState(false)
+function EditCouponModal({coupon,onClose,onDone}:{coupon:Coupon; onClose:()=>void; onDone:()=>void}){
+  const [description,setDescription]=useState(coupon.description??'')
+  const [value,setValue]=useState(coupon.value)
+  const [maxDiscount,setMaxDiscount]=useState(coupon.max_discount??'')
+  const [minAmount,setMinAmount]=useState(coupon.min_amount)
+  const [usageLimit,setUsageLimit]=useState(String(coupon.usage_limit??0))
+  const [expiresOn,setExpiresOn]=useState(coupon.expires_on??'')
+  const [error,setError]=useState<string|null>(null)
+  const [saving,setSaving]=useState(false)
 
-  useEffect(() => {
-    function onKey(e: KeyboardEvent) {
-      if (e.key === 'Escape') onClose()
-    }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [onClose])
-
-  async function submit() {
-    setSaving(true)
-    setError(null)
-    try {
-      await api(`/admin/coupons/${coupon.id}`, {
-        method: 'PATCH',
-        body: {
-          description: description.trim() === '' ? null : description.trim(),
-          value: value.trim(),
-          max_discount: maxDiscount.trim() === '' ? null : maxDiscount.trim(),
-          min_amount: minAmount.trim(),
-          usage_limit: usageLimit.trim() === '' ? 0 : Number(usageLimit),
-          expires_on: expiresOn.trim() === '' ? null : expiresOn.trim(),
-        },
-      })
+  async function submit(){
+    setSaving(true); setError(null)
+    try{
+      await api(`/admin/coupons/${coupon.id}`,{method:'PATCH',body:{description:description.trim()===''?null:description.trim(), value:value.trim(), max_discount:maxDiscount.trim()===''?null:maxDiscount.trim(), min_amount:minAmount.trim(), usage_limit:usageLimit.trim()===''?0:Number(usageLimit), expires_on:expiresOn.trim()===''?null:expiresOn.trim()}})
       onDone()
-    } catch (e) {
-      setError((e as Error).message)
-    } finally {
-      setSaving(false)
-    }
+    }catch(e){ setError((e as Error).message) } finally{ setSaving(false) }
   }
 
   return (
-    <div className="modal-backdrop" onClick={onClose}>
-      <div className="card modal" onClick={(e) => e.stopPropagation()}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--color-saffron-bright)' }}>
-            <path d="M4.5 6h15A1.5 1.5 0 0 1 21 7.5v2.6a2.4 2.4 0 0 0 0 4.8v2.6a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5v-2.6a2.4 2.4 0 0 0 0-4.8V7.5A1.5 1.5 0 0 1 4.5 6Z" />
-          </svg>
-          <h2 style={{ fontSize: 20 }}>Edit coupon</h2>
+    <div className="fixed inset-0 z-[60] grid place-items-center bg-black/60 backdrop-blur-xl p-4" onClick={onClose}>
+      <div className="w-full max-w-[480px] animate-pop-in rounded-[22px] border border-border-mid bg-surface-raised p-6 shadow-2xl" onClick={e=>e.stopPropagation()}>
+        <div className="flex items-center justify-between"><h3 className="text-[16px] font-bold">Edit coupon <span className="ml-2 rounded-full bg-saffron-soft px-2.5 py-1 font-mono text-[11px] text-saffron">{coupon.code}</span></h3><button onClick={onClose} className="grid h-8 w-8 place-items-center rounded-full bg-surface-1 border border-border-soft">✕</button></div>
+        {error && <div className="mt-4 rounded-xl border border-red-500/20 bg-red-500/10 px-3 py-2 text-[13px] text-red-400">{error}</div>}
+        <div className="mt-5 grid gap-4">
+          <label className="text-[12px] font-semibold text-ivory-dim">Description<input value={description} onChange={e=>setDescription(e.target.value)} className="mt-1.5 h-11 w-full rounded-xl border border-border-soft bg-surface-1 px-3.5 text-[13px] outline-none focus:border-saffron" /></label>
+          <div className="grid sm:grid-cols-2 gap-3"><label className="text-[12px] font-semibold">Value<input value={value} onChange={e=>setValue(e.target.value)} className="mt-1.5 h-11 w-full rounded-xl border border-border-soft bg-surface-1 px-3.5 text-[13px]" /></label><label className="text-[12px]">Max discount<input value={maxDiscount} onChange={e=>setMaxDiscount(e.target.value)} placeholder="No cap" className="mt-1.5 h-11 w-full rounded-xl border border-border-soft bg-surface-1 px-3.5 text-[13px]" /></label></div>
+          <div className="grid sm:grid-cols-2 gap-3"><label className="text-[12px]">Min amount<input value={minAmount} onChange={e=>setMinAmount(e.target.value)} className="mt-1.5 h-11 w-full rounded-xl border border-border-soft bg-surface-1 px-3.5 text-[13px]" /></label><label className="text-[12px]">Usage limit (0=∞)<input value={usageLimit} onChange={e=>setUsageLimit(e.target.value)} className="mt-1.5 h-11 w-full rounded-xl border border-border-soft bg-surface-1 px-3.5 text-[13px]" /></label></div>
+          <label className="text-[12px] font-semibold">Expires on<input type="date" value={expiresOn??''} onChange={e=>setExpiresOn(e.target.value)} className="mt-1.5 h-11 w-full rounded-xl border border-border-soft bg-surface-1 px-3.5 text-[13px]" /></label>
         </div>
-        <p className="muted mono" style={{ marginBottom: 16, background: 'var(--color-saffron-soft)', padding: '8px 12px', borderRadius: 'var(--radius-sm)', display: 'inline-block' }}>
-          {coupon.code}
-        </p>
-        {error && <div className="error-banner" style={{ marginTop: 12 }}>{error}</div>}
-        <div className="field">
-          <label>Description</label>
-          <input value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Shown to customers" />
-        </div>
-        <div className="field">
-          <label>Value {coupon.discount_type === 'percent' ? '(%)' : '(₹)'}</label>
-          <input inputMode="decimal" value={value} onChange={(e) => setValue(e.target.value)} />
-        </div>
-        <div className="field">
-          <label>Max discount (₹, optional cap)</label>
-          <input inputMode="decimal" value={maxDiscount} onChange={(e) => setMaxDiscount(e.target.value)} placeholder="No cap" />
-        </div>
-        <div className="field">
-          <label>Min order amount (₹)</label>
-          <input inputMode="decimal" value={minAmount} onChange={(e) => setMinAmount(e.target.value)} />
-        </div>
-        <div className="field">
-          <label>Usage limit (0 = unlimited)</label>
-          <input inputMode="numeric" value={usageLimit} onChange={(e) => setUsageLimit(e.target.value)} />
-        </div>
-        <div className="field">
-          <label>Expires on</label>
-          <input type="date" value={expiresOn ?? ''} onChange={(e) => setExpiresOn(e.target.value)} />
-        </div>
-        <div className="row" style={{ marginTop: 20, justifyContent: 'flex-end', gap: 12 }}>
-          <button className="btn-ghost" onClick={onClose} disabled={saving}>Cancel</button>
-          <button className="btn-primary" disabled={saving} onClick={submit}>
-            {saving ? (
-              <>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ animation: 'spin 1s linear infinite' }}>
-                  <path d="M21 12a9 9 0 1 1-6.219-8.56" />
-                </svg>
-                Saving...
-              </>
-            ) : 'Save changes'}
-          </button>
-        </div>
+        <div className="mt-6 flex justify-end gap-2.5"><button onClick={onClose} className="h-10 rounded-full border border-border-soft bg-surface-1 px-5 text-[13px]">Cancel</button><button disabled={saving} onClick={submit} className="h-10 rounded-full bg-ivory text-bg-0 px-6 text-[13px] font-bold disabled:opacity-50">{saving?'Saving…':'Save'}</button></div>
       </div>
-      <style>{`
-        @keyframes spin { to { transform: rotate(360deg); } }
-      `}</style>
-    </div>
-  )
-}
-
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <div>
-      <label style={{ display: 'block', fontSize: 13, color: 'var(--color-ivory-dim)', marginBottom: 6, fontWeight: 500 }}>{label}</label>
-      {children}
     </div>
   )
 }
