@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hindustani Jyotish — Admin</title>
+    <script>
+      // Apply the saved theme/accent before first paint so there's no flash
+      // of the wrong colors on reload. Mirrors theme/ThemeContext.tsx's logic.
+      (function () {
+        try {
+          var mode = localStorage.getItem('hj_admin_theme_mode');
+          if (mode !== 'dark' && mode !== 'light') {
+            mode = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+          }
+          var accent = localStorage.getItem('hj_admin_theme_accent') || 'saffron';
+          document.documentElement.setAttribute('data-theme', mode);
+          document.documentElement.setAttribute('data-accent', accent);
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
