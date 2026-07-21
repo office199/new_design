@@ -190,19 +190,21 @@ const IconArrow = () => (
 )
 
 /* ── Decorative star field for the hero ──────────────────────────────── */
-const STARS: { l: number; t: number; s: number; d: number; warm?: boolean }[] = [
+const STARS: { l: number; t: number; s: number; d: number; warm?: boolean; violet?: boolean }[] = [
   { l: 38, t: 22, s: 2.5, d: 0 },
   { l: 47, t: 68, s: 2, d: 0.7 },
   { l: 55, t: 14, s: 3, d: 1.4, warm: true },
   { l: 62, t: 80, s: 2, d: 0.3 },
   { l: 68, t: 30, s: 2, d: 2.1 },
-  { l: 74, t: 55, s: 2.5, d: 1.0 },
+  { l: 74, t: 55, s: 2.5, d: 1.0, violet: true },
   { l: 81, t: 18, s: 2, d: 1.8 },
   { l: 86, t: 72, s: 3, d: 0.5, warm: true },
   { l: 92, t: 40, s: 2, d: 2.5 },
-  { l: 30, t: 78, s: 2, d: 1.2 },
-  { l: 22, t: 12, s: 2.5, d: 2.8 },
+  { l: 30, t: 78, s: 2, d: 1.2, violet: true },
+  { l: 22, t: 12, s: 2.5, d: 2.8, warm: true },
   { l: 45, t: 40, s: 1.8, d: 0.9 },
+  { l: 75, t: 85, s: 2, d: 1.5 },
+  { l: 15, t: 45, s: 2.5, d: 2.0, warm: true },
 ]
 
 const rise = (i: number) => ({ '--i': i }) as CSSProperties
@@ -336,7 +338,7 @@ export default function DashboardPage() {
           {STARS.map((s, i) => (
             <span
               key={i}
-              className={`db-star${s.warm ? ' warm' : ''}`}
+              className={`db-star${s.warm ? ' warm' : ''}${s.violet ? ' violet' : ''}`}
               aria-hidden
               style={
                 {
