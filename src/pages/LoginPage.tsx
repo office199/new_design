@@ -136,7 +136,7 @@ export default function LoginPage() {
               placeholder="admin@hindustanijyotish.in"
               autoComplete="username"
               required
-              className="w-full bg-surface-1 border border-border-soft text-ivory rounded-[--radius-sm] py-3 px-3.5 text-[14px] transition-all hover:border-border-mid hover:bg-surface-2 focus:outline-none focus:border-saffron focus:bg-surface-2 focus:shadow-[0_0_0_4px_var(--color-saffron-soft),--shadow-1]"
+              className="w-full bg-surface-1 border border-border-soft text-ivory rounded-[--radius-sm] py-3 px-3.5 text-[14px] transition-all hover:border-border-mid hover:bg-surface-2 focus:outline-none focus:border-saffron focus:bg-surface-2 focus:shadow-[0_0_0_4px_var(--color-saffron-soft)]"
             />
           </div>
 
@@ -150,7 +150,7 @@ export default function LoginPage() {
                 placeholder="Enter your password"
                 autoComplete="current-password"
                 required
-                className="w-full bg-surface-1 border border-border-soft text-ivory rounded-[--radius-sm] py-3 px-3.5 pr-12 text-[14px] transition-all hover:border-border-mid hover:bg-surface-2 focus:outline-none focus:border-saffron focus:bg-surface-2 focus:shadow-[0_0_0_4px_var(--color-saffron-soft),--shadow-1]"
+                className="w-full bg-surface-1 border border-border-soft text-ivory rounded-[--radius-sm] py-3 px-3.5 pr-12 text-[14px] transition-all hover:border-border-mid hover:bg-surface-2 focus:outline-none focus:border-saffron focus:bg-surface-2 focus:shadow-[0_0_0_4px_var(--color-saffron-soft)]"
               />
               <button
                 type="button"
@@ -174,7 +174,7 @@ export default function LoginPage() {
           </div>
 
           <button
-            className="w-full mt-7 py-3.5 px-5 text-[16px] rounded-[--radius-md] font-semibold flex items-center justify-center gap-2 bg-gradient-to-br from-saffron-bright to-saffron text-on-accent shadow-[--shadow-1)] hover:brightness-110 hover:shadow-[--shadow-2)] hover:shadow-saffron/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            className="w-full mt-7 py-3.5 px-5 text-[16px] rounded-[--radius-md] font-semibold flex items-center justify-center gap-2 bg-gradient-to-br from-saffron-bright to-saffron text-on-accent shadow-[--shadow-1] hover:brightness-110 hover:shadow-[--shadow-2] hover:shadow-saffron/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
             type="submit"
             disabled={busy}
           >

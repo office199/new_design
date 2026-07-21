@@ -135,7 +135,7 @@ export default function PayoutsPage() {
                   <tr key={p.id}>
                     <td data-label="Astrologer">
                       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                        <span style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--saffron-soft)', color: 'var(--saffron-bright)', display: 'grid', placeItems: 'center', fontWeight: 700, fontSize: 14 }}>
+                        <span style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--color-saffron-soft)', color: 'var(--color-saffron-bright)', display: 'grid', placeItems: 'center', fontWeight: 700, fontSize: 14 }}>
                           {(p.astrologer_name || p.astrologer_id).charAt(0).toUpperCase()}
                         </span>
                         <div>

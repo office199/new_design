@@ -49,7 +49,7 @@ function smoothPath(pts: ReadonlyArray<readonly [number, number]>): string {
 export function LineChart({
   data,
   height = 180,
-  stroke = 'var(--saffron)',
+  stroke = 'var(--color-saffron)',
   valuePrefix = '',
   formatValue,
 }: {

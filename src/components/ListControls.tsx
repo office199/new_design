@@ -17,7 +17,7 @@ export function SearchBox({ value, onChange, placeholder }: SearchBoxProps) {
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-        style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: 'var(--ivory-faint)', pointerEvents: 'none' }}
+        style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: 'var(--color-ivory-faint)', pointerEvents: 'none' }}
       >
         <circle cx="11" cy="11" r="8" />
         <line x1="21" y1="21" x2="16.65" y2="16.65" />
@@ -40,11 +40,11 @@ export function SearchBox({ value, onChange, placeholder }: SearchBoxProps) {
             border: 'none',
             padding: 4,
             cursor: 'pointer',
-            color: 'var(--ivory-faint)',
+            color: 'var(--color-ivory-faint)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            borderRadius: 'var(--r-xs)',
+            borderRadius: 'var(--radius-xs)',
             width: 24,
             height: 24,
           }}
@@ -81,10 +81,10 @@ export function Pager({ page, size, total, hasPrev, hasNext, onPage, onSize, sho
   return (
     <div
       className="spread"
-      style={{ marginTop: 18, flexWrap: 'wrap', gap: 16, fontSize: 13, padding: '14px 18px', background: 'var(--surface-1)', borderRadius: 'var(--r-lg)', border: '1px solid var(--border-soft)' }}
+      style={{ marginTop: 18, flexWrap: 'wrap', gap: 16, fontSize: 13, padding: '14px 18px', background: 'var(--color-surface-1)', borderRadius: 'var(--radius-lg)', border: '1px solid var(--color-border-soft)' }}
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--ivory-faint)' }}>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--color-ivory-faint)' }}>
           <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
           <line x1="3" y1="9" x2="21" y2="9" />
           <line x1="9" y1="21" x2="9" y2="9" />

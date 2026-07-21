@@ -20,7 +20,7 @@ export default function MaintenancePage() {
           own message shown to that app's users.
         </p>
       </div>
-      <div className="grid-2" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 16 }}>
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(320px,1fr))] gap-4">
         {APPS.map((a) => (
           <AppMaintenanceCard key={a.app} app={a.app} label={a.label} hint={a.hint} />
         ))}

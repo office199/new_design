@@ -238,7 +238,7 @@ function KpiCard({
   return (
     <Link
       to={to}
-      className="relative overflow-hidden block color-inherit bg-surface-raised border border-border-soft rounded-[--radius-xl] p-5 shadow-[--shadow-1] transition-all duration-300 ease-out hover:-translate-y-1 hover:border-border-mid hover:shadow-[--shadow-2] hover:shadow-saffron/10 hover:no-underline"
+      className="relative overflow-hidden block text-inherit bg-surface-raised border border-border-soft rounded-[--radius-xl] p-5 shadow-[--shadow-1] transition-all duration-300 ease-out hover:-translate-y-1 hover:border-border-mid hover:shadow-[--shadow-2] hover:shadow-saffron/10 hover:no-underline"
       style={rise(index)}
     >
       {/* Gradient overlay on hover */}
@@ -474,7 +474,7 @@ export default function DashboardPage() {
                 ? `${data.online_astrologers.toLocaleString('en-IN')} online right now`
                 : 'Nobody online at the moment'
             }
-            subDot={data.online_astrologers > 0 ? 'var(--success)' : undefined}
+            subDot={data.online_astrologers > 0 ? 'var(--color-success)' : undefined}
           />
           <KpiCard
             index={3}
@@ -488,7 +488,7 @@ export default function DashboardPage() {
                 ? `${data.active_sessions.toLocaleString('en-IN')} live sessions running`
                 : 'No live sessions right now'
             }
-            subDot={data.active_sessions > 0 ? 'var(--saffron)' : undefined}
+            subDot={data.active_sessions > 0 ? 'var(--color-saffron)' : undefined}
           />
           <KpiCard
             index={4}
@@ -526,12 +526,12 @@ export default function DashboardPage() {
               <DonutChart
                 centerSub="astrologers"
                 slices={[
-                  { label: 'Online now', value: data.online_astrologers, color: 'var(--success)' },
-                  { label: 'KYC pending', value: data.pending_approvals, color: 'var(--gold)' },
+                  { label: 'Online now', value: data.online_astrologers, color: 'var(--color-success)' },
+                  { label: 'KYC pending', value: data.pending_approvals, color: 'var(--color-gold)' },
                   {
                     label: 'Registered',
                     value: Math.max(data.astrologers - data.online_astrologers - data.pending_approvals, 0),
-                    color: 'var(--saffron)',
+                    color: 'var(--color-saffron)',
                   },
                 ]}
               />

@@ -143,7 +143,7 @@ export default function CouponsPage() {
               {rows.map((c) => (
                 <tr key={c.id}>
                   <td data-label="Code">
-                    <span className="mono" style={{ fontWeight: 600, color: 'var(--saffron-bright)', background: 'var(--saffron-soft)', padding: '4px 10px', borderRadius: 'var(--r-xs)' }}>
+                    <span className="mono" style={{ fontWeight: 600, color: 'var(--color-saffron-bright)', background: 'var(--color-saffron-soft)', padding: '4px 10px', borderRadius: 'var(--radius-xs)' }}>
                       {c.code}
                     </span>
                   </td>
@@ -272,12 +272,12 @@ function EditCouponModal({
     <div className="modal-backdrop" onClick={onClose}>
       <div className="card modal" onClick={(e) => e.stopPropagation()}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--saffron-bright)' }}>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--color-saffron-bright)' }}>
             <path d="M4.5 6h15A1.5 1.5 0 0 1 21 7.5v2.6a2.4 2.4 0 0 0 0 4.8v2.6a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5v-2.6a2.4 2.4 0 0 0 0-4.8V7.5A1.5 1.5 0 0 1 4.5 6Z" />
           </svg>
           <h2 style={{ fontSize: 20 }}>Edit coupon</h2>
         </div>
-        <p className="muted mono" style={{ marginBottom: 16, background: 'var(--saffron-soft)', padding: '8px 12px', borderRadius: 'var(--r-sm)', display: 'inline-block' }}>
+        <p className="muted mono" style={{ marginBottom: 16, background: 'var(--color-saffron-soft)', padding: '8px 12px', borderRadius: 'var(--radius-sm)', display: 'inline-block' }}>
           {coupon.code}
         </p>
         {error && <div className="error-banner" style={{ marginTop: 12 }}>{error}</div>}
@@ -329,7 +329,7 @@ function EditCouponModal({
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <label style={{ display: 'block', fontSize: 13, color: 'var(--ivory-dim)', marginBottom: 6, fontWeight: 500 }}>{label}</label>
+      <label style={{ display: 'block', fontSize: 13, color: 'var(--color-ivory-dim)', marginBottom: 6, fontWeight: 500 }}>{label}</label>
       {children}
     </div>
   )
