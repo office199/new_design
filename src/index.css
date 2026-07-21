@@ -236,7 +236,7 @@ img { max-width: 100%; display: block; }
 
 /* ── Legacy utility classes (backward compatibility) ──────────────────── */
 
-/* Buttons */
+/* Buttons — improved touch + responsive */
 .btn-primary {
   background: linear-gradient(135deg, var(--color-saffron-bright) 0%, var(--color-saffron) 100%);
   color: var(--color-on-accent);
@@ -255,6 +255,7 @@ img { max-width: 100%; display: block; }
   gap: 8px;
   white-space: nowrap;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 42px;
 }
 .btn-primary:hover:not(:disabled) {
   filter: brightness(1.08);
@@ -506,37 +507,144 @@ img { max-width: 100%; display: block; }
 .stat .value.money { color: var(--color-gold); }
 .stat .sub { font-size: 12px; color: var(--color-ivory-faint); margin-top: 6px; }
 
-/* Responsive helpers */
-@media (max-width: 680px) {
-  .card { padding: 18px; border-radius: var(--radius-lg); }
-  .page-head { margin-bottom: 22px; }
+/* ── Enhanced Responsive helpers (mobile-first, all pages) ── */
+@media (max-width: 1024px) {
+  .stat-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+  .grid-cols-4, .grid-cols-12 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 768px) {
+  .card { padding: 16px; border-radius: var(--radius-lg); }
+  .page-head { margin-bottom: 18px; }
+  .page-head h1 { font-size: clamp(22px, 6vw, 28px) !important; }
+  
+  /* Modern responsive table cards — works on every table page */
   .table-cards thead { display: none; }
   .table-cards, .table-cards tbody, .table-cards tr, .table-cards td { display: block; width: 100%; }
   .table-cards tbody tr {
-    padding: 16px;
+    padding: 14px 16px;
     border-bottom: 1px solid var(--color-border-soft);
     background: var(--color-surface-1);
-    margin: 8px;
-    border-radius: var(--radius-md);
+    margin: 10px 0;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-1);
   }
   .table-cards tbody tr:last-child { border-bottom: none; }
+  .table-cards tbody tr:hover { background: var(--color-surface-2); }
   .table-cards td {
     border: none;
-    padding: 6px 0;
+    padding: 5px 0;
     display: flex;
     justify-content: space-between;
-    gap: 16px;
+    gap: 14px;
     text-align: right;
-    align-items: center;
+    align-items: flex-start;
+    font-size: 14px;
   }
   .table-cards td::before {
     content: attr(data-label);
     color: var(--color-ivory-faint);
-    font-size: 11px;
+    font-size: 10.5px;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
     font-weight: 600;
     text-align: left;
+    flex-shrink: 0;
+    min-width: 88px;
+  }
+  .table-cards td[data-actions] { justify-content: flex-end; }
+  
+  /* Sidebar responsive improvements */
+  .grid.grid-cols-\[280px_1fr\] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .btn-primary, .btn-ghost, .btn-danger, .btn-success {
+    padding: 10px 14px;
+    font-size: 13.5px;
+  }
+  .stat .value { font-size: 26px; }
+  .page-head-gradient h1 { font-size: 22px !important; }
+  
+  .toolbar, .spread {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}
+
+/* Enhanced responsive form stacks */
+@media (max-width: 640px) {
+  .form-row {
+    flex-direction: column !important;
+    gap: 12px !important;
+  }
+  .form-row > div {
+    flex: 1 1 100% !important;
+  }
+}
+
+/* Tablet friendly adjustments */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .grid-cols-4 { grid-template-columns: repeat(2, 1fr); }
+  .col-span-8, .col-span-7 { grid-column: span 1; }
+  .col-span-4, .col-span-5 { grid-column: span 1; }
+}
+
+/* Dashboard hero responsive */
+@media (max-width: 768px) {
+  .grid.grid-cols-\[1\.6fr_1fr\] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ── Better global form & modal responsiveness ── */
+@media (max-width: 640px) {
+  .modal {
+    max-width: 96vw !important;
+    margin: 0 8px;
+  }
+  .modal-detail {
+    max-width: 96vw !important;
+  }
+  
+  .kv {
+    grid-template-columns: 1fr !important;
+    gap: 2px 0 !important;
+  }
+}
+
+/* Modern form grids for better responsive UX */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px 18px;
+}
+
+@media (max-width: 640px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+}
+
+/* Improved card hover states for desktop + mobile */
+.card {
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
+              box-shadow 0.2s ease, 
+              border-color 0.2s ease;
+}
+.card:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-2);
+}
+
+/* Mobile friendly action buttons in tables */
+@media (max-width: 640px) {
+  .table-cards td[data-actions] button {
+    padding: 7px 10px;
+    font-size: 12px;
   }
 }
 

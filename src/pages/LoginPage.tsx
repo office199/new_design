@@ -38,7 +38,7 @@ export default function LoginPage() {
   ]
 
   return (
-    <div className="grid grid-cols-[1.2fr_1fr] min-h-screen max-lg:grid-cols-1">
+    <div className="grid grid-cols-[1.2fr_1fr] min-h-screen max-lg:grid-cols-1 lg:grid-cols-[1.15fr_1fr]">
       {/* ── Brand / showcase panel ── */}
       <aside className="relative overflow-hidden p-14 flex flex-col justify-between max-lg:hidden"
         style={{

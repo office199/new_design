@@ -452,7 +452,7 @@ export default function DashboardPage() {
 
       {/* ── KPI grid ─────────────────────────────────────────────────── */}
       {data && (
-        <div className="grid grid-cols-4 gap-4 max-xl:grid-cols-2 max-lg:gap-3.5 max-md:grid-cols-1">
+        <div className="grid grid-cols-4 gap-4 max-xl:grid-cols-2 max-lg:gap-3.5 max-md:grid-cols-1 lg:gap-4">
           <KpiCard
             index={1}
             label="Customers"

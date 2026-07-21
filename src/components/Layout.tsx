@@ -167,7 +167,7 @@ export default function Layout() {
   const title = useActiveLabel()
 
   return (
-    <div className="grid grid-cols-[280px_1fr] min-h-screen">
+    <div className="grid grid-cols-[280px_1fr] min-h-screen md:grid-cols-[260px_1fr] lg:grid-cols-[280px_1fr]">
       {/* Scrim overlay for mobile */}
       {open && (
         <div
@@ -182,7 +182,7 @@ export default function Layout() {
         className={`
           bg-gradient-to-b from-bg-2 to-bg-1 border-r border-border-soft
           p-5 flex flex-col sticky top-0 h-screen z-40
-          max-md:fixed max-md:inset-y-0 max-md:left-0 max-md:w-[300px]
+          max-md:fixed max-md:inset-y-0 max-md:left-0 max-md:w-[280px] max-md:z-[60]
           max-md:-translate-x-full transition-transform duration-[320ms] ease-[cubic-bezier(0.22,0.61,0.36,1)]
           max-md:shadow-[0_24px_80px_rgba(2,2,12,0.6)]
           ${open ? 'max-md:translate-x-0' : ''}
@@ -193,12 +193,12 @@ export default function Layout() {
 
         {/* Brand */}
         <div className="flex items-center gap-3.5 px-2.5 pt-1.5 mb-7 relative z-10">
-          <span className="text-[28px] w-12 h-12 flex items-center justify-center rounded-[--radius-md] bg-gradient-to-br from-saffron-soft to-transparent border border-border-soft shadow-[0_0_20px_var(--color-saffron-glow)] animate-[brand-glow_4s_ease-in-out_infinite]">
+          <span className="text-[26px] sm:text-[28px] w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-[--radius-md] bg-gradient-to-br from-saffron-soft to-transparent border border-border-soft shadow-[0_0_20px_var(--color-saffron-glow)] animate-[brand-glow_4s_ease-in-out_infinite]">
             🪔
           </span>
           <div>
-            <div className="font-display text-[17px] font-semibold tracking-tight leading-tight">Hindustani Jyotish</div>
-            <div className="text-[11px] tracking-widest uppercase mt-1 text-saffron font-medium max-md:hidden">Admin Console</div>
+            <div className="font-display text-[16px] sm:text-[17px] font-semibold tracking-tight leading-tight">Hindustani Jyotish</div>
+            <div className="text-[10px] sm:text-[11px] tracking-widest uppercase mt-1 text-saffron font-medium max-md:hidden">Admin Console</div>
           </div>
         </div>
 
@@ -234,11 +234,12 @@ export default function Layout() {
                   end={n.end}
                   className={({ isActive }) => `
                     flex items-center gap-3 text-ivory-dim
-                    py-[11px] px-3.5 rounded-[--radius-sm]
+                    py-[10px] px-3.5 rounded-[--radius-sm]
                     font-semibold text-[13.5px]
                     transition-all duration-200
                     relative overflow-hidden
                     hover:bg-surface-1 hover:text-ivory hover:no-underline
+                    active:scale-[0.985]
                     ${isActive ? 'bg-gradient-to-r from-saffron-soft to-transparent text-ivory' : ''}
                   `}
                 >
@@ -279,19 +280,19 @@ export default function Layout() {
 
       {/* Main content */}
       <main className="min-w-0 flex flex-col" style={{ background: 'linear-gradient(180deg, transparent, rgba(0,0,0,0.02))' }}>
-        {/* Topbar */}
-        <div className="sticky top-0 z-30 flex items-center gap-4 px-9 py-4 bg-bg-1/85 backdrop-blur-[20px] saturate-150 border-b border-border-soft max-lg:px-5 max-md:px-4">
+        {/* Topbar — fully responsive */}
+        <div className="sticky top-0 z-30 flex items-center gap-3 px-8 py-3.5 bg-bg-1/90 backdrop-blur-[22px] saturate-150 border-b border-border-soft lg:px-9 max-md:px-4 max-md:py-3">
           {/* Mobile menu button */}
           <button
-            className="hidden max-lg:flex w-11 h-11 rounded-[--radius-md] bg-surface-2 border border-border-soft items-center justify-center text-ivory"
+            className="md:hidden flex w-11 h-11 rounded-[--radius-md] bg-surface-2 border border-border-soft items-center justify-center text-ivory shrink-0"
             onClick={() => setOpen(true)}
             aria-label="Open menu"
           >
             <Icon><path d="M3 6h18M3 12h18M3 18h18" /></Icon>
           </button>
 
-          {/* Search */}
-          <div className="flex-1 max-w-[500px] relative">
+          {/* Search — responsive width */}
+          <div className="flex-1 max-w-[460px] md:max-w-[520px] relative">
             <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-ivory-faint transition-colors focus-within:text-saffron">
               <Icon><circle cx="11" cy="11" r="7" /><path d="m21 21-4.3-4.3" /></Icon>
             </span>
@@ -300,22 +301,22 @@ export default function Layout() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder={`Search ${title}…`}
-              className="w-full rounded-full py-3 px-4 pl-11 pr-16 bg-surface-1 border border-border-soft text-[14px] transition-all focus:outline-none focus:bg-surface-2 focus:border-saffron focus:shadow-[0_0_0_4px_var(--color-saffron-soft)]"
+              className="w-full rounded-full py-2.5 px-4 pl-11 pr-12 text-sm bg-surface-1 border border-border-soft transition-all focus:outline-none focus:bg-surface-2 focus:border-saffron focus:shadow-[0_0_0_4px_var(--color-saffron-soft)]"
             />
-            <kbd className="absolute right-3 top-1/2 -translate-y-1/2 font-mono text-[11px] text-ivory-faint bg-surface-2 border border-border-soft rounded-[--radius-xs] px-2 py-1 transition-all focus-within:bg-saffron-soft focus-within:border-saffron focus-within:text-saffron-bright">
+            <kbd className="hidden sm:block absolute right-3 top-1/2 -translate-y-1/2 font-mono text-[10px] text-ivory-faint bg-surface-2 border border-border-soft rounded-[--radius-xs] px-1.5 py-px">
               /
             </kbd>
           </div>
 
           {/* Actions */}
-          <div className="flex items-center gap-2.5 ml-auto">
+          <div className="flex items-center gap-2 ml-auto">
             <ThemeSwitcher />
             <NotificationsBell />
           </div>
         </div>
 
-        {/* Page content */}
-        <div className="px-9 py-8 pb-16 max-w-[1400px] w-full max-lg:px-5 max-md:px-4 max-md:py-5 max-md:pb-12">
+        {/* Page content — responsive padding */}
+        <div className="px-6 py-7 pb-16 max-w-[1440px] w-full mx-auto lg:px-9 xl:px-10 max-md:px-4 max-md:py-5 max-md:pb-10">
           <Outlet />
         </div>
       </main>
