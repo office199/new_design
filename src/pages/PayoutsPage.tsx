@@ -81,7 +81,7 @@ export default function PayoutsPage() {
       ) : (
         <>
           <div className="card" style={{ padding: 0, overflow: 'auto' }}>
-            <table className="table">
+            <table className="table table-cards">
               <thead>
                 <tr>
                   <th>Astrologer</th><th>Amount</th><th>Status</th>
@@ -91,21 +91,21 @@ export default function PayoutsPage() {
               <tbody>
                 {visible.map((p) => (
                   <tr key={p.id}>
-                    <td>
+                    <td data-label="Astrologer">
                       {p.astrologer_name ?? (
                         <span className="mono faint">{p.astrologer_id.slice(0, 8)}</span>
                       )}
                     </td>
-                    <td className="mono">₹{p.amount}</td>
-                    <td>
+                    <td data-label="Amount" className="mono">₹{p.amount}</td>
+                    <td data-label="Status">
                       <span className={`badge ${STATUS_BADGE[p.status] ?? 'badge-pending'}`}>{p.status}</span>
                     </td>
-                    <td className="mono">{p.bank_account_last4 ? `•••• ${p.bank_account_last4}` : '—'}</td>
-                    <td className="mono">{p.ifsc ?? '—'}</td>
-                    <td className="faint">
+                    <td data-label="A/C" className="mono">{p.bank_account_last4 ? `•••• ${p.bank_account_last4}` : '—'}</td>
+                    <td data-label="IFSC" className="mono">{p.ifsc ?? '—'}</td>
+                    <td data-label="Requested" className="faint">
                       {p.created_at ? new Date(p.created_at).toLocaleDateString() : '—'}
                     </td>
-                    <td style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
+                    <td data-actions style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
                       {isPending(p.status) && (
                         <>
                           <button
@@ -141,7 +141,7 @@ export default function PayoutsPage() {
                   </tr>
                 ))}
                 {visible.length === 0 && (
-                  <tr><td colSpan={7}><div className="empty">No payout requests.</div></td></tr>
+                  <tr><td data-empty colSpan={7}><div className="empty">No payout requests.</div></td></tr>
                 )}
               </tbody>
             </table>

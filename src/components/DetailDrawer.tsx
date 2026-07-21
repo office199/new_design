@@ -107,7 +107,7 @@ function Stat({ label, value }: { label: string; value: string }) {
 function EmptyRow({ span }: { span: number }) {
   return (
     <tr>
-      <td colSpan={span}><div className="empty">No records yet.</div></td>
+      <td data-empty colSpan={span}><div className="empty">No records yet.</div></td>
     </tr>
   )
 }
@@ -147,7 +147,7 @@ function CustomerDetailBody({ data }: { data: CustomerDetail }) {
 
       <SectionTitle>Recent transactions</SectionTitle>
       <div className="card" style={{ padding: 0, overflow: 'auto' }}>
-        <table className="table">
+        <table className="table table-cards">
           <thead>
             <tr>
               <th>Type</th>
@@ -161,11 +161,11 @@ function CustomerDetailBody({ data }: { data: CustomerDetail }) {
             {transactions.length === 0 && <EmptyRow span={5} />}
             {transactions.map((t) => (
               <tr key={t.id}>
-                <td>{text(t.type)}</td>
-                <td>{money(t.amount)}</td>
-                <td>{money(t.balance_after)}</td>
-                <td>{text(t.status)}</td>
-                <td>{dateTime(t.created_at)}</td>
+                <td data-label="Type">{text(t.type)}</td>
+                <td data-label="Amount">{money(t.amount)}</td>
+                <td data-label="Balance after">{money(t.balance_after)}</td>
+                <td data-label="Status">{text(t.status)}</td>
+                <td data-label="When">{dateTime(t.created_at)}</td>
               </tr>
             ))}
           </tbody>
@@ -176,7 +176,7 @@ function CustomerDetailBody({ data }: { data: CustomerDetail }) {
         Recent consultations ({consultations.completed}/{consultations.total} completed)
       </SectionTitle>
       <div className="card" style={{ padding: 0, overflow: 'auto' }}>
-        <table className="table">
+        <table className="table table-cards">
           <thead>
             <tr>
               <th>Astrologer</th>
@@ -191,12 +191,12 @@ function CustomerDetailBody({ data }: { data: CustomerDetail }) {
             {consultations.recent.length === 0 && <EmptyRow span={6} />}
             {consultations.recent.map((c) => (
               <tr key={c.id}>
-                <td>{text(c.astrologer_name)}</td>
-                <td>{text(c.type)}</td>
-                <td>{text(c.status)}</td>
-                <td>{money(c.amount_charged)}</td>
-                <td>{durationLabel(c.duration_seconds)}</td>
-                <td>{dateTime(c.created_at)}</td>
+                <td data-label="Astrologer">{text(c.astrologer_name)}</td>
+                <td data-label="Type">{text(c.type)}</td>
+                <td data-label="Status">{text(c.status)}</td>
+                <td data-label="Charged">{money(c.amount_charged)}</td>
+                <td data-label="Duration">{durationLabel(c.duration_seconds)}</td>
+                <td data-label="When">{dateTime(c.created_at)}</td>
               </tr>
             ))}
           </tbody>
@@ -276,7 +276,7 @@ function AstrologerDetailBody({ data }: { data: AstrologerDetail }) {
 
       <SectionTitle>Recent payouts</SectionTitle>
       <div className="card" style={{ padding: 0, overflow: 'auto' }}>
-        <table className="table">
+        <table className="table table-cards">
           <thead>
             <tr>
               <th>Amount</th>
@@ -291,12 +291,12 @@ function AstrologerDetailBody({ data }: { data: AstrologerDetail }) {
             {payouts.recent.length === 0 && <EmptyRow span={6} />}
             {payouts.recent.map((p) => (
               <tr key={p.id}>
-                <td>{money(p.amount)}</td>
-                <td>{text(p.status)}</td>
-                <td className="mono">{p.bank_account_last4 ? `•••• ${p.bank_account_last4}` : <span className="faint">—</span>}</td>
-                <td className="mono">{text(p.ifsc)}</td>
-                <td>{dateTime(p.paid_at)}</td>
-                <td>{dateTime(p.created_at)}</td>
+                <td data-label="Amount">{money(p.amount)}</td>
+                <td data-label="Status">{text(p.status)}</td>
+                <td data-label="Bank A/C" className="mono">{p.bank_account_last4 ? `•••• ${p.bank_account_last4}` : <span className="faint">—</span>}</td>
+                <td data-label="IFSC" className="mono">{text(p.ifsc)}</td>
+                <td data-label="Paid at">{dateTime(p.paid_at)}</td>
+                <td data-label="Requested">{dateTime(p.created_at)}</td>
               </tr>
             ))}
           </tbody>
@@ -307,7 +307,7 @@ function AstrologerDetailBody({ data }: { data: AstrologerDetail }) {
         Recent consultations ({consultations.completed}/{consultations.total} completed)
       </SectionTitle>
       <div className="card" style={{ padding: 0, overflow: 'auto' }}>
-        <table className="table">
+        <table className="table table-cards">
           <thead>
             <tr>
               <th>Customer</th>
@@ -323,13 +323,13 @@ function AstrologerDetailBody({ data }: { data: AstrologerDetail }) {
             {consultations.recent.length === 0 && <EmptyRow span={7} />}
             {consultations.recent.map((c) => (
               <tr key={c.id}>
-                <td>{text(c.user_name)}</td>
-                <td>{text(c.type)}</td>
-                <td>{text(c.status)}</td>
-                <td>{money(c.amount_charged)}</td>
-                <td>{money(c.astrologer_payout)}</td>
-                <td>{durationLabel(c.duration_seconds)}</td>
-                <td>{dateTime(c.created_at)}</td>
+                <td data-label="Customer">{text(c.user_name)}</td>
+                <td data-label="Type">{text(c.type)}</td>
+                <td data-label="Status">{text(c.status)}</td>
+                <td data-label="Charged">{money(c.amount_charged)}</td>
+                <td data-label="Payout">{money(c.astrologer_payout)}</td>
+                <td data-label="Duration">{durationLabel(c.duration_seconds)}</td>
+                <td data-label="When">{dateTime(c.created_at)}</td>
               </tr>
             ))}
           </tbody>

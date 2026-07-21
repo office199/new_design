@@ -133,7 +133,7 @@ export default function AgoraSettingsPage() {
       </form>
 
       <div className="card" style={{ padding: 0, overflow: 'auto' }}>
-        <table className="table">
+        <table className="table table-cards">
           <thead>
             <tr>
               <th>Active</th><th>Name</th><th>App ID</th><th>Certificate</th><th>Expiry</th><th></th>
@@ -142,18 +142,18 @@ export default function AgoraSettingsPage() {
           <tbody>
             {rows.map((r) => (
               <tr key={r.id}>
-                <td>
+                <td data-label="Active">
                   {r.is_active ? (
                     <span className="badge badge-approved">active</span>
                   ) : (
                     <span className="badge badge-rejected">off</span>
                   )}
                 </td>
-                <td>{r.app_name ?? <span className="faint">—</span>}</td>
-                <td className="mono">{r.app_id}</td>
-                <td className="mono">{mask(r.app_certificate)}</td>
-                <td>{r.token_expire_seconds}s</td>
-                <td style={{ textAlign: 'right' }}>
+                <td data-label="Name">{r.app_name ?? <span className="faint">—</span>}</td>
+                <td data-label="App ID" className="mono">{r.app_id}</td>
+                <td data-label="Certificate" className="mono">{mask(r.app_certificate)}</td>
+                <td data-label="Expiry">{r.token_expire_seconds}s</td>
+                <td data-actions style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
                   {!r.is_active && (
                     <button className="btn-primary" onClick={() => activate(r.id)}>Activate</button>
                   )}
@@ -162,7 +162,7 @@ export default function AgoraSettingsPage() {
               </tr>
             ))}
             {rows.length === 0 && (
-              <tr><td colSpan={6}><div className="empty">No Agora credentials yet. Add one above.</div></td></tr>
+              <tr><td data-empty colSpan={6}><div className="empty">No Agora credentials yet. Add one above.</div></td></tr>
             )}
           </tbody>
         </table>

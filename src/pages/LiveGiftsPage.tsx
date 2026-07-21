@@ -95,7 +95,7 @@ export default function LiveGiftsPage() {
       </form>
 
       <div className="card" style={{ padding: 0, overflow: 'auto' }}>
-        <table className="table">
+        <table className="table table-cards">
           <thead>
             <tr>
               <th>Key</th><th>Name</th><th>Price</th><th>Emoji</th><th>Position</th><th>Active</th><th></th>
@@ -104,20 +104,20 @@ export default function LiveGiftsPage() {
           <tbody>
             {rows.map((g) => (
               <tr key={g.id}>
-                <td className="mono">{g.key}</td>
-                <td>{g.name}</td>
-                <td>₹{g.price}</td>
-                <td style={{ fontSize: 18 }}>{g.emoji || <span className="faint">—</span>}</td>
-                <td>{g.position}</td>
-                <td><span className={`badge badge-${g.is_active ? 'approved' : 'rejected'}`}>{g.is_active ? 'active' : 'off'}</span></td>
-                <td style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
+                <td data-label="Key" className="mono">{g.key}</td>
+                <td data-label="Name">{g.name}</td>
+                <td data-label="Price">₹{g.price}</td>
+                <td data-label="Emoji" style={{ fontSize: 18 }}>{g.emoji || <span className="faint">—</span>}</td>
+                <td data-label="Position">{g.position}</td>
+                <td data-label="Status"><span className={`badge badge-${g.is_active ? 'approved' : 'rejected'}`}>{g.is_active ? 'active' : 'off'}</span></td>
+                <td data-actions style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
                   <button className="btn-ghost" onClick={() => setEdit(g)}>Edit</button>
                   <button className="btn-ghost" style={{ marginLeft: 8 }} onClick={() => toggle(g)}>{g.is_active ? 'Disable' : 'Enable'}</button>
                   <button className="btn-danger" style={{ marginLeft: 8 }} onClick={() => remove(g)}>Delete</button>
                 </td>
               </tr>
             ))}
-            {rows.length === 0 && <tr><td colSpan={7}><div className="empty">No gifts yet.</div></td></tr>}
+            {rows.length === 0 && <tr><td data-empty colSpan={7}><div className="empty">No gifts yet.</div></td></tr>}
           </tbody>
         </table>
       </div>

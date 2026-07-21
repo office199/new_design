@@ -87,27 +87,27 @@ export default function CustomersPage() {
       ) : (
         <>
           <div className="card" style={{ padding: 0, overflow: 'auto' }}>
-            <table className="table">
+            <table className="table table-cards">
               <thead>
                 <tr>
                   <th>Name</th><th>Mobile</th><th>Email</th><th>Lang</th>
-                  <th>Wallet</th><th>Active</th><th></th>
+                  <th>Wallet</th><th>Status</th><th></th>
                 </tr>
               </thead>
               <tbody>
                 {visible.map((c) => (
                   <tr key={c.id}>
-                    <td>{c.name ?? <span className="faint">—</span>}</td>
-                    <td className="mono">{c.mobile ?? <span className="faint">—</span>}</td>
-                    <td>{c.email ?? <span className="faint">—</span>}</td>
-                    <td>{c.language ?? <span className="faint">—</span>}</td>
-                    <td className="mono">₹{c.wallet_balance ?? '0.00'}</td>
-                    <td>
+                    <td data-label="Name">{c.name ?? <span className="faint">—</span>}</td>
+                    <td data-label="Mobile" className="mono">{c.mobile ?? <span className="faint">—</span>}</td>
+                    <td data-label="Email">{c.email ?? <span className="faint">—</span>}</td>
+                    <td data-label="Lang">{c.language ?? <span className="faint">—</span>}</td>
+                    <td data-label="Wallet" className="mono">₹{c.wallet_balance ?? '0.00'}</td>
+                    <td data-label="Status">
                       <span className={`badge badge-${c.is_active ? 'approved' : 'rejected'}`}>
                         {c.is_active ? 'active' : 'blocked'}
                       </span>
                     </td>
-                    <td style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
+                    <td data-actions style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
                       <button className="btn-primary" onClick={() => setCredit(c)}>Credit</button>
                       <button className="btn-ghost" style={{ marginLeft: 8 }} onClick={() => setEdit(c)}>
                         Edit
@@ -127,7 +127,7 @@ export default function CustomersPage() {
                   </tr>
                 ))}
                 {visible.length === 0 && (
-                  <tr><td colSpan={7}><div className="empty">No customers found.</div></td></tr>
+                  <tr><td data-empty colSpan={7}><div className="empty">No customers found.</div></td></tr>
                 )}
               </tbody>
             </table>

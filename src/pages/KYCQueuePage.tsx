@@ -67,7 +67,7 @@ export default function KYCQueuePage() {
         ) : items.length === 0 ? (
           <div className="empty">No applications in this view.</div>
         ) : (
-          <table className="table">
+          <table className="table table-cards">
             <thead>
               <tr>
                 <th>Name</th>
@@ -81,12 +81,12 @@ export default function KYCQueuePage() {
             <tbody>
               {items.map((it) => (
                 <tr key={it.astrologer_id}>
-                  <td>{it.full_name || it.display_name || <span className="faint">—</span>}</td>
-                  <td className="mono">{it.mobile || '—'}</td>
-                  <td className="mono">{it.pan_number || '—'}</td>
-                  <td><StatusBadge status={it.kyc_status} /></td>
-                  <td className="faint">{it.submitted_at ? new Date(it.submitted_at).toLocaleDateString() : '—'}</td>
-                  <td style={{ textAlign: 'right' }}>
+                  <td data-label="Name">{it.full_name || it.display_name || <span className="faint">—</span>}</td>
+                  <td data-label="Mobile" className="mono">{it.mobile || '—'}</td>
+                  <td data-label="PAN" className="mono">{it.pan_number || '—'}</td>
+                  <td data-label="Status"><StatusBadge status={it.kyc_status} /></td>
+                  <td data-label="Submitted" className="faint">{it.submitted_at ? new Date(it.submitted_at).toLocaleDateString() : '—'}</td>
+                  <td data-actions style={{ textAlign: 'right' }}>
                     <button className="btn-ghost" onClick={() => setActive(it)}>Review</button>
                   </td>
                 </tr>
