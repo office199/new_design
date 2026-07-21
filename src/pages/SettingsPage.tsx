@@ -1,142 +1,58 @@
 import { useCallback, useEffect, useState } from 'react'
 import { api } from '../api/client'
+import { PageHeader, Card } from '../components/ui/PageShell'
 
-export interface SettingField {
-  key: string
-  label: string
-  type?: 'text' | 'number' | 'bool'
-  placeholder?: string
-}
+export interface SettingField { key:string; label:string; type?:'text'|'number'|'bool'; placeholder?:string }
+interface Props { title:string; subtitle?:string; endpoint:string; fields:SettingField[] }
+type Value = Record<string,string|number|boolean>
 
-interface SettingsPageProps {
-  title: string
-  subtitle?: string
-  endpoint: string
-  fields: SettingField[]
-}
+export default function SettingsPage({ title, subtitle, endpoint, fields }: Props){
+  const [value,setValue]=useState<Value>({})
+  const [error,setError]=useState<string|null>(null)
+  const [saved,setSaved]=useState(false)
+  const [loading,setLoading]=useState(true)
 
-type Value = Record<string, string | number | boolean>
+  const load=useCallback(async()=>{
+    try{ setLoading(true); setValue(await api<Value>(endpoint)) }
+    catch(e){ setError((e as Error).message) } finally{ setLoading(false) }
+  },[endpoint])
+  useEffect(()=>{ void load() },[load])
 
-/** GET/PUT a key→JSON settings object via /admin/settings/*. */
-export default function SettingsPage({ title, subtitle, endpoint, fields }: SettingsPageProps) {
-  const [value, setValue] = useState<Value>({})
-  const [error, setError] = useState<string | null>(null)
-  const [saved, setSaved] = useState(false)
-  const [loading, setLoading] = useState(true)
-
-  const load = useCallback(async () => {
-    try {
-      setLoading(true)
-      setValue(await api<Value>(endpoint))
-    } catch (e) {
-      setError((e as Error).message)
-    } finally {
-      setLoading(false)
-    }
-  }, [endpoint])
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    void load()
-  }, [load])
-
-  async function save() {
-    setError(null)
-    setSaved(false)
-    try {
-      await api(endpoint, { method: 'PUT', body: { value } })
-      setSaved(true)
-      setTimeout(() => setSaved(false), 3000)
-    } catch (e) {
-      setError((e as Error).message)
-    }
+  async function save(){
+    setError(null); setSaved(false)
+    try{ await api(endpoint,{method:'PUT',body:{value}}); setSaved(true); setTimeout(()=>setSaved(false),3000) }
+    catch(e){ setError((e as Error).message) }
   }
 
   return (
-    <div>
-      <div className="page-head-gradient">
-        <h1>{title}</h1>
-        {subtitle && <p className="muted">{subtitle}</p>}
-      </div>
+    <div className="max-w-[640px] space-y-6">
+      <PageHeader title={title} subtitle={subtitle ?? `Configure ${title.toLowerCase()} for your platform.`} icon={<span className="text-[18px]">⚙️</span>} />
 
-      {error && (
-        <div className="error-banner">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="12" cy="12" r="10" />
-            <line x1="12" y1="8" x2="12" y2="12" />
-            <line x1="12" y1="16" x2="12.01" y2="16" />
-          </svg>
-          {error}
-        </div>
-      )}
+      {error && <div className="rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-[13px] text-red-300">{error}</div>}
+      {saved && <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-[13px] text-emerald-400 flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"/>Saved successfully!</div>}
 
-      {saved && (
-        <div className="success-banner">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-            <polyline points="22 4 12 14.01 9 11.01" />
-          </svg>
-          Settings saved successfully!
-        </div>
-      )}
-
-      <div className="card" style={{ maxWidth: 600 }}>
-        {loading ? (
-          <div className="empty">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ margin: '0 auto 16px', opacity: 0.5 }}>
-              <circle cx="12" cy="12" r="10" />
-              <path d="M12 6v6l4 2" />
-            </svg>
-            Loading settings...
-          </div>
-        ) : (
+      <Card className="p-6 sm:p-7">
+        {loading ? <div className="py-10 text-center text-[13px] text-ivory-faint">Loading…</div> : (
           <>
-            {fields.map((f, i) => (
-              <div className="field" key={f.key} style={{ animationDelay: `${i * 50}ms` }}>
-                <label>
-                  {f.type !== 'bool' && (
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: 8, opacity: 0.5 }}>
-                      <polyline points="9 18 15 12 9 6" />
-                    </svg>
+            <div className="grid gap-5">
+              {fields.map(f=>(
+                <div key={f.key}>
+                  <label className="block text-[11px] font-bold uppercase tracking-[0.08em] text-ivory-faint">{f.label}</label>
+                  {f.type==='bool' ? (
+                    <label className="mt-2.5 flex items-center justify-between gap-3 rounded-xl border border-border-soft bg-surface-1 p-4 cursor-pointer hover:bg-surface-2 transition-colors">
+                      <span className="text-[13px] font-medium">Enable — {value[f.key] ? 'Active' : 'Disabled'}</span>
+                      <input type="checkbox" checked={Boolean(value[f.key])} onChange={e=>setValue({...value,[f.key]:e.target.checked})} className="h-5 w-5 rounded border-border-soft" />
+                    </label>
+                  ) : (
+                    <input type={f.type==='number'?'number':'text'} placeholder={f.placeholder} value={String(value[f.key]??'')} onChange={e=>setValue({...value,[f.key]: f.type==='number' ? Number(e.target.value) : e.target.value})} className="mt-2.5 h-11 w-full rounded-xl border border-border-soft bg-surface-1 px-4 text-[13px] outline-none focus:border-saffron focus:bg-surface-2 shadow-sm" />
                   )}
-                  {f.label}
-                </label>
-                {f.type === 'bool' ? (
-                  <label className="row" style={{ gap: 12, cursor: 'pointer', padding: '8px 12px', background: 'var(--color-surface-1)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--color-border-soft)' }}>
-                    <input
-                      type="checkbox"
-                      style={{ width: 'auto' }}
-                      checked={Boolean(value[f.key])}
-                      onChange={(e) => setValue({ ...value, [f.key]: e.target.checked })}
-                    />
-                    <span className="muted">Enable this feature</span>
-                  </label>
-                ) : (
-                  <input
-                    type={f.type === 'number' ? 'number' : 'text'}
-                    placeholder={f.placeholder}
-                    value={String(value[f.key] ?? '')}
-                    onChange={(e) =>
-                      setValue({
-                        ...value,
-                        [f.key]: f.type === 'number' ? Number(e.target.value) : e.target.value,
-                      })
-                    }
-                  />
-                )}
-              </div>
-            ))}
-            <button className="btn-primary" style={{ marginTop: 24 }} onClick={save}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
-                <polyline points="17 21 17 13 7 13 7 21" />
-                <polyline points="7 3 7 8 15 8" />
-              </svg>
-              Save changes
-            </button>
+                </div>
+              ))}
+            </div>
+            <button onClick={save} className="mt-8 h-11 rounded-xl bg-ivory text-bg-0 px-6 text-[13px] font-bold hover:bg-white shadow-sm">Save changes</button>
           </>
         )}
-      </div>
+      </Card>
     </div>
   )
 }

@@ -1,130 +1,64 @@
-interface SearchBoxProps {
-  value: string
-  onChange: (v: string) => void
-  placeholder?: string
-}
+interface SearchBoxProps { value: string; onChange: (v:string)=>void; placeholder?: string; className?: string; }
 
-/** Client-side filter input matching the console design system. */
-export function SearchBox({ value, onChange, placeholder }: SearchBoxProps) {
+export function SearchBox({ value, onChange, placeholder, className='' }: SearchBoxProps) {
   return (
-    <div style={{ position: 'relative', maxWidth: 280 }}>
-      <svg
-        width="16"
-        height="16"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: 'var(--color-ivory-faint)', pointerEvents: 'none' }}
-      >
-        <circle cx="11" cy="11" r="8" />
-        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+    <div className={`relative group ${className}`}>
+      <svg className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-ivory-faint group-focus-within:text-saffron transition-colors" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="11" cy="11" r="7"/><path d="m21 21-3.5-3.5"/>
       </svg>
       <input
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={e=>onChange(e.target.value)}
         placeholder={placeholder ?? 'Search…'}
-        style={{ paddingLeft: 40 }}
+        className="h-[42px] w-full rounded-full border border-border-soft bg-surface-raised pl-11 pr-10 text-[13.5px] font-[450] placeholder:text-ivory-faint shadow-[0_1px_2px_rgba(0,0,0,0.06)] focus:border-saffron/40 focus:bg-surface-2 focus:shadow-[0_0_0_4px_var(--color-saffron-soft),0_4px_18px_rgba(0,0,0,0.08)] outline-none transition-all md:w-[280px]"
       />
-      {value && (
-        <button
-          onClick={() => onChange('')}
-          style={{
-            position: 'absolute',
-            right: 6,
-            top: '50%',
-            transform: 'translateY(-50%)',
-            background: 'transparent',
-            border: 'none',
-            padding: 4,
-            cursor: 'pointer',
-            color: 'var(--color-ivory-faint)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: 'var(--radius-xs)',
-            width: 24,
-            height: 24,
-          }}
-          aria-label="Clear search"
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18" />
-            <line x1="6" y1="6" x2="18" y2="18" />
-          </svg>
+      {value ? (
+        <button onClick={()=>onChange('')} className="absolute right-1.5 top-1/2 grid h-7 w-7 -translate-y-1/2 place-items-center rounded-full bg-surface-2 border border-border-soft text-ivory-faint hover:text-ivory hover:border-border-mid transition-colors">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
         </button>
+      ) : (
+        <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 hidden sm:flex items-center gap-1 rounded-full border border-border-soft bg-surface-1 px-1.5 py-0.5 text-[10px] font-bold text-ivory-faint">⌘K</span>
       )}
     </div>
   )
 }
 
 interface PagerProps {
-  page: number
-  size: number
-  total: number | null
-  hasPrev: boolean
-  hasNext: boolean
-  onPage: (p: number) => void
-  onSize: (s: number) => void
-  /** Count of rows currently visible after any client-side filter. */
-  shown?: number
+  page: number; size: number; total: number|null; hasPrev: boolean; hasNext: boolean;
+  onPage: (p:number)=>void; onSize: (s:number)=>void; shown?: number;
 }
 
-const SIZES = [10, 25, 50, 100]
+const SIZES=[10,25,50,100]
 
-/** Page navigation + page-size selector wired to the backend page/size params. */
 export function Pager({ page, size, total, hasPrev, hasNext, onPage, onSize, shown }: PagerProps) {
-  const from = total === 0 ? 0 : (page - 1) * size + 1
-  const to = total != null ? Math.min(page * size, total) : (page - 1) * size + (shown ?? size)
+  const from = total===0 ? 0 : (page-1)*size+1
+  const to = total!=null ? Math.min(page*size, total) : (page-1)*size+(shown??size)
   return (
-    <div
-      className="spread"
-      style={{ marginTop: 18, flexWrap: 'wrap', gap: 16, fontSize: 13, padding: '14px 18px', background: 'var(--color-surface-1)', borderRadius: 'var(--radius-lg)', border: '1px solid var(--color-border-soft)' }}
-    >
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--color-ivory-faint)' }}>
-          <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-          <line x1="3" y1="9" x2="21" y2="9" />
-          <line x1="9" y1="21" x2="9" y2="9" />
-        </svg>
-        <span className="muted">
-          {total != null ? (
-            <>
-              Showing <strong>{from}–{to}</strong> of <strong>{total.toLocaleString('en-IN')}</strong>
-            </>
-          ) : (
-            <>Page <strong>{page}</strong>{shown != null ? ` · ${shown} shown` : ''}</>
-          )}
+    <div className="mt-5 flex flex-col sm:flex-row flex-wrap items-center justify-between gap-3 rounded-[18px] border border-border-soft bg-surface-raised px-4 py-3.5 text-[13px] shadow-[0_4px_18px_rgba(0,0,0,0.04)]">
+      <div className="flex items-center gap-3 text-ivory-dim">
+        <div className="grid h-9 w-9 place-items-center rounded-full bg-surface-1 border border-border-soft text-ivory-faint shadow-sm">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 21V9"/></svg>
+        </div>
+        <span className="text-[13px]">
+          {total!=null ? <>Showing <b className="text-ivory font-semibold">{from}–{to}</b> of <b className="text-ivory font-semibold">{total.toLocaleString('en-IN')}</b></> : <>Page <b className="text-ivory">{page}</b>{shown!=null ? ` · ${shown} rows` : ''}</>}
         </span>
       </div>
-      <div className="row" style={{ gap: 10 }}>
-        <select
-          value={size}
-          onChange={(e) => {
-            onSize(Number(e.target.value))
-            onPage(1)
-          }}
-          style={{ width: 'auto', minWidth: 120 }}
-        >
-          {SIZES.map((s) => (
-            <option key={s} value={s}>{s} per page</option>
-          ))}
-        </select>
-        <button className="btn-ghost btn-icon-sm" disabled={!hasPrev} onClick={() => onPage(page - 1)} title="Previous page">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="15 18 9 12 15 6" />
-          </svg>
-        </button>
-        <span className="mono" style={{ minWidth: 32, textAlign: 'center', padding: '8px 0', fontWeight: 600 }}>
-          {page}
-        </span>
-        <button className="btn-ghost btn-icon-sm" disabled={!hasNext} onClick={() => onPage(page + 1)} title="Next page">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="9 18 15 12 9 6" />
-          </svg>
-        </button>
+      <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2">
+          <span className="hidden sm:block text-[11px] font-bold uppercase tracking-wide text-ivory-faint">Per page</span>
+          <select value={size} onChange={e=>{onSize(Number(e.target.value)); onPage(1)}} className="h-[38px] rounded-full border border-border-soft bg-surface-1 px-3 pr-8 text-[12.5px] font-medium focus:border-saffron outline-none shadow-sm">
+            {SIZES.map(s=><option key={s} value={s}>{s} / page</option>)}
+          </select>
+        </div>
+        <div className="flex items-center gap-1 rounded-full border border-border-soft bg-surface-1 p-1 shadow-sm">
+          <button disabled={!hasPrev} onClick={()=>onPage(page-1)} className="grid h-8 w-8 place-items-center rounded-full bg-surface-raised border border-border-soft text-ivory-dim disabled:opacity-40 disabled:cursor-not-allowed hover:bg-surface-2 hover:text-ivory hover:border-border-mid transition-colors">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <span className="min-w-[36px] text-center font-mono text-[12px] font-bold bg-surface-raised border border-border-soft rounded-full px-2 py-1 shadow-sm">{page}</span>
+          <button disabled={!hasNext} onClick={()=>onPage(page+1)} className="grid h-8 w-8 place-items-center rounded-full bg-surface-raised border border-border-soft text-ivory-dim disabled:opacity-40 disabled:cursor-not-allowed hover:bg-surface-2 hover:text-ivory hover:border-border-mid transition-colors">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
       </div>
     </div>
   )
