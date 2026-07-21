@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import { api } from '../api/client'
 import { useAuth } from '../auth/AuthContext'
 import { BarChart, DonutChart, LineChart, type Point } from '../components/Charts'
-import './dashboard.css'
 
 /* ── Data shapes (as returned by /v1/admin/*) ────────────────────────── */
 interface Overview {
@@ -62,7 +61,6 @@ function dailySeries(txns: Txn[], days: number): { amount: Point[]; count: Point
 /* ── Formatting helpers ──────────────────────────────────────────────── */
 const inr = (n: number) => `₹${Math.round(n).toLocaleString('en-IN')}`
 
-/** Indian-style compact: ₹980 · ₹42.5K · ₹1.4L · ₹2.1Cr (trailing .0 trimmed) */
 function inrCompact(n: number): string {
   const abs = Math.abs(n)
   const t = (x: number) => String(Math.round(x * 10) / 10)
@@ -94,7 +92,6 @@ function greeting(): string {
   return 'Good evening'
 }
 
-/** Credit / debit / neutral classification for feed styling. */
 function txnDir(type?: string): 'cr' | 'dr' | 'na' {
   const t = (type ?? '').toLowerCase()
   if (/credit|recharge|top.?up|refund|cashback|bonus/.test(t)) return 'cr'
@@ -134,7 +131,7 @@ function useCountUp(target: number, duration = 900): number {
   return val
 }
 
-/* ── Icons (inline SVG, stroke = currentColor) ───────────────────────── */
+/* ── Icons ───────────────────────────────────────────────────────────── */
 function Svg({ children }: { children: ReactNode }) {
   return (
     <svg
@@ -189,7 +186,7 @@ const IconArrow = () => (
   </Svg>
 )
 
-/* ── Decorative star field for the hero ──────────────────────────────── */
+/* ── Decorative stars ────────────────────────────────────────────────── */
 const STARS: { l: number; t: number; s: number; d: number; warm?: boolean; violet?: boolean }[] = [
   { l: 38, t: 22, s: 2.5, d: 0 },
   { l: 47, t: 68, s: 2, d: 0.7 },
@@ -230,23 +227,51 @@ function KpiCard({
   index: number
 }) {
   const animated = useCountUp(value)
+
+  const tintClasses = {
+    saffron: 'bg-gradient-to-br from-saffron-soft to-saffron-glow text-saffron-bright shadow-[0_0_20px_var(--color-saffron-soft)]',
+    gold: 'bg-gradient-to-br from-gold-bg to-gold-glow text-gold shadow-[0_0_20px_var(--color-gold-glow)]',
+    violet: 'bg-gradient-to-br from-violet-bg to-violet/20 text-violet shadow-[0_0_20px_var(--color-violet-bg)]',
+    copper: 'bg-gradient-to-br from-copper/20 to-copper/30 text-[#df9f6b] shadow-[0_0_20px_rgba(199,123,74,0.2)]',
+  }
+
   return (
-    <Link to={to} className="db-kpi db-rise" style={rise(index)}>
-      <div className="db-kpi-top">
-        <span className="db-kpi-ico" data-tint={tint}>
+    <Link
+      to={to}
+      className="relative overflow-hidden block color-inherit bg-surface-raised border border-border-soft rounded-[--radius-xl] p-5 shadow-[--shadow-1] transition-all duration-300 ease-out hover:-translate-y-1 hover:border-border-mid hover:shadow-[--shadow-2] hover:shadow-saffron/10 hover:no-underline"
+      style={rise(index)}
+    >
+      {/* Gradient overlay on hover */}
+      <div className="absolute inset-0 bg-gradient-to-br from-saffron-soft to-transparent to-violet-bg opacity-0 transition-opacity duration-300 hover:opacity-50" />
+      {/* Bottom accent line */}
+      <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-gradient-to-r from-saffron via-violet to-transparent scale-x-0 origin-left transition-transform duration-300 hover:scale-x-100" />
+
+      <div className="flex items-center justify-between relative z-10">
+        <span className={`w-12 h-12 rounded-[--radius-md] flex items-center justify-center transition-transform duration-200 hover:scale-110 hover:-rotate-3 ${tintClasses[tint]}`}>
           {icon}
         </span>
-        <span className="db-kpi-goto">
+        <span className="opacity-0 -translate-x-1 translate-y-1 transition-all duration-200 text-ivory-faint hover:text-saffron-bright">
           <IconArrow />
         </span>
       </div>
-      <div className="db-kpi-value">{animated.toLocaleString('en-IN')}</div>
-      <div className="db-kpi-label">{label}</div>
-      <div className="db-kpi-sub">
-        {subDot && <span className="db-dot" style={{ '--c': subDot } as CSSProperties} />}
+      <div className="font-display text-[36px] font-semibold mt-4 leading-none tracking-tight" style={{ letterSpacing: '-0.025em' }}>
+        {animated.toLocaleString('en-IN')}
+      </div>
+      <div className="text-[13.5px] text-ivory-dim mt-2 font-medium relative z-10">{label}</div>
+      <div className="flex items-center gap-2 text-[12.5px] text-ivory-faint mt-4 pt-3.5 border-t border-border-soft relative z-10">
+        {subDot && <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: subDot, boxShadow: `0 0 8px ${subDot}` }} />}
         {sub}
       </div>
     </Link>
+  )
+}
+
+/* ── Skeleton ────────────────────────────────────────────────────────── */
+function Skeleton({ className = '' }: { className?: string }) {
+  return (
+    <div className={`relative overflow-hidden bg-surface-1 border border-border-soft rounded-[--radius-xl] ${className}`}>
+      <div className="absolute inset-0 translate-x-[-100%] bg-gradient-to-r from-transparent via-surface-3 to-transparent animate-[shimmer_1.6s_infinite]" />
+    </div>
   )
 }
 
@@ -311,95 +336,113 @@ export default function DashboardPage() {
 
   if (!data && !error) {
     return (
-      <div className="db-wrap">
-        <div className="db-skel hero" />
-        <div className="db-kpis">
+      <div className="flex flex-col gap-6">
+        <Skeleton className="h-60 rounded-[--radius-2xl]" />
+        <div className="grid grid-cols-4 gap-4 max-xl:grid-cols-2 max-lg:grid-cols-1">
           {[0, 1, 2, 3].map((i) => (
-            <div className="db-skel kpi" key={i} />
+            <Skeleton key={i} className="h-[170px]" />
           ))}
         </div>
-        <div className="db-main">
-          <div className="db-skel block db-col-8" />
-          <div className="db-skel block db-col-4" />
+        <div className="grid grid-cols-2 gap-5 max-lg:grid-cols-1">
+          <Skeleton className="h-[300px]" />
+          <Skeleton className="h-[300px]" />
         </div>
       </div>
     )
   }
 
   return (
-    <div className="db-wrap">
-      {error && <div className="error-banner">{error}</div>}
+    <div className="flex flex-col gap-6">
+      {error && (
+        <div className="flex gap-3 p-4 rounded-[--radius-md] bg-danger-bg border border-danger/30 text-danger-text">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+          {error}
+        </div>
+      )}
 
       {/* ── Hero ─────────────────────────────────────────────────────── */}
       {data && (
-        <section className="db-hero db-rise" style={rise(0)}>
-          <span className="db-ring" aria-hidden />
-          <span className="db-ring r2" aria-hidden />
+        <section
+          className="relative overflow-hidden border border-border-soft rounded-[--radius-2xl] p-10 lg:p-11 bg-[radial-gradient(ellipse_700px_400px_at_2%_-30%,color-mix(in_srgb,var(--color-saffron)_30%,transparent),transparent_70%),radial-gradient(ellipse_700px_400px_at_100%_-20%,var(--color-bg-glow),transparent_70%),radial-gradient(ellipse_400px_300px_at_80%_120%,var(--color-bg-glow-3),transparent_60%),linear-gradient(145deg,var(--color-bg-2),var(--color-bg-1))] shadow-[--shadow-2] grid grid-cols-[1.6fr_1fr] gap-10 items-center max-lg:grid-cols-1 max-lg:gap-7"
+          style={rise(0)}
+        >
+          {/* Orbit rings */}
+          <span className="absolute right-[-140px] top-[-180px] w-[400px] h-[400px] rounded-full border border-dashed opacity-35 pointer-events-none animate-[spin_100s_linear_infinite]" style={{ borderColor: 'var(--color-saffron)' }} />
+          <span className="absolute right-[-60px] top-[-110px] w-[280px] h-[280px] rounded-full border border-solid opacity-20 pointer-events-none animate-[spin_70s_linear_infinite_reverse]" style={{ borderColor: 'var(--color-saffron)' }} />
+
+          {/* Stars */}
           {STARS.map((s, i) => (
             <span
               key={i}
-              className={`db-star${s.warm ? ' warm' : ''}${s.violet ? ' violet' : ''}`}
-              aria-hidden
-              style={
-                {
-                  left: `${s.l}%`,
-                  top: `${s.t}%`,
-                  width: s.s,
-                  height: s.s,
-                  '--d': `${s.d}s`,
-                } as CSSProperties
-              }
+              className={`absolute rounded-full pointer-events-none animate-[twinkle_3.5s_ease-in-out_infinite] ${s.warm ? 'bg-saffron-bright shadow-[0_0_12px_var(--color-saffron)]' : s.violet ? 'bg-violet shadow-[0_0_12px_var(--color-violet)]' : 'bg-ivory/70 shadow-[0_0_8px_currentColor]'}`}
+              style={{
+                left: `${s.l}%`,
+                top: `${s.t}%`,
+                width: s.s,
+                height: s.s,
+                animationDelay: `${s.d}s`,
+              }}
             />
           ))}
 
-          <div className="db-hero-main">
-            <span className="db-eyebrow">Mission control</span>
-            <h1 className="db-title">
-              {greeting()}
-              {name ? `, ${name}` : ''}
+          <div className="relative">
+            <div className="inline-flex items-center gap-2.5 font-mono text-[11.5px] tracking-widest uppercase font-semibold text-saffron-bright mb-3">
+              <span className="animate-[twinkle-icon_2s_ease-in-out_infinite]">✦</span>
+              Mission control
+            </div>
+            <h1 className="font-display text-[clamp(28px,3.8vw,40px)] font-semibold mb-3.5 leading-tight tracking-tight bg-gradient-to-r from-ivory to-saffron-bright bg-clip-text text-transparent">
+              {greeting()}{name ? `, ${name}` : ''}
             </h1>
-            <p className="db-sub muted">
-              {today} — here’s what’s happening across the platform today.
+            <p className="text-[15px] max-w-[50ch] leading-relaxed text-ivory-dim">
+              {today} — here's what's happening across the platform today.
             </p>
 
             {attention.length > 0 && (
-              <div className="db-attn">
-                <span className="db-attn-tag">
+              <div className="flex flex-wrap items-center gap-3 mt-7">
+                <span className="inline-flex items-center gap-2 text-[11.5px] font-bold uppercase tracking-widest text-gold px-3.5 py-1.5 bg-gold-bg rounded-full border border-gold/30">
                   <IconAlert /> Needs attention
                 </span>
                 {attention.map((a) => (
-                  <Link key={a.to} to={a.to} className="db-attn-item">
-                    <b>{a.n.toLocaleString('en-IN')}</b> {a.label} <IconArrow />
+                  <Link key={a.to} to={a.to} className="inline-flex items-center gap-2.5 py-2.5 px-4 rounded-full text-[13.5px] font-semibold text-ivory bg-gradient-to-r from-gold-bg to-transparent border border-gold/35 transition-all duration-200 hover:-translate-y-0.5 hover:border-gold/50 hover:shadow-[0_4px_20px_var(--color-gold-glow)] hover:no-underline">
+                    <b className="font-mono text-gold">{a.n.toLocaleString('en-IN')}</b>
+                    {a.label}
+                    <IconArrow />
                   </Link>
                 ))}
               </div>
             )}
           </div>
 
-          <div className="db-pulse">
-            <div className="db-pulse-head">
-              <span className="db-dot" /> Live pulse
+          {/* Live pulse */}
+          <div className="relative bg-gradient-to-br from-surface-1 to-surface-2 border border-border-soft rounded-[--radius-xl] p-5 backdrop-blur-[10px] shadow-[--shadow-1]">
+            <div className="flex items-center gap-2.5 font-mono text-[11px] tracking-widest uppercase font-semibold text-ivory-faint mb-4">
+              <span className="relative w-2.5 h-2.5 shrink-0 rounded-full bg-success shadow-[0_0_8px_var(--color-success)] after:absolute after:inset-[-5px] after:rounded-full after:border-2 after:border-success after:animate-[ping_2s_ease-out_infinite]" />
+              Live pulse
             </div>
-            <div className="db-pulse-grid">
-              <div className="db-pulse-item">
-                <span className="db-dot" />
+            <div className="grid grid-cols-1 gap-3.5 max-sm:grid-cols-1">
+              <div className="flex gap-3 items-start">
+                <span className="relative w-2.5 h-2.5 shrink-0 rounded-full bg-success shadow-[0_0_8px_var(--color-success)] mt-1" />
                 <div>
-                  <div className="db-pulse-val">{data.online_astrologers.toLocaleString('en-IN')}</div>
-                  <div className="db-pulse-label">astrologers online</div>
+                  <div className="font-display text-[26px] font-semibold leading-tight whitespace-nowrap" style={{ letterSpacing: '-0.02em' }}>{data.online_astrologers.toLocaleString('en-IN')}</div>
+                  <div className="text-[11.5px] text-ivory-faint mt-1 leading-relaxed">astrologers online</div>
                 </div>
               </div>
-              <div className="db-pulse-item">
-                <span className="db-dot" style={{ '--c': 'var(--saffron)' } as CSSProperties} />
+              <div className="flex gap-3 items-start">
+                <span className="relative w-2.5 h-2.5 shrink-0 rounded-full bg-saffron shadow-[0_0_8px_var(--color-saffron)] mt-1" />
                 <div>
-                  <div className="db-pulse-val">{data.active_sessions.toLocaleString('en-IN')}</div>
-                  <div className="db-pulse-label">sessions in progress</div>
+                  <div className="font-display text-[26px] font-semibold leading-tight whitespace-nowrap" style={{ letterSpacing: '-0.02em' }}>{data.active_sessions.toLocaleString('en-IN')}</div>
+                  <div className="text-[11.5px] text-ivory-faint mt-1 leading-relaxed">sessions in progress</div>
                 </div>
               </div>
-              <div className="db-pulse-item">
-                <span className="db-dot" style={{ '--c': 'var(--gold)' } as CSSProperties} />
+              <div className="flex gap-3 items-start">
+                <span className="relative w-2.5 h-2.5 shrink-0 rounded-full bg-gold shadow-[0_0_8px_var(--color-gold)] mt-1" />
                 <div>
-                  <div className="db-pulse-val">{todayVolume == null ? '—' : inr(todayVolume)}</div>
-                  <div className="db-pulse-label">wallet volume today</div>
+                  <div className="font-display text-[26px] font-semibold leading-tight whitespace-nowrap text-gold" style={{ letterSpacing: '-0.02em' }}>{todayVolume == null ? '—' : inr(todayVolume)}</div>
+                  <div className="text-[11.5px] text-ivory-faint mt-1 leading-relaxed">wallet volume today</div>
                 </div>
               </div>
             </div>
@@ -409,7 +452,7 @@ export default function DashboardPage() {
 
       {/* ── KPI grid ─────────────────────────────────────────────────── */}
       {data && (
-        <div className="db-kpis">
+        <div className="grid grid-cols-4 gap-4 max-xl:grid-cols-2 max-lg:gap-3.5 max-md:grid-cols-1">
           <KpiCard
             index={1}
             label="Customers"
@@ -462,23 +505,23 @@ export default function DashboardPage() {
       {/* ── Charts ───────────────────────────────────────────────────── */}
       {data && (
         <>
-          <div className="db-main">
-            <section className="db-card db-col-8 db-rise" style={rise(5)}>
-              <div className="db-card-head">
-                <h3>Wallet volume</h3>
-                <span className="db-chip">₹ / day · last 14 days</span>
+          <div className="grid grid-cols-12 gap-5 max-lg:grid-cols-1">
+            <section className="col-span-8 bg-surface-raised border border-border-soft rounded-[--radius-xl] p-6 min-w-0 shadow-[--shadow-1] transition-all duration-300 hover:border-border-mid hover:shadow-[--shadow-2] hover:-translate-y-0.5 max-lg:col-span-1 max-xl:col-span-12">
+              <div className="flex items-center justify-between gap-3 mb-5">
+                <h3 className="text-[16px] font-bold">Wallet volume</h3>
+                <span className="font-mono text-[11px] text-ivory-faint bg-surface-2 border border-border-soft px-3 py-1 rounded-full whitespace-nowrap">₹ / day · last 14 days</span>
               </div>
               {series ? (
                 <LineChart data={series.amount} formatValue={inr} />
               ) : (
-                <div className="empty">Loading…</div>
+                <div className="text-center py-12 text-ivory-faint text-[14px] bg-surface-1 rounded-[--radius-xl] border border-dashed border-border-soft p-8">Loading…</div>
               )}
             </section>
 
-            <section className="db-card db-col-4 db-rise" style={rise(6)}>
-              <div className="db-card-head">
-                <h3>Astrologer network</h3>
-                <span className="db-chip">{data.astrologers.toLocaleString('en-IN')} total</span>
+            <section className="col-span-4 bg-surface-raised border border-border-soft rounded-[--radius-xl] p-6 min-w-0 shadow-[--shadow-1] transition-all duration-300 hover:border-border-mid hover:shadow-[--shadow-2] hover:-translate-y-0.5 max-lg:col-span-1 max-xl:col-span-12">
+              <div className="flex items-center justify-between gap-3 mb-5">
+                <h3 className="text-[16px] font-bold">Astrologer network</h3>
+                <span className="font-mono text-[11px] text-ivory-faint bg-surface-2 border border-border-soft px-3 py-1 rounded-full whitespace-nowrap">{data.astrologers.toLocaleString('en-IN')} total</span>
               </div>
               <DonutChart
                 centerSub="astrologers"
@@ -495,44 +538,52 @@ export default function DashboardPage() {
             </section>
           </div>
 
-          <div className="db-main">
-            <section className="db-card db-col-7 db-rise" style={rise(7)}>
-              <div className="db-card-head">
-                <h3>Daily transactions</h3>
-                <span className="db-chip">count / day · 14 days</span>
+          <div className="grid grid-cols-12 gap-5 max-lg:grid-cols-1">
+            <section className="col-span-7 bg-surface-raised border border-border-soft rounded-[--radius-xl] p-6 min-w-0 shadow-[--shadow-1] transition-all duration-300 hover:border-border-mid hover:shadow-[--shadow-2] hover:-translate-y-0.5 max-lg:col-span-1 max-xl:col-span-12">
+              <div className="flex items-center justify-between gap-3 mb-5">
+                <h3 className="text-[16px] font-bold">Daily transactions</h3>
+                <span className="font-mono text-[11px] text-ivory-faint bg-surface-2 border border-border-soft px-3 py-1 rounded-full whitespace-nowrap">count / day · 14 days</span>
               </div>
               {series ? (
                 <BarChart data={series.count} formatValue={(v) => v.toLocaleString('en-IN')} />
               ) : (
-                <div className="empty">Loading…</div>
+                <div className="text-center py-12 text-ivory-faint text-[14px] bg-surface-1 rounded-[--radius-xl] border border-dashed border-border-soft p-8">Loading…</div>
               )}
             </section>
 
-            <section className="db-card db-col-5 db-rise" style={rise(8)}>
-              <div className="db-card-head">
-                <h3>Latest wallet activity</h3>
-                <span className="db-chip">transactions</span>
+            <section className="col-span-5 bg-surface-raised border border-border-soft rounded-[--radius-xl] p-6 min-w-0 shadow-[--shadow-1] transition-all duration-300 hover:border-border-mid hover:shadow-[--shadow-2] hover:-translate-y-0.5 max-lg:col-span-1 max-xl:col-span-12">
+              <div className="flex items-center justify-between gap-3 mb-5">
+                <h3 className="text-[16px] font-bold">Latest wallet activity</h3>
+                <span className="font-mono text-[11px] text-ivory-faint bg-surface-2 border border-border-soft px-3 py-1 rounded-full whitespace-nowrap">transactions</span>
               </div>
               {series == null ? (
-                <div className="empty">Loading…</div>
+                <div className="text-center py-12 text-ivory-faint text-[14px] bg-surface-1 rounded-[--radius-xl] border border-dashed border-border-soft p-8">Loading…</div>
               ) : txns.length === 0 ? (
-                <div className="db-feed-empty">No recent transactions.</div>
+                <div className="text-center py-12 text-ivory-faint text-[14px]">No recent transactions.</div>
               ) : (
                 <>
-                  <div className="db-feed">
+                  <div className="flex flex-col -mx-2 -my-1">
                     {txns.map((t, i) => {
                       const dir = txnDir(t.type)
                       const amt = Math.abs(Number(t.amount) || 0)
                       return (
-                        <div className="db-feed-row" key={i}>
-                          <span className="db-feed-ico" data-dir={dir}>
+                        <div key={i} className="flex items-center gap-3.5 py-3.5 px-2 border-b border-border-soft last:border-b-0 transition-all duration-150 hover:bg-surface-1 rounded-[--radius-sm]">
+                          <span
+                            className={`w-9 h-9 rounded-[--radius-md] flex items-center justify-center font-bold font-mono text-[16px] transition-transform duration-200 ${
+                              dir === 'cr' ? 'bg-success-bg text-success shadow-[0_0_15px_var(--color-success-glow)]' :
+                              dir === 'dr' ? 'bg-danger-bg text-danger shadow-[0_0_15px_var(--color-danger-glow)]' :
+                              'bg-gold-bg text-gold shadow-[0_0_15px_var(--color-gold-glow)]'
+                            }`}
+                          >
                             {dir === 'cr' ? '+' : dir === 'dr' ? '−' : '•'}
                           </span>
-                          <div className="db-feed-body">
-                            <div className="db-feed-title">{(t.type ?? 'transaction').replace(/_/g, ' ')}</div>
-                            <div className="db-feed-sub">{relTime(t.created_at)}</div>
+                          <div className="min-w-0 flex-1">
+                            <div className="text-[14px] font-semibold capitalize truncate">{(t.type ?? 'transaction').replace(/_/g, ' ')}</div>
+                            <div className="text-[12px] text-ivory-faint mt-0.5">{relTime(t.created_at)}</div>
                           </div>
-                          <span className="db-feed-amt" data-dir={dir}>
+                          <span className={`font-mono text-[14px] whitespace-nowrap font-bold ${
+                            dir === 'cr' ? 'text-success' : dir === 'dr' ? 'text-danger' : 'text-ivory'
+                          }`}>
                             {dir === 'cr' ? '+' : dir === 'dr' ? '−' : ''}
                             {inrCompact(amt)}
                           </span>
@@ -540,7 +591,7 @@ export default function DashboardPage() {
                       )
                     })}
                   </div>
-                  <Link to="/wallet-transactions" className="db-feed-more">
+                  <Link to="/wallet-transactions" className="inline-flex items-center gap-2 mt-4 py-2.5 px-4 text-[13.5px] font-semibold text-saffron-bright bg-saffron-soft rounded-full transition-all duration-200 hover:bg-saffron hover:text-on-accent hover:-translate-x-1 hover:no-underline">
                     View all transactions <IconArrow />
                   </Link>
                 </>
