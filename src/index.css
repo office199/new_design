@@ -267,7 +267,7 @@ img { max-width: 100%; display: block; }
 }
 
 /* Inputs base – keep compatible with old pages that use bare <input> */
-input, select, textarea {
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]):not([type="submit"]):not([type="reset"]):not([type="button"]):not([type="image"]), select, textarea {
   font-family: var(--font-body);
   background: var(--color-surface-1);
   border: 1px solid var(--color-border-soft);
@@ -278,8 +278,18 @@ input, select, textarea {
   transition: all .18s ease;
   width: 100%;
 }
-input:hover, select:hover, textarea:hover { border-color: var(--color-border-mid); background: var(--color-surface-2); }
-input:focus, select:focus, textarea:focus { outline: none; border-color: var(--color-saffron); background: var(--color-surface-2); box-shadow: 0 0 0 4px var(--color-saffron-soft); }
+input:not([type="checkbox"]):not([type="radio"]):hover, select:hover, textarea:hover { border-color: var(--color-border-mid); background: var(--color-surface-2); }
+input:not([type="checkbox"]):not([type="radio"]):focus, select:focus, textarea:focus { outline: none; border-color: var(--color-saffron); background: var(--color-surface-2); box-shadow: 0 0 0 4px var(--color-saffron-soft); }
+
+/* Checkbox & radio – keep natural size, don't stretch to 100% */
+@layer utilities {
+  input[type="checkbox"], input[type="radio"] {
+    padding: 0;
+    cursor: pointer;
+    accent-color: var(--color-saffron);
+    flex-shrink: 0;
+  }
+}
 .field { margin-top: 14px; }
 .field label { display: block; font-size: 12px; font-weight: 650; color: var(--color-ivory-dim); margin-bottom: 6px; }
 .card-head { font-size: 14px; font-weight: 750; letter-spacing: -.01em; }
