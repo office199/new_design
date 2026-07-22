@@ -37,7 +37,7 @@ export default function LoginPage() {
             <div className="grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-amber-300 to-orange-500 border border-amber-500/20 text-[22px] shadow-[0_6px_18px_rgba(244,129,31,0.35)]">🪔</div>
             <div>
               <div className="font-display text-[16px] font-bold tracking-tight">Hindustani Jyotish</div>
-              <div className="text-[10px] font-bold uppercase tracking-wide text-saffron">Admin Console · Pro</div>
+              <div className="text-[10px] font-bold uppercase tracking-wide text-saffron">Admin Console</div>
             </div>
           </div>
           <span className="rounded-full bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 text-[10px] font-bold uppercase text-emerald-400">Live</span>
@@ -64,9 +64,7 @@ export default function LoginPage() {
             <div>
               <label className="mb-2 block text-[11px] font-bold uppercase tracking-wide text-ivory-faint">Email address</label>
               <div className="relative group">
-                <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-ivory-faint group-focus-within:text-saffron transition-colors">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                </span>
+
                 <input type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="admin@hindustanijyotish.in" autoComplete="username" required
                   className="h-[48px] w-full rounded-xl border border-border-soft bg-surface-1 pl-11 pr-4 text-[14px] font-medium outline-none transition-all placeholder:text-ivory-faint focus:border-saffron focus:bg-surface-2 focus:shadow-[0_0_0_4px_var(--color-saffron-soft)]"
                 />
@@ -76,9 +74,7 @@ export default function LoginPage() {
             <div>
               <label className="mb-2 block text-[11px] font-bold uppercase tracking-wide text-ivory-faint">Password</label>
               <div className="relative group">
-                <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-ivory-faint group-focus-within:text-saffron transition-colors">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                </span>
+
                 <input type={showPw?'text':'password'} value={password} onChange={e=>setPassword(e.target.value)} placeholder="Enter your password" autoComplete="current-password" required
                   className="h-[48px] w-full rounded-xl border border-border-soft bg-surface-1 pl-11 pr-12 text-[14px] font-medium outline-none transition-all placeholder:text-ivory-faint focus:border-saffron focus:bg-surface-2 focus:shadow-[0_0_0_4px_var(--color-saffron-soft)]"
                 />

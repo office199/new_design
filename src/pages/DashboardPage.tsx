@@ -161,18 +161,7 @@ export default function DashboardPage(){
                   </div>
                 )}
 
-                <div className="mt-8 grid grid-cols-3 gap-3 max-w-[420px]">
-                  {[
-                    { k:'Uptime', v:'99.9%', icon:'⚡' },
-                    { k:'Avg response', v:'42ms', icon:'🚀' },
-                    { k:'Region', v:'AP-South', icon:'🌏' },
-                  ].map(i=>(
-                    <div key={i.k} className="rounded-2xl border border-border-soft bg-surface-1/60 backdrop-blur px-3 py-2.5">
-                      <div className="flex items-center gap-1 text-[11px] font-bold uppercase tracking-wide text-ivory-faint"><span>{i.icon}</span>{i.k}</div>
-                      <div className="mt-1 text-[13px] font-bold">{i.v}</div>
-                    </div>
-                  ))}
-                </div>
+
               </div>
 
               <div className="relative">
@@ -208,13 +197,7 @@ export default function DashboardPage(){
                   </div>
                 </div>
 
-                {/* Floating accent card */}
-                <div className="absolute -right-3 -bottom-6 hidden xl:flex items-center gap-2.5 rounded-full border border-amber-500/20 bg-amber-500/10 backdrop-blur px-3 py-2 shadow-[0_8px_24px_rgba(245,158,11,0.18)]">
-                  <span className="grid h-7 w-7 place-items-center rounded-full bg-amber-500 text-black font-bold text-[12px]">₹</span>
-                  <span className="text-[11px] font-bold">Revenue up 12% this week</span>
-                  <span className="h-1 w-1 rounded-full bg-amber-500/50" />
-                  <span className="text-[11px] text-amber-300 font-mono">+₹2.4L</span>
-                </div>
+
               </div>
             </div>
           </section>

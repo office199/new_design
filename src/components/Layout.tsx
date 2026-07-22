@@ -175,33 +175,10 @@ export default function Layout() {
               <div className="min-w-0">
                 <div className="flex items-center gap-1.5">
                   <span className="font-display text-[15.5px] font-bold tracking-tight leading-none">Hindustani</span>
-                  <span className="rounded-full bg-saffron/15 border border-saffron/20 px-1.5 py-0.5 text-[8px] font-extrabold uppercase tracking-widest text-saffron">Pro</span>
+                  <div className="font-display text-[15.5px] font-bold tracking-tight leading-none">Jyotish</div>
                 </div>
-                <div className="font-display text-[15.5px] font-bold tracking-tight leading-none">Jyotish</div>
               </div>
             )}
-          </div>
-
-          <div className="flex items-center gap-1">
-            {!collapsed && (
-              <button
-                onClick={()=>setCollapsed(true)}
-                className="hidden lg:grid h-8 w-8 place-items-center rounded-full bg-surface-1 border border-border-soft text-ivory-faint hover:text-ivory hover:border-border-mid transition-colors"
-                title="Collapse sidebar ( [ )"
-              >
-                {ICON.collapse}
-              </button>
-            )}
-            {collapsed && (
-              <button
-                onClick={()=>setCollapsed(false)}
-                className="hidden lg:grid h-8 w-8 place-items-center rounded-full bg-surface-1 border border-border-soft text-ivory-faint hover:text-ivory hover:border-border-mid transition-colors"
-                title="Expand sidebar"
-              >
-                <span className="rotate-180">{ICON.chevron}</span>
-              </button>
-            )}
-            <button onClick={()=>setDrawerOpen(false)} className="grid h-8 w-8 place-items-center rounded-full bg-surface-1 border border-border-soft lg:hidden">{ICON.close}</button>
           </div>
         </div>
 
@@ -209,7 +186,6 @@ export default function Layout() {
         {!collapsed && (
           <div className="relative z-10 px-3 py-3">
             <div className="relative group">
-              <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-ivory-faint group-focus-within:text-saffron transition-colors">{ICON.search}</span>
               <input
                 ref={searchRef}
                 value={query}
@@ -327,16 +303,7 @@ export default function Layout() {
 
           <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
             {/* Global search - desktop */}
-            <div className="relative hidden md:block">
-              <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-ivory-faint">{ICON.search}</span>
-              <input
-                ref={topSearchRef}
-                value={query}
-                onChange={e=>setQuery(e.target.value)}
-                placeholder="Search… ( / )"
-                className="h-[38px] w-[180px] xl:w-[260px] rounded-full border border-border-soft bg-surface-1 pl-11 pr-3 text-[13px] placeholder:text-ivory-faint focus:w-[320px] focus:border-saffron/40 focus:bg-surface-2 focus:shadow-[0_0_0_4px_var(--color-saffron-soft)] outline-none transition-all"
-              />
-            </div>
+
 
             <div className="hidden sm:flex items-center gap-1 rounded-full border border-border-soft bg-surface-1 p-1">
               <ThemeSwitcher />
@@ -399,7 +366,7 @@ export default function Layout() {
         <footer className="mx-auto max-w-[1500px] px-4 sm:px-6 lg:px-8 pb-8 pt-2">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-2 rounded-2xl border border-border-soft/60 bg-surface-1/40 px-4 py-3 text-[11px] text-ivory-faint">
             <span className="flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" /> System operational · All services running</span>
-            <span>© {new Date().getFullYear()} Hindustani Jyotish · v2.0 Admin Pro</span>
+            <span>© {new Date().getFullYear()} Hindustani Jyotish</span>
           </div>
         </footer>
       </div>
