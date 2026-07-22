@@ -215,7 +215,7 @@ export default function Layout() {
                 value={query}
                 onChange={e=>setQuery(e.target.value)}
                 placeholder="Search pages… ⌘K"
-                className="h-[40px] w-full rounded-full border border-border-soft bg-surface-1 pl-10 pr-8 text-[13px] placeholder:text-ivory-faint focus:border-saffron/40 focus:bg-surface-2 focus:shadow-[0_0_0_4px_var(--color-saffron-soft)] outline-none transition-all"
+                className="h-[40px] w-full rounded-full border border-border-soft bg-surface-1 pl-11 pr-10 text-[13px] placeholder:text-ivory-faint focus:border-saffron/40 focus:bg-surface-2 focus:shadow-[0_0_0_4px_var(--color-saffron-soft)] outline-none transition-all"
               />
               {query && <button onClick={()=>setQuery('')} className="absolute right-2 top-1/2 -translate-y-1/2 grid h-6 w-6 place-items-center rounded-full bg-surface-2 text-ivory-faint hover:text-ivory">{ICON.close}</button>}
             </div>
@@ -334,7 +334,7 @@ export default function Layout() {
                 value={query}
                 onChange={e=>setQuery(e.target.value)}
                 placeholder="Search… ( / )"
-                className="h-[38px] w-[180px] xl:w-[260px] rounded-full border border-border-soft bg-surface-1 pl-10 pr-3 text-[13px] placeholder:text-ivory-faint focus:w-[320px] focus:border-saffron/40 focus:bg-surface-2 focus:shadow-[0_0_0_4px_var(--color-saffron-soft)] outline-none transition-all"
+                className="h-[38px] w-[180px] xl:w-[260px] rounded-full border border-border-soft bg-surface-1 pl-11 pr-3 text-[13px] placeholder:text-ivory-faint focus:w-[320px] focus:border-saffron/40 focus:bg-surface-2 focus:shadow-[0_0_0_4px_var(--color-saffron-soft)] outline-none transition-all"
               />
             </div>
 
