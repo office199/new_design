@@ -10,7 +10,7 @@ export function SearchBox({ value, onChange, placeholder, className='' }: Search
         value={value}
         onChange={e=>onChange(e.target.value)}
         placeholder={placeholder ?? 'Search…'}
-        className="h-[42px] w-full rounded-full border border-border-soft bg-surface-raised pl-11 pr-10 text-[13.5px] font-[450] placeholder:text-ivory-faint shadow-[0_1px_2px_rgba(0,0,0,0.06)] focus:border-saffron/40 focus:bg-surface-2 focus:shadow-[0_0_0_4px_var(--color-saffron-soft),0_4px_18px_rgba(0,0,0,0.08)] outline-none transition-all md:w-[280px]"
+        className="h-[42px] w-full rounded-full border border-border-soft bg-surface-raised pl-11 pr-11 text-[13.5px] font-[450] placeholder:text-ivory-faint shadow-[0_1px_2px_rgba(0,0,0,0.06)] focus:border-saffron/40 focus:bg-surface-2 focus:shadow-[0_0_0_4px_var(--color-saffron-soft),0_4px_18px_rgba(0,0,0,0.08)] outline-none transition-all md:w-[280px]"
       />
       {value ? (
         <button onClick={()=>onChange('')} className="absolute right-1.5 top-1/2 grid h-7 w-7 -translate-y-1/2 place-items-center rounded-full bg-surface-2 border border-border-soft text-ivory-faint hover:text-ivory hover:border-border-mid transition-colors">
