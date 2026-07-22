@@ -215,7 +215,7 @@ export default function Layout() {
                 value={query}
                 onChange={e=>setQuery(e.target.value)}
                 placeholder="Search pages… ⌘K"
-                className="h-[40px] w-full rounded-full border border-border-soft bg-[rgba(255,255,255,0.04)] pl-10 pr-8 text-[13px] placeholder:text-ivory-faint focus:border-saffron/40 focus:bg-[rgba(255,255,255,0.06)] focus:shadow-[0_0_0_4px_var(--color-saffron-soft)] outline-none transition-all"
+                className="h-[40px] w-full rounded-full border border-border-soft bg-surface-1 pl-10 pr-8 text-[13px] placeholder:text-ivory-faint focus:border-saffron/40 focus:bg-surface-2 focus:shadow-[0_0_0_4px_var(--color-saffron-soft)] outline-none transition-all"
               />
               {query && <button onClick={()=>setQuery('')} className="absolute right-2 top-1/2 -translate-y-1/2 grid h-6 w-6 place-items-center rounded-full bg-surface-2 text-ivory-faint hover:text-ivory">{ICON.close}</button>}
             </div>
@@ -298,7 +298,7 @@ export default function Layout() {
       {/* Main */}
       <div className={`transition-all duration-300 ${mainPadding}`}>
         {/* Topbar */}
-        <header className="sticky top-0 z-30 flex h-[64px] items-center gap-3 border-b border-border-soft bg-[rgba(13,16,32,0.72)] backdrop-blur-2xl backdrop-saturate-[180%] px-4 lg:px-6 supports-[backdrop-filter]:bg-[rgba(13,16,32,0.55)]">
+        <header className="sticky top-0 z-30 flex h-[64px] items-center gap-3 border-b border-border-soft bg-bg-1/72 backdrop-blur-2xl backdrop-saturate-[180%] px-4 lg:px-6 supports-[backdrop-filter]:bg-bg-1/55">
           <button onClick={()=>setDrawerOpen(true)} className="grid h-10 w-10 place-items-center rounded-full bg-surface-1 border border-border-soft text-ivory-dim hover:text-ivory lg:hidden">{ICON.menu}</button>
 
           <div className="hidden lg:flex items-center gap-3 min-w-0 flex-1">
@@ -334,7 +334,7 @@ export default function Layout() {
                 value={query}
                 onChange={e=>setQuery(e.target.value)}
                 placeholder="Search… ( / )"
-                className="h-[38px] w-[180px] xl:w-[260px] rounded-full border border-border-soft bg-[rgba(255,255,255,0.05)] pl-10 pr-3 text-[13px] placeholder:text-ivory-faint focus:w-[320px] focus:border-saffron/40 focus:bg-[rgba(255,255,255,0.07)] focus:shadow-[0_0_0_4px_var(--color-saffron-soft)] outline-none transition-all"
+                className="h-[38px] w-[180px] xl:w-[260px] rounded-full border border-border-soft bg-surface-1 pl-10 pr-3 text-[13px] placeholder:text-ivory-faint focus:w-[320px] focus:border-saffron/40 focus:bg-surface-2 focus:shadow-[0_0_0_4px_var(--color-saffron-soft)] outline-none transition-all"
               />
             </div>
 
