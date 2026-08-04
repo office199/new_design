@@ -25,7 +25,7 @@ export default function SettingsPage({ title, subtitle, endpoint, fields }: Prop
   }
 
   return (
-    <div className="max-w-[640px] space-y-6">
+    <div className="page-shell max-w-[640px] space-y-6">
       <PageHeader title={title} subtitle={subtitle ?? `Configure ${title.toLowerCase()} for your platform.`} icon={<span className="text-[18px]">⚙️</span>} />
 
       {error && <div className="rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-[13px] text-red-300">{error}</div>}

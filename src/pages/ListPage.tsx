@@ -35,7 +35,7 @@ export default function ListPage({ title, subtitle, endpoint, columns, actions, 
   const visible = useMemo(()=> search.trim() ? paged.rows.filter(r=>rowMatches(r,search.trim())) : paged.rows, [paged.rows,search])
 
   return (
-    <div className="space-y-5">
+    <div className="page-shell space-y-5">
       <PageHeader
         title={title}
         subtitle={subtitle}

@@ -26,7 +26,7 @@ export default function CouponsPage(){
   async function remove(c:Coupon){ await api(`/admin/coupons/${c.id}`,{method:'DELETE'}); await load() }
 
   return (
-    <div className="space-y-6">
+    <div className="page-shell space-y-6">
       <PageHeader title="Coupons" subtitle="Discount codes for wallet recharges and consultations. Create, manage expiry and usage limits." icon={<span className="text-[18px]">🎟️</span>} />
 
       {error && <div className="rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-[13px] text-red-300">{error}</div>}

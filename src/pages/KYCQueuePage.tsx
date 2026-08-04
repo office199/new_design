@@ -22,7 +22,7 @@ export default function KYCQueuePage(){
   }
 
   return (
-    <div className="space-y-6">
+    <div className="page-shell space-y-6">
       <PageHeader
         title="KYC Review"
         subtitle="Verify astrologer applications — check PAN, Aadhaar, bank proofs and approve or reject with audit notes."

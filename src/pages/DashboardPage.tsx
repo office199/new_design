@@ -125,7 +125,8 @@ export default function DashboardPage(){
   }
 
   return (
-    <div className="space-y-6">
+    <div className="dashboard-command-center relative space-y-6">
+      <div className="pointer-events-none absolute -inset-x-10 -top-10 -z-10 h-[520px] bg-[radial-gradient(ellipse_at_20%_0%,rgba(244,129,31,.08),transparent_52%),radial-gradient(ellipse_at_80%_10%,rgba(124,58,237,.08),transparent_48%)]" />
       {error && <div className="flex gap-3 rounded-[16px] border border-red-500/20 bg-red-500/10 px-4 py-3.5 text-[13px] text-red-300 backdrop-blur"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="mt-0.5 shrink-0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>{error}</div>}
 
       {data && (
@@ -164,8 +165,12 @@ export default function DashboardPage(){
 
               </div>
 
-              <div className="relative">
-                <div className="rounded-[22px] border border-border-soft bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.03))] p-5 backdrop-blur-xl shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_12px_32px_rgba(0,0,0,0.16)]">
+              <div className="relative flex items-center justify-center lg:min-h-[300px]">
+                <div className="pointer-events-none absolute h-[270px] w-[270px] rounded-full border border-amber-400/20 [transform:rotate(-22deg)] before:absolute before:inset-[-18px] before:rounded-full before:border before:border-violet-400/15 before:[transform:rotate(52deg)] after:absolute after:inset-[24px] after:rounded-full after:border after:border-emerald-400/10 after:[transform:rotate(78deg)]">
+                  <span className="absolute -right-1 top-1/2 h-2.5 w-2.5 rounded-full bg-amber-300 shadow-[0_0_18px_6px_rgba(251,191,36,.55)]" />
+                  <span className="absolute bottom-7 left-8 h-2 w-2 rounded-full bg-violet-300 shadow-[0_0_16px_5px_rgba(167,139,250,.45)]" />
+                </div>
+                <div className="relative w-full rounded-[22px] border border-border-soft bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.035))] p-5 backdrop-blur-xl shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_12px_32px_rgba(0,0,0,0.16)]">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-wide text-ivory-faint"><span className="relative grid h-2.5 w-2.5 place-items-center"><span className="absolute h-2.5 w-2.5 animate-ping rounded-full bg-emerald-500/60"/><span className="relative h-2.5 w-2.5 rounded-full bg-emerald-500 shadow-[0_0_10px_theme(colors.emerald.500)]"/></span> Live pulse</div>
                     <span className="rounded-full bg-surface-1 border border-border-soft px-2.5 py-1 text-[10px] font-mono font-bold">LIVE</span>

@@ -37,7 +37,7 @@ export default function AstrologerChargesPage(){
   }
 
   return (
-    <div className="space-y-6">
+    <div className="page-shell space-y-6">
       <PageHeader
         title="Astrologer Pricing"
         subtitle="Edit per-astrologer chat, call and video rates. Changes apply instantly to new consultations."

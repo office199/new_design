@@ -38,7 +38,7 @@ export default function RazorpaySettingsPage(){
   const diagnoseOk=diagnose?.credentials_configured && diagnose.test_order_ok
 
   return (
-    <div className="max-w-[640px] space-y-6">
+    <div className="page-shell max-w-[640px] space-y-6">
       <PageHeader
         title="Razorpay"
         subtitle="Payment gateway credentials for wallet recharges, order creation and webhook verification."

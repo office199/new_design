@@ -11,7 +11,7 @@ const CLIENT_APPS: { app:MaintenanceApp; label:string; desc:string }[]=[
 
 export default function FirebaseConfigPage(){
   return (
-    <div className="space-y-6">
+    <div className="page-shell space-y-6">
       <PageHeader title="Firebase Config" subtitle="Manage push notification service account and per-app client configs. Service account enables server push, client configs bake into mobile builds." icon={<span className="text-[18px]">🔥</span>} />
 
       <ServiceAccountSection />

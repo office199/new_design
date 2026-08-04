@@ -11,7 +11,7 @@ const EMPTY: MaintenanceSetting={ enabled:false, message:'' }
 
 export default function MaintenancePage(){
   return (
-    <div className="space-y-6">
+    <div className="page-shell space-y-6">
       <PageHeader title="Maintenance" subtitle="Independently put user and astrologer apps into maintenance mode with custom messages. Changes propagate instantly via remote config." icon={<span className="text-[18px]">🛠️</span>} />
       <div className="grid gap-5 md:grid-cols-2">
         {APPS.map(a=><AppCard key={a.app} app={a.app} label={a.label} hint={a.hint} icon={a.icon} />)}
