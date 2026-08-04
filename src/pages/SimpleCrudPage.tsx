@@ -33,8 +33,8 @@ export default function SimpleCrudPage({ title, subtitle, endpoint, fields, disp
 
   return (
     <div className="page-shell space-y-6">
-      <PageHeader title={title} subtitle={subtitle ?? `Manage ${title.toLowerCase()} — add, edit, delete and upload media.`} icon={<span className="text-[18px]">🗂️</span>} actions={<span className="rounded-full bg-surface-1 border border-border-soft px-3 py-1 text-[11px] font-bold">{rows.length} total</span>} />
-      {error && <div className="rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-[13px] text-red-300">{error}</div>}
+      <PageHeader title={title} subtitle={subtitle ?? `Manage ${title.toLowerCase()} — add, edit, delete and upload media.`} icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-violet-400"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>} actions={<span className="rounded-full bg-surface-1 border border-border-soft px-3 py-1 text-[11px] font-bold">{rows.length} total</span>} />
+      {error && <div className="rounded-2xl border border-red-500/20 bg-red-500/10 backdrop-blur-xl px-4 py-3 text-[13px] text-red-300">{error}</div>}
 
       <Card className="p-5 sm:p-6">
         <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-ivory-faint"><span className="grid h-6 w-6 place-items-center rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">+</span> Add new {title.toLowerCase()}</div>
@@ -45,12 +45,12 @@ export default function SimpleCrudPage({ title, subtitle, endpoint, fields, disp
             </label>
           ))}
           <div className="sm:col-span-2 lg:col-span-3 xl:col-span-4 flex">
-            <button type="submit" className="h-11 rounded-xl bg-ivory text-bg-0 px-6 text-[13px] font-bold hover:bg-white">Add {title.slice(0, -1) || 'item'}</button>
+            <button type="submit" className="h-11 rounded-xl bg-gradient-to-r from-violet-500 to-pink-500 text-white px-6 text-[13px] font-bold hover:bg-white">Add {title.slice(0, -1) || 'item'}</button>
           </div>
         </form>
       </Card>
 
-      <div className="overflow-hidden rounded-[20px] border border-border-soft bg-surface-raised shadow-sm">
+      <div className="overflow-hidden rounded-[24px] border border-white/10 bg-white/4 backdrop-blur-2xl shadow-sm">
         <div className="hidden md:block overflow-x-auto">
           <table className="w-full border-collapse">
             <thead><tr className="border-b border-border-soft bg-surface-1/60 text-left text-[11px] font-bold uppercase tracking-wider text-ivory-faint">{display.map(d=><th key={d.key} className="px-5 py-3.5">{d.label}</th>)}<th className="px-5 py-3.5 text-right">Actions</th></tr></thead>
@@ -73,7 +73,7 @@ export default function SimpleCrudPage({ title, subtitle, endpoint, fields, disp
 
         <div className="grid gap-3 p-3 md:hidden">
           {rows.map(r=>(
-            <div key={r.id as string} className="rounded-[16px] border border-border-soft bg-surface-1 p-4">
+            <div key={r.id as string} className="rounded-[20px] border border-white/10 bg-white/5 backdrop-blur-xl p-4">
               <div className="grid gap-2">
                 {display.slice(0,3).map(d=>{
                   const field=fields.find(f=>f.key===d.key)
@@ -106,7 +106,7 @@ function FieldControl({field,value,onChange,options}:{field:CrudField; value:str
   const [uploadError,setUploadError]=useState<string|null>(null)
 
   if(field.kind==='select'){
-    return <select value={value} required={field.required} onChange={e=>onChange(e.target.value)} className="h-11 w-full rounded-xl border border-border-soft bg-surface-1 px-3.5 text-[13px] outline-none focus:border-saffron"><option value="">{field.placeholder ?? '— none —'}</option>{(options??[]).map(o=><option key={o.value} value={o.value}>{o.label}</option>)}</select>
+    return <select value={value} required={field.required} onChange={e=>onChange(e.target.value)} className="h-11 w-full rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl px-3.5 text-[13px] outline-none focus:border-saffron"><option value="">{field.placeholder ?? '— none —'}</option>{(options??[]).map(o=><option key={o.value} value={o.value}>{o.label}</option>)}</select>
   }
 
   async function handleFile(e:ChangeEvent<HTMLInputElement>){
@@ -118,7 +118,7 @@ function FieldControl({field,value,onChange,options}:{field:CrudField; value:str
 
   return (
     <div>
-      <input value={value} placeholder={field.placeholder} required={field.required} onChange={e=>onChange(e.target.value)} className="h-11 w-full rounded-xl border border-border-soft bg-surface-1 px-3.5 text-[13px] outline-none focus:border-saffron focus:bg-surface-2" />
+      <input value={value} placeholder={field.placeholder} required={field.required} onChange={e=>onChange(e.target.value)} className="h-11 w-full rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl px-3.5 text-[13px] outline-none focus:border-saffron focus:bg-surface-2" />
       {(field.kind==='image'||field.kind==='video') && (
         <div className="mt-2 flex items-center gap-2">
           <label className="inline-flex h-8 cursor-pointer items-center gap-1.5 rounded-full border border-border-soft bg-surface-1 px-3 text-[11px] font-bold hover:bg-surface-2"><input type="file" accept={field.kind==='image'?'image/*':'video/*'} onChange={handleFile} disabled={uploading} className="hidden" />📎 Upload {field.kind}</label>
@@ -144,13 +144,13 @@ function EditModal({endpoint,fields,row,optionsMap,onClose,onDone}:{endpoint:str
 
   return (
     <div className="fixed inset-0 z-[60] grid place-items-center bg-black/60 backdrop-blur-xl p-4" onClick={onClose}>
-      <div className="w-full max-w-[520px] rounded-[22px] border border-border-mid bg-surface-raised p-6 shadow-2xl animate-pop-in" onClick={e=>e.stopPropagation()}>
+      <div className="w-full max-w-[520px] rounded-[26px] border border-white/12 bg-white/6 backdrop-blur-2xl p-6 shadow-2xl animate-pop-in" onClick={e=>e.stopPropagation()}>
         <div className="flex items-center justify-between"><h3 className="text-[16px] font-bold">Edit item</h3><button onClick={onClose} className="grid h-8 w-8 place-items-center rounded-full bg-surface-1 border border-border-soft">✕</button></div>
-        {error && <div className="mt-4 rounded-xl border border-red-500/20 bg-red-500/10 px-3 py-2 text-[13px] text-red-400">{error}</div>}
+        {error && <div className="mt-4 rounded-2xl border border-red-500/20 bg-red-500/10 backdrop-blur-xl px-3 py-2 text-[13px] text-red-400">{error}</div>}
         <div className="mt-5 grid gap-4">
           {fields.map(f=><label key={f.key} className="text-[11px] font-semibold text-ivory-dim">{f.label}<div className="mt-1.5"><FieldControl field={f} value={form[f.key]??''} options={optionsMap[f.key]} onChange={v=>setForm(prev=>({...prev,[f.key]:v}))} /></div></label>)}
         </div>
-        <div className="mt-6 flex justify-end gap-2.5"><button onClick={onClose} className="h-10 rounded-full border border-border-soft bg-surface-1 px-5 text-[13px]">Cancel</button><button disabled={saving} onClick={submit} className="h-10 rounded-full bg-ivory text-bg-0 px-6 text-[13px] font-bold disabled:opacity-50">{saving?'Saving…':'Save changes'}</button></div>
+        <div className="mt-6 flex justify-end gap-2.5"><button onClick={onClose} className="h-10 rounded-full border border-border-soft bg-surface-1 px-5 text-[13px]">Cancel</button><button disabled={saving} onClick={submit} className="h-10 rounded-full bg-gradient-to-r from-violet-500 to-pink-500 text-white px-6 text-[13px] font-bold disabled:opacity-50">{saving?'Saving…':'Save changes'}</button></div>
       </div>
     </div>
   )
