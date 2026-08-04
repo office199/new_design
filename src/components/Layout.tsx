@@ -155,27 +155,22 @@ export default function Layout() {
   const mainPadding = collapsed ? 'lg:pl-[78px]' : 'lg:pl-[294px]'
 
   return (
-    <div className="min-h-screen bg-bg-0 text-ivory selection:bg-saffron-soft selection:text-saffron-bright antialiased">
+    <div className="app-frame min-h-screen bg-bg-0 text-ivory selection:bg-saffron-soft selection:text-saffron-bright antialiased">
       {/* Mobile scrim */}
       {drawerOpen && <div className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden animate-fade-in" onClick={()=>setDrawerOpen(false)} />}
 
       {/* Sidebar - desktop & mobile */}
-      <aside className={`fixed inset-y-0 left-0 z-50 flex w-[300px] flex-col border-r border-border-soft bg-[radial-gradient(120%_120%_at_0%_0%,rgba(244,129,31,0.10),transparent_40%),radial-gradient(120%_120%_at_100%_100%,rgba(124,58,237,0.10),transparent_40%),linear-gradient(180deg,var(--color-bg-2),var(--color-bg-1))] backdrop-blur-2xl ${sidebarWidth} transition-all duration-300 ease-[cubic-bezier(.32,.72,0,1)] ${drawerOpen ? 'translate-x-0 shadow-[20px_0_80px_rgba(0,0,0,0.45)]' : '-translate-x-full lg:translate-x-0'} `}>
-        {/* Top glow */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-[240px] bg-[radial-gradient(ellipse_at_50%_0%,rgba(244,129,31,0.16),transparent_68%)]" />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[260px] bg-[radial-gradient(ellipse_at_80%_100%,rgba(99,102,241,0.10),transparent_65%)]" />
-
+      <aside className={`app-sidebar fixed inset-y-0 left-0 z-50 flex w-[300px] flex-col border-r border-border-soft bg-bg-1 ${sidebarWidth} transition-all duration-300 ease-[cubic-bezier(.32,.72,0,1)] ${drawerOpen ? 'translate-x-0 shadow-[20px_0_80px_rgba(0,0,0,0.45)]' : '-translate-x-full lg:translate-x-0'} `}>
         {/* Brand */}
         <div className="relative z-10 flex h-[68px] items-center gap-3 border-b border-border-soft/60 px-4 shrink-0">
           <div className="flex items-center gap-3 min-w-0 flex-1">
-            <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-amber-300 via-orange-500 to-violet-500 text-white shadow-[0_6px_20px_rgba(244,129,31,0.35),inset_0_1px_1px_rgba(255,255,255,0.6)]"> 
-              <span className="text-[20px] leading-none">🪔</span>
+            <div className="grid h-10 w-10 shrink-0 place-items-center brand-mark rounded-[14px]">
+              <span className="text-[19px] leading-none">✦</span>
             </div>
             {!collapsed && (
               <div className="min-w-0">
                 <div className="flex items-center gap-1.5">
-                  <span className="font-display text-[15.5px] font-bold tracking-tight leading-none">Hindustani</span>
-                  <div className="font-display text-[15.5px] font-bold tracking-tight leading-none">Jyotish</div>
+                  <span className="font-display text-[16px] font-bold tracking-tight leading-none">Hindustani Jyotish</span>
                 </div>
               </div>
             )}
@@ -274,7 +269,7 @@ export default function Layout() {
       {/* Main */}
       <div className={`transition-all duration-300 ${mainPadding}`}>
         {/* Topbar */}
-        <header className="sticky top-0 z-30 flex h-[64px] items-center gap-3 border-b border-border-soft bg-bg-1/72 backdrop-blur-2xl backdrop-saturate-[180%] px-4 lg:px-6 supports-[backdrop-filter]:bg-bg-1/55">
+        <header className="app-topbar sticky top-0 z-30 flex h-[72px] items-center gap-3 border-b border-border-soft bg-bg-1/90 backdrop-blur-2xl px-4 lg:px-6 supports-[backdrop-filter]:bg-bg-1/55">
           <button onClick={()=>setDrawerOpen(true)} className="grid h-10 w-10 place-items-center rounded-full bg-surface-1 border border-border-soft text-ivory-dim hover:text-ivory lg:hidden">{ICON.menu}</button>
 
           <div className="hidden lg:flex items-center gap-3 min-w-0 flex-1">

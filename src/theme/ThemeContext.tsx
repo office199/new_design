@@ -18,7 +18,7 @@ const ACCENT_KEY = 'hj_admin_theme_accent'
 function readMode(): ThemeMode {
   const stored = localStorage.getItem(MODE_KEY)
   if (stored === 'dark' || stored === 'light') return stored
-  return window.matchMedia?.('(prefers-color-scheme: light)').matches ? 'light' : 'dark'
+  return 'light'
 }
 
 function readAccent(): Accent {
