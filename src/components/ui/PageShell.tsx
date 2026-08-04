@@ -6,13 +6,15 @@ export function PageHeader({ title, subtitle, actions, icon }: { title: string; 
       <div className="min-w-0">
         <div className="flex items-center gap-4">
           {icon && (
-            <div className="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-violet-500/20 to-pink-500/20 backdrop-blur-xl border border-white/20 shadow-lg">
-              {icon}
+            <div className="relative grid h-12 w-12 shrink-0 place-items-center overflow-hidden rounded-2xl border border-white/20 bg-gradient-to-br from-violet-500/25 to-pink-500/20 backdrop-blur-xl shadow-[0_8px_24px_rgba(139,92,246,0.18)]">
+              <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(80%_80%_at_30%_18%,rgba(255,255,255,0.22),transparent_60%)]" />
+              <span className="relative text-[22px]">{icon}</span>
             </div>
           )}
           <div className="min-w-0">
-            <h1 className="text-[24px] sm:text-[28px] font-black tracking-tight leading-tight">{title}</h1>
-            {subtitle && <p className="mt-2 max-w-[60ch] text-[14px] leading-relaxed text-ivory-dim">{subtitle}</p>}
+            <h1 className="text-[25px] sm:text-[30px] font-black tracking-tight leading-tight">{title}</h1>
+            {subtitle && <p className="mt-2 max-w-[62ch] text-[14px] leading-relaxed text-ivory-dim">{subtitle}</p>}
+            <div className="mt-3 h-[3px] w-16 rounded-full bg-gradient-to-r from-saffron-bright via-fuchsia-400/70 to-transparent" />
           </div>
         </div>
       </div>
@@ -23,7 +25,7 @@ export function PageHeader({ title, subtitle, actions, icon }: { title: string; 
 
 export function Card({ children, className = '', hover = false }: { children: ReactNode; className?: string; hover?: boolean }) {
   return (
-    <div className={`rounded-[24px] border border-white/12 bg-white/6 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.1)] ${hover ? 'hover:bg-white/8 hover:border-white/18 hover:shadow-[0_12px_40px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.12)] hover:-translate-y-2 transition-all duration-300' : ''} ${className}`}>
+    <div className={`relative rounded-[24px] border border-white/12 bg-white/6 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.12)] ${hover ? 'hover:bg-white/8 hover:border-white/18 hover:shadow-[0_12px_40px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.14)] hover:-translate-y-2 transition-all duration-300' : ''} ${className}`}>
       {children}
     </div>
   )
@@ -54,8 +56,9 @@ export function StatCard({ label, value, icon, tint, sub }: { label: string; val
     saffron: 'from-orange-400/25 to-amber-400/20 text-orange-400 border-orange-500/25',
   }
   return (
-    <div className="relative overflow-hidden rounded-[22px] border border-white/12 bg-white/6 backdrop-blur-2xl p-6 shadow-[0_8px_32px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.1)] transition-all duration-300 hover:bg-white/8 hover:border-white/18 hover:-translate-y-3 hover:shadow-[0_12px_40px_rgba(0,0,0,0.28),inset_0_1px_0_rgba(255,255,255,0.12)]">
+    <div className="sheen-sweep relative overflow-hidden rounded-[22px] border border-white/12 bg-white/6 backdrop-blur-2xl p-6 shadow-[0_8px_32px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.12)] transition-all duration-300 hover:bg-white/8 hover:border-white/18 hover:-translate-y-3 hover:shadow-[0_14px_44px_rgba(0,0,0,0.28),inset_0_1px_0_rgba(255,255,255,0.14)]">
       <div className={`pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-gradient-to-br opacity-60 blur-xl ${tint ? tints[tint] : 'from-surface-2 to-surface-1'}`} />
+      <div className="pointer-events-none absolute -left-10 -bottom-14 h-32 w-32 rounded-full bg-violet-500/10 blur-3xl" />
       <div className="relative flex items-start justify-between">
         <div className={`grid h-12 w-12 place-items-center rounded-2xl border bg-gradient-to-br text-[20px] shadow-lg backdrop-blur-xl ${tint ? tints[tint] : 'from-surface-1 to-surface-2 border-white/15'}`}>
           {icon ?? '•'}

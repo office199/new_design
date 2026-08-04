@@ -164,14 +164,16 @@ export default function Layout() {
         {/* Brand */}
         <div className="relative z-10 flex h-[68px] items-center gap-3 border-b border-border-soft/60 px-4 shrink-0">
           <div className="flex items-center gap-3 min-w-0 flex-1">
-            <div className="grid h-10 w-10 shrink-0 place-items-center brand-mark rounded-[14px]">
-              <span className="text-[19px] leading-none">✦</span>
+            <div className="relative grid h-10 w-10 shrink-0 place-items-center brand-mark rounded-[14px]">
+              <span className="relative text-[19px] leading-none drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]">✦</span>
             </div>
             {!collapsed && (
               <div className="min-w-0">
-                <div className="flex items-center gap-1.5">
-                  <span className="font-display text-[16px] font-bold tracking-tight leading-none">Hindustani Jyotish</span>
+                <div className="flex items-center gap-2">
+                  <span className="font-display text-[15.5px] font-bold tracking-tight leading-none">Hindustani Jyotish</span>
+                  <span className="hidden xl:inline-flex items-center rounded-full border border-amber-400/25 bg-amber-400/10 px-1.5 py-0.5 text-[8.5px] font-extrabold uppercase tracking-wider text-amber-300">Admin</span>
                 </div>
+                <div className="mt-1 text-[10.5px] text-ivory-faint">Celestial Console</div>
               </div>
             )}
           </div>
@@ -208,7 +210,12 @@ export default function Layout() {
           <div className="flex flex-col gap-6 py-1">
             {filtered.map(group=>(
               <div key={group.heading}>
-                {!collapsed && <div className="mb-2 px-3 text-[10px] font-extrabold uppercase tracking-[0.14em] text-ivory-faint/70">{group.heading}</div>}
+                {!collapsed && (
+                  <div className="mb-2 flex items-center gap-1.5 px-3 text-[10px] font-extrabold uppercase tracking-[0.14em] text-ivory-faint/75">
+                    <span className="h-1 w-1 rounded-full bg-gradient-to-br from-amber-300 to-orange-500 shadow-[0_0_6px_rgba(244,129,31,0.65)]" />
+                    {group.heading}
+                  </div>
+                )}
                 {collapsed && <div className="mx-3 my-2 h-px bg-border-soft/50 hidden lg:block" />}
                 <div className="flex flex-col gap-1">
                   {group.items.map(item=>(

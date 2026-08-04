@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import { api } from '../api/client'
 import { useAuth } from '../auth/AuthContext'
 import { BarChart, DonutChart, LineChart, type Point } from '../components/Charts'
-import { PageHeader } from '../components/ui/PageShell'
 
 interface Overview {
   customers: number
@@ -74,7 +73,7 @@ function KpiCard({label,value,to,tint,icon,sub,subDot,trend}:{label:string; valu
     emerald:'from-emerald-400/25 via-teal-400/20 to-emerald-500/15 text-emerald-400 border-emerald-400/25 shadow-[0_0_35px_rgba(52,211,153,0.18)]'
   } as const
   return (
-    <Link to={to} className="group relative overflow-hidden rounded-[26px] border border-white/10 bg-white/5 backdrop-blur-2xl p-[1px] shadow-[0_8px_32px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.08)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_16px_48px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.12)] hover:border-white/18 no-underline">
+    <Link to={to} className="sheen-sweep group relative overflow-hidden rounded-[26px] border border-white/10 bg-white/5 backdrop-blur-2xl p-[1px] shadow-[0_8px_32px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.08)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_16px_48px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.12)] hover:border-white/18 no-underline">
       <div className="relative h-full rounded-[25px] bg-white/4 p-6 overflow-hidden">
         <div className={`pointer-events-none absolute -right-6 -top-6 h-32 w-32 rounded-full bg-gradient-to-br blur-xl opacity-50 group-hover:opacity-70 transition-opacity ${tints[tint].split(' ').slice(0,3).join(' ')}`} />
         <div className="relative flex items-start justify-between">
@@ -136,11 +135,26 @@ export default function DashboardPage(){
 
   return (
     <div className="page-shell space-y-6">
-      <PageHeader
-        title="Mission Control"
-        subtitle="Live platform overview — customers, astrologers, consultations, wallet volume and network pulse in one command center."
-        icon={<IconSparkle />}
-      />
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div className="min-w-0">
+          <div className="flex items-center gap-3">
+            <div className="relative grid h-12 w-12 shrink-0 place-items-center overflow-hidden rounded-2xl border border-white/20 bg-gradient-to-br from-violet-500/25 to-pink-500/20 backdrop-blur-xl shadow-[0_8px_24px_rgba(139,92,246,0.18)]">
+              <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(80%_80%_at_30%_18%,rgba(255,255,255,0.22),transparent_60%)]" />
+              <span className="relative text-[22px]"><IconSparkle /></span>
+            </div>
+            <div>
+              <h1 className="text-[25px] sm:text-[30px] font-black tracking-tight leading-tight">Mission Control</h1>
+              <p className="mt-1 max-w-[62ch] text-[14px] leading-relaxed text-ivory-dim">Customers, astrologers, consultations, wallet volume and network pulse — in one command center.</p>
+              <div className="mt-2.5 h-[3px] w-16 rounded-full bg-gradient-to-r from-saffron-bright via-fuchsia-400/70 to-transparent" />
+            </div>
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1.5 text-[11px] font-bold text-emerald-400">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" /> Live · updated just now
+          </span>
+        </div>
+      </div>
       <div className="dashboard-command-center relative space-y-6">
       <div className="pointer-events-none absolute -inset-x-10 -top-10 -z-10 h-[520px] bg-[radial-gradient(ellipse_at_20%_0%,rgba(139,92,246,.10),transparent_52%),radial-gradient(ellipse_at_80%_10%,rgba(236,72,153,.08),transparent_48%)]" />
       {error && <div className="flex gap-3 rounded-2xl border border-red-500/20 bg-red-500/10 backdrop-blur-xl px-5 py-4 text-[14px] text-red-300"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="mt-0.5 shrink-0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>{error}</div>}
@@ -148,7 +162,7 @@ export default function DashboardPage(){
       {data && (
         <>
           {/* Hero */}
-          <section className="relative overflow-hidden rounded-[32px] border border-white/10 bg-white/5 backdrop-blur-2xl p-7 sm:p-9 lg:p-11 shadow-[0_20px_80px_rgba(0,0,0,0.22),inset_0_1px_0_rgba(255,255,255,0.08)]">
+          <section className="hero-glow sheen-sweep relative overflow-hidden rounded-[32px] border border-white/10 bg-white/5 backdrop-blur-2xl p-7 sm:p-9 lg:p-11 shadow-[0_20px_80px_rgba(0,0,0,0.22),inset_0_1px_0_rgba(255,255,255,0.08)]">
             <div className="pointer-events-none absolute -right-[18%] -top-[28%] h-[640px] w-[640px] rounded-full bg-[radial-gradient(circle,rgba(139,92,246,0.16),transparent_68%)] blur-[1px]" />
             <div className="pointer-events-none absolute -left-[10%] bottom-[-22%] h-[540px] w-[540px] rounded-full bg-[radial-gradient(circle,rgba(236,72,153,0.12),transparent_68%)]" />
             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:52px_52px] opacity-[0.15]" />
