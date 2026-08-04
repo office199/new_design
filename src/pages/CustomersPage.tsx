@@ -62,7 +62,7 @@ export default function CustomersPage(){
             </button>
           </>
         }
-        icon={<span className="text-[18px]">👥</span>}
+        icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-violet-400"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>}
       />
 
       {(paged.error || actionError) && (
@@ -77,7 +77,7 @@ export default function CustomersPage(){
       ) : (
         <>
           {/* Desktop table */}
-          <div className="hidden lg:block overflow-hidden rounded-[20px] border border-border-soft bg-surface-raised shadow-sm">
+          <div className="hidden lg:block overflow-hidden rounded-[24px] border border-white/10 bg-white/4 backdrop-blur-2xl shadow-sm">
             <div className="overflow-x-auto">
               <div className="table-wrap overflow-x-auto">
                 <table className="table w-full border-collapse table-cards">
@@ -115,7 +115,7 @@ export default function CustomersPage(){
           {/* Mobile cards */}
           <div className="grid gap-3 lg:hidden">
             {visible.map(c=>(
-              <div key={c.id} className="rounded-[18px] border border-border-soft bg-surface-raised p-4 shadow-sm">
+              <div key={c.id} className="rounded-[22px] border border-white/10 bg-white/5 backdrop-blur-xl p-4 shadow-sm">
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-center gap-3">
                     <div className="grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-violet-500/20 to-indigo-500/20 border border-violet-500/20 text-[13px] font-bold text-violet-400">{(c.name||'U')[0].toUpperCase()}</div>
@@ -160,19 +160,19 @@ function EditModal({customer,onClose,onDone}:{customer:Customer; onClose:()=>voi
   }
   return (
     <div className="fixed inset-0 z-[60] grid place-items-center bg-black/60 backdrop-blur-xl p-4 animate-fade-in" onClick={onClose}>
-      <div className="w-full max-w-[480px] animate-pop-in rounded-[22px] border border-border-mid bg-surface-raised p-6 shadow-2xl" onClick={e=>e.stopPropagation()}>
+      <div className="w-full max-w-[480px] animate-pop-in rounded-[26px] border border-white/12 bg-white/6 backdrop-blur-2xl p-6 shadow-2xl" onClick={e=>e.stopPropagation()}>
         <div className="flex items-center justify-between"><h3 className="text-[16px] font-bold">Edit customer</h3><button onClick={onClose} className="grid h-8 w-8 place-items-center rounded-full bg-surface-1 border border-border-soft">✕</button></div>
-        {error && <div className="mt-4 rounded-xl border border-red-500/20 bg-red-500/10 px-3 py-2 text-[13px] text-red-400">{error}</div>}
+        {error && <div className="mt-4 rounded-2xl border border-red-500/20 bg-red-500/10 backdrop-blur-xl px-3 py-2 text-[13px] text-red-400">{error}</div>}
         <div className="mt-5 grid gap-4">
-          <label className="block text-[12px] font-semibold text-ivory-dim">Name<input value={name} onChange={e=>setName(e.target.value)} placeholder="Full name" className="mt-1.5 h-11 w-full rounded-xl border border-border-soft bg-surface-1 px-3.5 text-[13px] outline-none focus:border-saffron focus:bg-surface-2" /></label>
+          <label className="block text-[12px] font-semibold text-ivory-dim">Name<input value={name} onChange={e=>setName(e.target.value)} placeholder="Full name" className="mt-1.5 h-11 w-full rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl px-3.5 text-[13px] outline-none focus:border-saffron focus:bg-surface-2" /></label>
           <div className="grid sm:grid-cols-2 gap-3">
-            <label className="block text-[12px] font-semibold text-ivory-dim">Email<input value={email} onChange={e=>setEmail(e.target.value)} placeholder="name@example.com" className="mt-1.5 h-11 w-full rounded-xl border border-border-soft bg-surface-1 px-3.5 text-[13px] outline-none focus:border-saffron" /></label>
-            <label className="block text-[12px] font-semibold text-ivory-dim">Mobile<input value={mobile} onChange={e=>setMobile(e.target.value)} placeholder="9876543210" className="mt-1.5 h-11 w-full rounded-xl border border-border-soft bg-surface-1 px-3.5 text-[13px] outline-none focus:border-saffron" /></label>
+            <label className="block text-[12px] font-semibold text-ivory-dim">Email<input value={email} onChange={e=>setEmail(e.target.value)} placeholder="name@example.com" className="mt-1.5 h-11 w-full rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl px-3.5 text-[13px] outline-none focus:border-saffron" /></label>
+            <label className="block text-[12px] font-semibold text-ivory-dim">Mobile<input value={mobile} onChange={e=>setMobile(e.target.value)} placeholder="9876543210" className="mt-1.5 h-11 w-full rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl px-3.5 text-[13px] outline-none focus:border-saffron" /></label>
           </div>
-          <label className="block text-[12px] font-semibold text-ivory-dim">Language<input value={language} onChange={e=>setLanguage(e.target.value)} placeholder="hi / en" className="mt-1.5 h-11 w-full rounded-xl border border-border-soft bg-surface-1 px-3.5 text-[13px] outline-none focus:border-saffron" /></label>
-          <label className="flex items-center gap-2.5 rounded-xl border border-border-soft bg-surface-1 p-3.5 text-[13px] cursor-pointer hover:bg-surface-2 transition-colors"><input type="checkbox" checked={isActive} onChange={e=>setIsActive(e.target.checked)} className="h-4 w-4 rounded border-border-soft" /> <span className="font-medium">{isActive ? 'Active — user can login' : 'Blocked — access disabled'}</span></label>
+          <label className="block text-[12px] font-semibold text-ivory-dim">Language<input value={language} onChange={e=>setLanguage(e.target.value)} placeholder="hi / en" className="mt-1.5 h-11 w-full rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl px-3.5 text-[13px] outline-none focus:border-saffron" /></label>
+          <label className="flex items-center gap-2.5 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-3.5 text-[13px] cursor-pointer hover:bg-surface-2 transition-colors"><input type="checkbox" checked={isActive} onChange={e=>setIsActive(e.target.checked)} className="h-4 w-4 rounded border-border-soft" /> <span className="font-medium">{isActive ? 'Active — user can login' : 'Blocked — access disabled'}</span></label>
         </div>
-        <div className="mt-6 flex justify-end gap-2.5"><button onClick={onClose} className="h-10 rounded-full border border-border-soft bg-surface-1 px-5 text-[13px] font-medium">Cancel</button><button disabled={saving} onClick={submit} className="h-10 rounded-full bg-ivory text-bg-0 px-6 text-[13px] font-bold hover:bg-white disabled:opacity-50">{saving?'Saving…':'Save changes'}</button></div>
+        <div className="mt-6 flex justify-end gap-2.5"><button onClick={onClose} className="h-10 rounded-full border border-border-soft bg-surface-1 px-5 text-[13px] font-medium">Cancel</button><button disabled={saving} onClick={submit} className="h-10 rounded-full bg-gradient-to-r from-violet-500 to-pink-500 text-white px-6 text-[13px] font-bold hover:bg-white disabled:opacity-50">{saving?'Saving…':'Save changes'}</button></div>
       </div>
     </div>
   )
@@ -190,15 +190,15 @@ function CreditModal({customer,onClose,onDone}:{customer:Customer; onClose:()=>v
   }
   return (
     <div className="fixed inset-0 z-[60] grid place-items-center bg-black/60 backdrop-blur-xl p-4 animate-fade-in" onClick={onClose}>
-      <div className="w-full max-w-[420px] animate-pop-in rounded-[22px] border border-border-mid bg-surface-raised p-6 shadow-2xl" onClick={e=>e.stopPropagation()}>
+      <div className="w-full max-w-[420px] animate-pop-in rounded-[26px] border border-white/12 bg-white/6 backdrop-blur-2xl p-6 shadow-2xl" onClick={e=>e.stopPropagation()}>
         <h3 className="text-[16px] font-bold">Credit wallet</h3>
         <p className="mt-1.5 text-[12px] text-ivory-faint flex items-center gap-2"><span className="grid h-6 w-6 place-items-center rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 font-bold text-[10px]">₹</span>{customer.name||customer.mobile||'Customer'} · balance ₹{customer.wallet_balance ?? '0.00'}</p>
-        {error && <div className="mt-4 rounded-xl border border-red-500/20 bg-red-500/10 px-3 py-2 text-[13px] text-red-400">{error}</div>}
+        {error && <div className="mt-4 rounded-2xl border border-red-500/20 bg-red-500/10 backdrop-blur-xl px-3 py-2 text-[13px] text-red-400">{error}</div>}
         <div className="mt-5 grid gap-4">
-          <label className="block text-[12px] font-semibold text-ivory-dim">Amount (₹)<input inputMode="decimal" value={amount} onChange={e=>setAmount(e.target.value)} placeholder="500" className="mt-1.5 h-11 w-full rounded-xl border border-border-soft bg-surface-1 px-3.5 text-[14px] font-bold outline-none focus:border-saffron" /></label>
-          <label className="block text-[12px] font-semibold text-ivory-dim">Note (optional)<input value={note} onChange={e=>setNote(e.target.value)} placeholder="Reason" className="mt-1.5 h-11 w-full rounded-xl border border-border-soft bg-surface-1 px-3.5 text-[13px] outline-none focus:border-saffron" /></label>
+          <label className="block text-[12px] font-semibold text-ivory-dim">Amount (₹)<input inputMode="decimal" value={amount} onChange={e=>setAmount(e.target.value)} placeholder="500" className="mt-1.5 h-11 w-full rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl px-3.5 text-[14px] font-bold outline-none focus:border-saffron" /></label>
+          <label className="block text-[12px] font-semibold text-ivory-dim">Note (optional)<input value={note} onChange={e=>setNote(e.target.value)} placeholder="Reason" className="mt-1.5 h-11 w-full rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl px-3.5 text-[13px] outline-none focus:border-saffron" /></label>
         </div>
-        <div className="mt-6 flex justify-end gap-2.5"><button onClick={onClose} className="h-10 rounded-full border border-border-soft bg-surface-1 px-5 text-[13px]">Cancel</button><button disabled={saving} onClick={submit} className="h-10 rounded-full bg-saffron px-6 text-[13px] font-bold text-black hover:brightness-110 disabled:opacity-50">{saving?'Crediting…':'Credit wallet'}</button></div>
+        <div className="mt-6 flex justify-end gap-2.5"><button onClick={onClose} className="h-10 rounded-full border border-border-soft bg-surface-1 px-5 text-[13px]">Cancel</button><button disabled={saving} onClick={submit} className="h-10 rounded-full bg-gradient-to-r from-violet-500 to-pink-500 px-6 text-[13px] font-bold text-white hover:brightness-110 disabled:opacity-50">{saving?'Crediting…':'Credit wallet'}</button></div>
       </div>
     </div>
   )

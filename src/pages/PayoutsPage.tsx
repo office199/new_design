@@ -38,15 +38,15 @@ export default function PayoutsPage(){
       <PageHeader
         title="Payouts"
         subtitle="Approve and settle astrologer withdrawals. Track pending, approved and completed payouts."
-        icon={<span className="text-[18px]">💸</span>}
+        icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-emerald-400"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/></svg>}
         actions={<><SearchBox value={search} onChange={setSearch} placeholder="Astrologer, status…" /><button onClick={paged.reload} className="grid h-[42px] w-[42px] place-items-center rounded-full border border-border-soft bg-surface-raised shadow-sm">↻</button></>}
       />
 
-      {(paged.error||error) && <div className="rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-[13px] text-red-300">{paged.error ?? error}</div>}
+      {(paged.error||error) && <div className="rounded-2xl border border-red-500/20 bg-red-500/10 backdrop-blur-xl px-4 py-3 text-[13px] text-red-300">{paged.error ?? error}</div>}
 
       {paged.loading && paged.rows.length===0 ? <Card><div className="p-10 text-center text-ivory-faint">Loading payouts…</div></Card> : (
         <>
-          <div className="hidden md:block overflow-hidden rounded-[20px] border border-border-soft bg-surface-raised shadow-sm">
+          <div className="hidden md:block overflow-hidden rounded-[24px] border border-white/10 bg-white/4 backdrop-blur-2xl shadow-sm">
             <div className="overflow-x-auto">
               <div className="table-wrap overflow-x-auto"><table className="table w-full border-collapse table-cards">
                 <thead><tr className="border-b border-border-soft bg-surface-1/60 text-left text-[11px] font-bold uppercase tracking-wider text-ivory-faint"><th className="px-5 py-3.5">Astrologer</th><th className="px-5 py-3.5">Amount</th><th className="px-5 py-3.5">Status</th><th className="px-5 py-3.5">Bank</th><th className="px-5 py-3.5">Date</th><th className="px-5 py-3.5 text-right">Actions</th></tr></thead>
@@ -90,7 +90,7 @@ export default function PayoutsPage(){
               const pending=p.status==='pending'||p.status==='requested'
               const approved=p.status==='approved'
               return (
-                <div key={p.id} className="rounded-[18px] border border-border-soft bg-surface-raised p-4">
+                <div key={p.id} className="rounded-[22px] border border-white/10 bg-white/5 backdrop-blur-xl p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2.5"><div className="grid h-9 w-9 place-items-center rounded-xl bg-saffron-soft text-saffron font-bold">{(p.astrologer_name||'A')[0].toUpperCase()}</div><div className="font-semibold text-[13px]">{p.astrologer_name ?? p.astrologer_id.slice(0,8)}</div></div>
                     <span className={`rounded-full border px-2.5 py-1 text-[10px] font-bold uppercase ${st.cls}`}>{st.label}</span>
@@ -98,7 +98,7 @@ export default function PayoutsPage(){
                   <div className="mt-3 flex items-center justify-between"><span className="font-mono font-bold text-amber-400">₹{Number(p.amount).toLocaleString('en-IN')}</span><span className="text-[11px] text-ivory-faint">{p.created_at ? new Date(p.created_at).toLocaleDateString() : ''}</span></div>
                   <div className="mt-3 flex gap-2">
                     {pending && <><button disabled={busyId===p.id} onClick={()=>run(p.id,()=>adminApi.approvePayout(p.id))} className="flex-1 h-9 rounded-full bg-emerald-500 text-white text-[12px] font-bold">Approve</button><button disabled={busyId===p.id} onClick={()=>run(p.id,()=>adminApi.rejectPayout(p.id))} className="flex-1 h-9 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-[12px] font-bold">Reject</button></>}
-                    {approved && <button disabled={busyId===p.id} onClick={()=>run(p.id,()=>adminApi.markPayoutPaid(p.id))} className="flex-1 h-9 rounded-full bg-saffron text-black text-[12px] font-bold">Mark paid</button>}
+                    {approved && <button disabled={busyId===p.id} onClick={()=>run(p.id,()=>adminApi.markPayoutPaid(p.id))} className="flex-1 h-9 rounded-full bg-gradient-to-r from-violet-500 to-pink-500 text-white text-[12px] font-bold">Mark paid</button>}
                   </div>
                 </div>
               )
