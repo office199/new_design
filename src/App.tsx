@@ -5,7 +5,6 @@ import Layout from './components/Layout'
 import LoginPage from './pages/LoginPage'
 import DashboardPage from './pages/DashboardPage'
 import KYCQueuePage from './pages/KYCQueuePage'
-import ListPage from './pages/ListPage'
 import CouponsPage from './pages/CouponsPage'
 import LiveGiftsPage from './pages/LiveGiftsPage'
 import SimpleCrudPage from './pages/SimpleCrudPage'
@@ -21,25 +20,19 @@ import CommissionPage from './pages/CommissionPage'
 import CustomersPage from './pages/CustomersPage'
 import PayoutsPage from './pages/PayoutsPage'
 import RazorpaySettingsPage from './pages/RazorpaySettingsPage'
-import { RESOURCES } from './config/resources'
+import TopAstrologersPage from './pages/TopAstrologersPage'
+import ApprovalStatusPage from './pages/ApprovalStatusPage'
+import WalletTransactionsPage from './pages/WalletTransactionsPage'
+import WalletLedgerPage from './pages/WalletLedgerPage'
+import RefundsPage from './pages/RefundsPage'
+import SessionsPage from './pages/SessionsPage'
+import ChatRoomsPage from './pages/ChatRoomsPage'
+import ReviewsPage from './pages/ReviewsPage'
 import { adminApi } from './api/endpoints'
 
 function RequireAuth({ children }: { children: ReactNode }) {
   const { isAuthenticated } = useAuth()
   return isAuthenticated ? <>{children}</> : <Navigate to="/login" replace />
-}
-
-const list = (key: keyof typeof RESOURCES) => {
-  const r = RESOURCES[key]
-  return (
-    <ListPage
-      title={r.title}
-      subtitle={r.subtitle}
-      endpoint={r.endpoint}
-      columns={r.columns}
-      rowDetail={r.rowDetail}
-    />
-  )
 }
 
 export default function App() {
@@ -57,48 +50,48 @@ export default function App() {
           >
             <Route path="/" element={<DashboardPage />} />
 
-            {/* Users */}
+            {/* Seekers & Users */}
             <Route path="/customers" element={<CustomersPage />} />
 
-            {/* Astrologers */}
+            {/* Astrologers Network */}
             <Route path="/astrologers" element={<AstrologerDetailsPage />} />
             <Route path="/charges" element={<AstrologerChargesPage />} />
-            <Route path="/top" element={list('top')} />
+            <Route path="/top" element={<TopAstrologersPage />} />
             <Route path="/approval" element={<KYCQueuePage />} />
-            <Route path="/approval-status" element={list('approvals')} />
+            <Route path="/approval-status" element={<ApprovalStatusPage />} />
 
-            {/* Wallet */}
+            {/* Financial Suite */}
             <Route path="/wallet" element={<WalletManagementPage />} />
-            <Route path="/wallet-transactions" element={list('walletTransactions')} />
-            <Route path="/wallet-ledger" element={list('walletLedger')} />
+            <Route path="/wallet-transactions" element={<WalletTransactionsPage />} />
+            <Route path="/wallet-ledger" element={<WalletLedgerPage />} />
             <Route path="/payouts" element={<PayoutsPage />} />
-            <Route path="/refunds" element={list('refunds')} />
+            <Route path="/refunds" element={<RefundsPage />} />
 
-            {/* Sessions */}
-            <Route path="/sessions" element={list('consultations')} />
-            <Route path="/chat-rooms" element={list('chatRooms')} />
-            <Route path="/reviews" element={list('reviews')} />
+            {/* Sessions & Communications */}
+            <Route path="/sessions" element={<SessionsPage />} />
+            <Route path="/chat-rooms" element={<ChatRoomsPage />} />
+            <Route path="/reviews" element={<ReviewsPage />} />
 
-            {/* Content */}
+            {/* Store & Media Content */}
             <Route path="/coupons" element={<CouponsPage />} />
             <Route
               path="/banners"
               element={
                 <SimpleCrudPage
-                  title="Banners"
-                  subtitle="Home-screen promotional banners."
+                  title="Promotional Banners"
+                  subtitle="Home-screen promotional banners and hero slides."
                   endpoint="/admin/banners"
                   fields={[
                     { key: 'title', label: 'Title' },
-                    { key: 'image_url', label: 'Image', required: true, placeholder: 'https://…', kind: 'image' },
+                    { key: 'image_url', label: 'Image URL', required: true, placeholder: 'https://…', kind: 'image' },
                     { key: 'link_url', label: 'Link URL' },
-                    { key: 'position', label: 'Position' },
+                    { key: 'position', label: 'Display Order' },
                   ]}
                   display={[
-                    { key: 'title', label: 'Title' },
-                    { key: 'image_url', label: 'Image' },
-                    { key: 'position', label: 'Pos' },
-                    { key: 'is_active', label: 'Active' },
+                    { key: 'title', label: 'Banner Title' },
+                    { key: 'image_url', label: 'Preview' },
+                    { key: 'position', label: 'Position' },
+                    { key: 'is_active', label: 'Active Status' },
                   ]}
                 />
               }
@@ -109,18 +102,19 @@ export default function App() {
               path="/promo-videos"
               element={
                 <SimpleCrudPage
-                  title="Feature Videos"
+                  title="Feature Promo Videos"
+                  subtitle="Platform showcase and marketing videos."
                   endpoint="/admin/promo-videos"
                   fields={[
-                    { key: 'title', label: 'Title' },
-                    { key: 'video_url', label: 'Video', required: true, kind: 'video' },
-                    { key: 'thumbnail_url', label: 'Thumbnail', kind: 'image' },
+                    { key: 'title', label: 'Video Title' },
+                    { key: 'video_url', label: 'Video File / URL', required: true, kind: 'video' },
+                    { key: 'thumbnail_url', label: 'Thumbnail Image', kind: 'image' },
                   ]}
                   display={[
                     { key: 'title', label: 'Title' },
-                    { key: 'video_url', label: 'Video' },
+                    { key: 'video_url', label: 'Video Clip' },
                     { key: 'thumbnail_url', label: 'Thumbnail' },
-                    { key: 'is_active', label: 'Active' },
+                    { key: 'is_active', label: 'Status' },
                   ]}
                 />
               }
@@ -129,46 +123,48 @@ export default function App() {
               path="/astrologer-videos"
               element={
                 <SimpleCrudPage
-                  title="Astrologer Videos"
+                  title="Astrologer Intro Videos"
+                  subtitle="Astrologer introduction and consultation sample reels."
                   endpoint="/admin/astrologer-videos"
                   fields={[
                     {
                       key: 'astrologer_id',
                       label: 'Astrologer',
                       kind: 'select',
-                      placeholder: '— none —',
+                      placeholder: '— Select Astrologer —',
                       loadOptions: () =>
                         adminApi
                           .astrologerOptions()
                           .then((list) => list.map((a) => ({ value: a.id, label: a.name || a.id }))),
                     },
-                    { key: 'title', label: 'Title' },
-                    { key: 'video_url', label: 'Video', required: true, kind: 'video' },
-                    { key: 'thumbnail_url', label: 'Thumbnail', kind: 'image' },
+                    { key: 'title', label: 'Video Title' },
+                    { key: 'video_url', label: 'Video File', required: true, kind: 'video' },
+                    { key: 'thumbnail_url', label: 'Thumbnail Image', kind: 'image' },
                   ]}
                   display={[
                     { key: 'title', label: 'Title' },
                     { key: 'astrologer_id', label: 'Astrologer' },
-                    { key: 'video_url', label: 'Video' },
+                    { key: 'video_url', label: 'Video Reel' },
                     { key: 'thumbnail_url', label: 'Thumbnail' },
-                    { key: 'is_active', label: 'Active' },
+                    { key: 'is_active', label: 'Status' },
                   ]}
                 />
               }
             />
 
-            {/* Settings */}
+            {/* Integrations & System Settings */}
             <Route
               path="/social-links"
               element={
                 <SettingsPage
                   title="Social Links"
+                  subtitle="Platform social media handles and support contact links."
                   endpoint="/admin/settings/social-links"
                   fields={[
-                    { key: 'facebook', label: 'Facebook' },
-                    { key: 'instagram', label: 'Instagram' },
-                    { key: 'youtube', label: 'YouTube' },
-                    { key: 'whatsapp', label: 'WhatsApp' },
+                    { key: 'facebook', label: 'Facebook Page URL' },
+                    { key: 'instagram', label: 'Instagram Profile URL' },
+                    { key: 'youtube', label: 'YouTube Channel URL' },
+                    { key: 'whatsapp', label: 'WhatsApp Support Number' },
                   ]}
                 />
               }
