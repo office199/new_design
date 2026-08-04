@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { api } from '../api/client'
 import { useAuth } from '../auth/AuthContext'
 import { BarChart, DonutChart, LineChart, type Point } from '../components/Charts'
+import { PageHeader } from '../components/ui/PageShell'
 
 interface Overview {
   customers: number
@@ -125,7 +126,13 @@ export default function DashboardPage(){
   }
 
   return (
-    <div className="dashboard-command-center relative space-y-6">
+    <div className="page-shell space-y-6">
+      <PageHeader
+        title="Mission Control"
+        subtitle="Live platform overview — customers, astrologers, consultations, wallet volume and network pulse in one command center."
+        icon={<span className="text-[20px]">🪔</span>}
+      />
+      <div className="dashboard-command-center relative space-y-6">
       <div className="pointer-events-none absolute -inset-x-10 -top-10 -z-10 h-[520px] bg-[radial-gradient(ellipse_at_20%_0%,rgba(244,129,31,.08),transparent_52%),radial-gradient(ellipse_at_80%_10%,rgba(124,58,237,.08),transparent_48%)]" />
       {error && <div className="flex gap-3 rounded-[16px] border border-red-500/20 bg-red-500/10 px-4 py-3.5 text-[13px] text-red-300 backdrop-blur"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="mt-0.5 shrink-0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>{error}</div>}
 
@@ -301,6 +308,7 @@ export default function DashboardPage(){
           </div>
         </>
       )}
+    </div>
     </div>
   )
 }
