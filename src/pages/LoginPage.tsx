@@ -22,7 +22,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="page-shell min-h-screen bg-bg-0 text-ivory selection:bg-saffron-soft selection:text-saffron-bright antialiased relative overflow-hidden">
+    <div className="login-page min-h-screen bg-bg-0 text-ivory selection:bg-saffron-soft selection:text-saffron-bright antialiased relative overflow-hidden">
       {/* Ambient background gradients */}
       <div className="pointer-events-none fixed inset-0 z-0">
         <div className="absolute -left-[10%] -top-[15%] h-[600px] w-[600px] rounded-full bg-[radial-gradient(circle,rgba(244,129,31,0.12),transparent_65%)] blur-[2px]" />
@@ -35,16 +35,16 @@ export default function LoginPage() {
         {/* Brand header */}
         <div className="mb-8 text-center">
           <div className="inline-flex items-center gap-3 mb-3">
-            <div className="grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-amber-300 via-orange-500 to-violet-500 text-white shadow-[0_10px_30px_rgba(244,129,31,0.35),inset_0_1px_1px_rgba(255,255,255,0.6)] text-[26px]">🪔</div>
+            <div className="grid h-14 w-14 place-items-center rounded-2xl login-brand text-[26px]">✦</div>
             <div className="text-left">
               <h1 className="font-display text-[22px] font-bold tracking-tight leading-none">Hindustani</h1>
               <h1 className="font-display text-[22px] font-bold tracking-tight leading-none text-saffron-bright">Jyotish</h1>
             </div>
           </div>
-          <p className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-saffron">Admin Console · Secure JWT Session</p>
+          <p className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-saffron">ADMINISTRATOR WORKSPACE · SECURE ACCESS</p>
         </div>
 
-        <Card className="p-7 sm:p-10 shadow-[0_24px_80px_rgba(0,0,0,0.22)]">
+        <Card className="login-card p-7 sm:p-10">
           <PageHeader
             title="Welcome back"
             subtitle="Sign in to your administrator account. Your session is encrypted and protected by JWT."
@@ -82,7 +82,7 @@ export default function LoginPage() {
               </div>
             </div>
 
-            <button type="submit" disabled={busy} className="inline-flex h-[48px] w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-amber-300 to-orange-500 text-[14px] font-bold text-black shadow-[0_8px_20px_rgba(244,129,31,0.28)] transition-all hover:brightness-105 hover:shadow-[0_10px_28px_rgba(244,129,31,0.35)] hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-60 disabled:translate-y-0">
+            <button type="submit" disabled={busy} className="inline-flex h-[48px] w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#17233a] to-[#26445b] text-[14px] font-bold text-white shadow-[0_8px_20px_rgba(23,35,58,0.20)] transition-all hover:brightness-105 hover:shadow-[0_10px_28px_rgba(244,129,31,0.35)] hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-60 disabled:translate-y-0">
               {busy ? <><svg className="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Signing in…</> : <>Sign in <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></>}
             </button>
 
