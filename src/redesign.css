@@ -18,7 +18,7 @@ main > div { animation: page-arrive .42s cubic-bezier(.22,.61,.36,1) both; }
 @media (max-width: 640px) { .page-head, .page-head-gradient { padding-bottom: 14px; } .card { padding: 17px; } }
 /* Page shells: every section now feels like part of one intentional workspace */
 .page-shell { position:relative; isolation:isolate; }
-.page-shell::before { content:""; position:absolute; z-index:-1; top:-24px; left:-24px; right:-24px; height:180px; border-radius:32px; background:linear-gradient(120deg,rgba(244,129,31,.045),transparent 42%,rgba(124,58,237,.04)); pointer-events:none; }
+.page-shell::before { content:""; position:absolute; z-index:-1; top:-24px; left:-24px; right:-24px; height:220px; border-radius:36px; background:linear-gradient(120deg,rgba(244,129,31,.055),transparent 42%,rgba(124,58,237,.05)); pointer-events:none; }
 .page-shell > .page-head, .page-shell > .page-head-gradient { position:relative; }
 .page-shell > .page-head::after, .page-shell > .page-head-gradient::after { content:""; position:absolute; left:0; bottom:0; width:74px; height:2px; border-radius:999px; background:linear-gradient(90deg,var(--color-saffron-bright),transparent); }
 .page-shell .rounded-\[20px\], .page-shell .rounded-\[22px\], .page-shell .rounded-\[24px\] { transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease; }

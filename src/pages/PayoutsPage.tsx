@@ -48,7 +48,7 @@ export default function PayoutsPage(){
         <>
           <div className="hidden md:block overflow-hidden rounded-[20px] border border-border-soft bg-surface-raised shadow-sm">
             <div className="overflow-x-auto">
-              <table className="w-full border-collapse">
+              <div className="table-wrap overflow-x-auto"><table className="table w-full border-collapse table-cards">
                 <thead><tr className="border-b border-border-soft bg-surface-1/60 text-left text-[11px] font-bold uppercase tracking-wider text-ivory-faint"><th className="px-5 py-3.5">Astrologer</th><th className="px-5 py-3.5">Amount</th><th className="px-5 py-3.5">Status</th><th className="px-5 py-3.5">Bank</th><th className="px-5 py-3.5">Date</th><th className="px-5 py-3.5 text-right">Actions</th></tr></thead>
                 <tbody className="divide-y divide-border-soft/60">
                   {visible.map(p=>{
@@ -79,7 +79,7 @@ export default function PayoutsPage(){
                   })}
                   {visible.length===0 && <tr><td colSpan={6} className="py-16 text-center text-[13px] text-ivory-faint">No payout requests.</td></tr>}
                 </tbody>
-              </table>
+              </table></div>
             </div>
           </div>
 
