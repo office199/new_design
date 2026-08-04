@@ -24,7 +24,7 @@ export default function CosmicServicesPage(){
   async function toggle(s:Service){ await api(`/admin/cosmic-services/${s.key}`,{method:'PATCH',body:{is_active:!s.is_active}}); await load() }
 
   return (
-    <div className="space-y-6">
+    <div className="page-shell space-y-6">
       <PageHeader title="Cosmic Services" subtitle="Pricing for Kundli, matchmaking and insight tiles. Toggle availability and update prices instantly." icon={<span className="text-[18px]">✨</span>} />
 
       {error && <div className="rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-[13px] text-red-300">{error}</div>}

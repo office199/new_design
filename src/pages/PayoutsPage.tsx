@@ -34,7 +34,7 @@ export default function PayoutsPage(){
   }
 
   return (
-    <div className="space-y-5">
+    <div className="page-shell space-y-5">
       <PageHeader
         title="Payouts"
         subtitle="Approve and settle astrologer withdrawals. Track pending, approved and completed payouts."

@@ -50,7 +50,7 @@ export default function CustomersPage(){
   }
 
   return (
-    <div className="space-y-5">
+    <div className="page-shell space-y-5">
       <PageHeader
         title="Customers"
         subtitle="Manage seekers, wallets and access — search, credit, block or edit in one place."

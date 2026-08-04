@@ -26,7 +26,7 @@ export default function CommissionPage(){
   }
 
   return (
-    <div className="space-y-6 max-w-[640px]">
+    <div className="page-shell space-y-6 max-w-[640px]">
       <PageHeader title="Platform Commission" subtitle="Share of every consultation the platform keeps. Affects astrologer payouts automatically." icon={<span className="text-[18px]">💹</span>} />
 
       {error && <div className="rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-[13px] text-red-300">{error}</div>}

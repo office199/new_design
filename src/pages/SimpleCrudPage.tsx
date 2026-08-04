@@ -32,7 +32,7 @@ export default function SimpleCrudPage({ title, subtitle, endpoint, fields, disp
   async function remove(id:string){ await api(`${endpoint}/${id}`,{method:'DELETE'}); await load() }
 
   return (
-    <div className="space-y-6">
+    <div className="page-shell space-y-6">
       <PageHeader title={title} subtitle={subtitle ?? `Manage ${title.toLowerCase()} — add, edit, delete and upload media.`} icon={<span className="text-[18px]">🗂️</span>} actions={<span className="rounded-full bg-surface-1 border border-border-soft px-3 py-1 text-[11px] font-bold">{rows.length} total</span>} />
       {error && <div className="rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-[13px] text-red-300">{error}</div>}
 

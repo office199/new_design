@@ -34,7 +34,7 @@ export default function AgoraSettingsPage(){
   const diagnoseOk=diagnose?.diagnosis.startsWith('OK')
 
   return (
-    <div className="space-y-6">
+    <div className="page-shell space-y-6">
       <PageHeader
         title="Agora Settings"
         subtitle="Manage Agora credentials for audio/video calls & live streaming. Only one active set is used for token generation."

@@ -35,7 +35,7 @@ export default function AstrologerDetailsPage(){
   async function confirmDelete(){ if(!remove) return; setRemoving(true); setRemoveError(null); try{ await adminApi.deleteAstrologer(remove.id); setRemove(null); await load() } catch(e){ setRemoveError((e as Error).message) } finally{ setRemoving(false) } }
 
   return (
-    <div className="space-y-5">
+    <div className="page-shell space-y-5">
       <PageHeader
         title="Astrologers"
         subtitle="All astrologers — view detailed profiles, edit, block, or verify KYC status in one place."
