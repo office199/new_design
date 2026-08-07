@@ -14,8 +14,8 @@ export interface DonutSlice {
   color: string
 }
 
-const GOLD = '#e8b547'
-const GRID = 'rgba(224,168,120,0.14)'
+const GOLD = '#C8932A'
+const GRID = 'rgba(200,147,42,0.16)'
 
 function niceMax(v: number): number {
   if (v <= 0) return 1
@@ -161,7 +161,7 @@ export function BarChart({
   data,
   height = 180,
   valuePrefix = '',
-  colors = [GOLD, '#f4811f'],
+  colors = [GOLD, '#0E4F45'],
   formatValue,
 }: {
   data: Point[]

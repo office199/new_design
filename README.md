@@ -18,7 +18,7 @@ talks to the FastAPI backend's `/v1/admin/*` API.
 
 React 19 · Vite · TypeScript · React Router 7. No UI framework — a small
 hand-rolled design system in `src/index.css` using the brand palette
-(Deep Indigo + Saffron + Copper).
+(a warm, handcrafted heritage palette — cream silk, peacock green, terracotta and marigold gold — inspired by Suta & Aachho).
 
 ## Develop
 

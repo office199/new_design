@@ -43,6 +43,6 @@ Then open http://localhost:5173
 - Multiple pages now inherit better responsive table styles
 
 ### Design Philosophy
-Kept the stunning cosmic / celestial aesthetic (Deep indigo + Saffron + Copper) while making it production-ready for phones, tablets, and desktops.
+Redesigned around a handcrafted Indian-boutique aesthetic (cream silk, deep peacock green, terracotta, marigold gold & serif display type — inspired by Suta & Aachho) while keeping everything production-ready for phones, tablets, and desktops.
 
 Enjoy the new responsive experience! 🪔

@@ -5,11 +5,11 @@ export type Accent = 'saffron' | 'azure' | 'emerald' | 'rose' | 'violet'
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const ACCENTS: { key: Accent; label: string; swatch: string }[] = [
-  { key: 'saffron', label: 'Saffron', swatch: '#f4811f' },
-  { key: 'azure', label: 'Azure', swatch: '#3b82f6' },
-  { key: 'emerald', label: 'Emerald', swatch: '#10b981' },
-  { key: 'rose', label: 'Rose', swatch: '#f43f5e' },
-  { key: 'violet', label: 'Violet', swatch: '#8b5cf6' },
+  { key: 'saffron', label: 'Peacock', swatch: '#0E4F45' },
+  { key: 'azure', label: 'Teal', swatch: '#147A68' },
+  { key: 'emerald', label: 'Emerald', swatch: '#0F8A5F' },
+  { key: 'rose', label: 'Rosewood', swatch: '#A63A5E' },
+  { key: 'violet', label: 'Terracotta', swatch: '#B3402E' },
 ]
 
 const MODE_KEY = 'hj_admin_theme_mode'

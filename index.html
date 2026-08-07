@@ -12,7 +12,7 @@
         try {
           var mode = localStorage.getItem('hj_admin_theme_mode');
           if (mode !== 'dark' && mode !== 'light') {
-            mode = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+            mode = 'light';
           }
           var accent = localStorage.getItem('hj_admin_theme_accent') || 'saffron';
           document.documentElement.setAttribute('data-theme', mode);

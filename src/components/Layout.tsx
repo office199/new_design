@@ -155,25 +155,25 @@ export default function Layout() {
   const mainPadding = collapsed ? 'lg:pl-[78px]' : 'lg:pl-[294px]'
 
   return (
-    <div className="app-frame min-h-screen bg-bg-0 text-ivory selection:bg-saffron-soft selection:text-saffron-bright antialiased">
+    <div className="app-frame min-h-screen bg-bg-0 text-ivory antialiased">
       {/* Mobile scrim */}
       {drawerOpen && <div className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden animate-fade-in" onClick={()=>setDrawerOpen(false)} />}
 
       {/* Sidebar - desktop & mobile */}
-      <aside className={`app-sidebar fixed inset-y-0 left-0 z-50 flex w-[300px] flex-col border-r border-border-soft bg-bg-1 ${sidebarWidth} transition-all duration-300 ease-[cubic-bezier(.32,.72,0,1)] ${drawerOpen ? 'translate-x-0 shadow-[20px_0_80px_rgba(0,0,0,0.45)]' : '-translate-x-full lg:translate-x-0'} `}>
+      <aside className={`app-sidebar fixed inset-y-0 left-0 z-50 flex w-[300px] flex-col border-r border-[rgba(227,178,60,0.16)] ${sidebarWidth} transition-all duration-300 ease-[cubic-bezier(.32,.72,0,1)] ${drawerOpen ? 'translate-x-0 shadow-[20px_0_80px_rgba(0,0,0,0.45)]' : '-translate-x-full lg:translate-x-0'} `}>
         {/* Brand */}
-        <div className="relative z-10 flex h-[68px] items-center gap-3 border-b border-border-soft/60 px-4 shrink-0">
+        <div className="relative z-10 flex h-[68px] items-center gap-3 border-b border-[rgba(227,178,60,0.14)] px-4 shrink-0">
           <div className="flex items-center gap-3 min-w-0 flex-1">
             <div className="relative grid h-10 w-10 shrink-0 place-items-center brand-mark rounded-[14px]">
-              <span className="relative text-[19px] leading-none drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]">✦</span>
+              <span className="relative text-[19px] leading-none drop-shadow-[0_1px_1px_rgba(0,0,0,0.25)]">✦</span>
             </div>
             {!collapsed && (
               <div className="min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="font-display text-[15.5px] font-bold tracking-tight leading-none">Hindustani Jyotish</span>
-                  <span className="hidden xl:inline-flex items-center rounded-full border border-amber-400/25 bg-amber-400/10 px-1.5 py-0.5 text-[8.5px] font-extrabold uppercase tracking-wider text-amber-300">Admin</span>
+                  <span className="font-display text-[16px] font-semibold tracking-tight leading-none text-[#F7EDD7]">Hindustani Jyotish</span>
+                  <span className="hidden xl:inline-flex items-center rounded-full border border-[rgba(227,178,60,0.35)] bg-[rgba(227,178,60,0.12)] px-1.5 py-0.5 text-[8.5px] font-extrabold uppercase tracking-wider text-[#EBCE7E]">Admin</span>
                 </div>
-                <div className="mt-1 text-[10.5px] text-ivory-faint">Celestial Console</div>
+                <div className="mt-1 text-[10.5px] text-[rgba(247,237,215,0.55)] tracking-wide">Astrology Console</div>
               </div>
             )}
           </div>
@@ -188,9 +188,10 @@ export default function Layout() {
                 value={query}
                 onChange={e=>setQuery(e.target.value)}
                 placeholder="Search pages… ⌘K"
-                className="h-[40px] w-full rounded-full border border-border-soft bg-surface-1 pl-11 pr-10 text-[13px] placeholder:text-ivory-faint focus:border-saffron/40 focus:bg-surface-2 focus:shadow-[0_0_0_4px_var(--color-saffron-soft)] outline-none transition-all"
+                className="h-[40px] w-full rounded-full border border-[rgba(227,178,60,0.18)] bg-[rgba(255,253,246,0.07)] pl-11 pr-10 text-[13px] text-[#F7EDD7] placeholder:text-[rgba(247,237,215,0.4)] focus:border-[rgba(227,178,60,0.5)] focus:bg-[rgba(255,253,246,0.12)] focus:shadow-[0_0_0_4px_rgba(227,178,60,0.12)] outline-none transition-all"
               />
-              {query && <button onClick={()=>setQuery('')} className="absolute right-2 top-1/2 -translate-y-1/2 grid h-6 w-6 place-items-center rounded-full bg-surface-2 text-ivory-faint hover:text-ivory">{ICON.close}</button>}
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[rgba(247,237,215,0.45)]">{ICON.search}</span>
+              {query && <button onClick={()=>setQuery('')} className="absolute right-2 top-1/2 -translate-y-1/2 grid h-6 w-6 place-items-center rounded-full bg-[rgba(255,253,246,0.1)] text-[rgba(247,237,215,0.6)] hover:text-[#F7EDD7]">{ICON.close}</button>}
             </div>
           </div>
         )}
@@ -198,7 +199,7 @@ export default function Layout() {
         {/* Collapsed search icon */}
         {collapsed && (
           <div className="relative z-10 p-3 hidden lg:block">
-            <button onClick={()=>setCollapsed(false)} className="grid h-10 w-10 place-items-center rounded-xl bg-surface-1 border border-border-soft text-ivory-faint hover:text-ivory hover:border-border-mid transition-colors">
+            <button onClick={()=>setCollapsed(false)} className="grid h-10 w-10 place-items-center rounded-xl bg-[rgba(255,253,246,0.07)] border border-[rgba(227,178,60,0.18)] text-[rgba(247,237,215,0.6)] hover:text-[#F7EDD7] hover:border-[rgba(227,178,60,0.35)] transition-colors">
               {ICON.search}
             </button>
           </div>
@@ -206,17 +207,17 @@ export default function Layout() {
 
         {/* Navigation */}
         <nav className="relative z-10 flex-1 overflow-y-auto px-2.5 pb-3 [scrollbar-width:thin] scrollbar-thin">
-          {filtered.length===0 && !collapsed && <div className="px-3 py-10 text-center text-[13px] text-ivory-faint">No results for “{query}”</div>}
+          {filtered.length===0 && !collapsed && <div className="px-3 py-10 text-center text-[13px] text-[rgba(247,237,215,0.5)]">No results for “{query}”</div>}
           <div className="flex flex-col gap-6 py-1">
             {filtered.map(group=>(
               <div key={group.heading}>
                 {!collapsed && (
-                  <div className="mb-2 flex items-center gap-1.5 px-3 text-[10px] font-extrabold uppercase tracking-[0.14em] text-ivory-faint/75">
-                    <span className="h-1 w-1 rounded-full bg-gradient-to-br from-amber-300 to-orange-500 shadow-[0_0_6px_rgba(244,129,31,0.65)]" />
+                  <div className="mb-2 flex items-center gap-2 px-3 text-[10px] font-extrabold uppercase tracking-[0.18em] text-[rgba(235,206,126,0.75)]">
+                    <span className="inline-block h-1.5 w-1.5 rotate-45 bg-[#E3B23C] shadow-[0_0_6px_rgba(227,178,60,0.6)]" />
                     {group.heading}
                   </div>
                 )}
-                {collapsed && <div className="mx-3 my-2 h-px bg-border-soft/50 hidden lg:block" />}
+                {collapsed && <div className="mx-3 my-2 h-px bg-[rgba(227,178,60,0.14)] hidden lg:block" />}
                 <div className="flex flex-col gap-1">
                   {group.items.map(item=>(
                     <NavLink
@@ -227,19 +228,19 @@ export default function Layout() {
                       className={({isActive})=>
                         `group relative flex items-center gap-3 rounded-[12px] px-3 py-2.5 text-[13.5px] font-medium transition-all border ${
                           isActive
-                            ? 'bg-[linear-gradient(135deg,rgba(244,129,31,0.16),rgba(168,85,247,0.12))] text-ivory border-[rgba(244,129,31,0.24)] shadow-[0_0_0_1px_rgba(244,129,31,0.08),0_4px_16px_rgba(0,0,0,0.14),inset_0_1px_0_rgba(255,255,255,0.06)]'
-                            : 'text-ivory-dim hover:bg-[rgba(255,255,255,0.05)] hover:text-ivory border-transparent hover:border-border-soft/70 hover:shadow-[0_2px_8px_rgba(0,0,0,0.08)]'
+                            ? 'bg-[linear-gradient(135deg,rgba(227,178,60,0.22),rgba(200,147,42,0.10))] text-[#F9F1DC] border-[rgba(227,178,60,0.35)] shadow-[0_4px_16px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.08)]'
+                            : 'text-[rgba(247,237,215,0.68)] hover:bg-[rgba(255,253,246,0.07)] hover:text-[#F7EDD7] border-transparent hover:border-[rgba(227,178,60,0.16)]'
                         } ${collapsed ? 'lg:justify-center lg:px-2' : ''}`
                       }
                     >
                       {({isActive})=>(
                         <>
-                          {isActive && !collapsed && <span className="absolute left-0 top-1/2 h-[22px] w-[3px] -translate-y-1/2 rounded-full bg-gradient-to-b from-amber-300 to-orange-500 shadow-[0_0_10px_rgba(244,129,31,0.6)]" />}
-                          <span className={`shrink-0 transition-colors ${isActive?'text-amber-300':''}`}>{item.icon}</span>
+                          {isActive && !collapsed && <span className="absolute left-0 top-1/2 h-[22px] w-[3px] -translate-y-1/2 rounded-full bg-gradient-to-b from-[#F0C763] to-[#B07D1F] shadow-[0_0_10px_rgba(227,178,60,0.6)]" />}
+                          <span className={`shrink-0 transition-colors ${isActive?'text-[#EBCE7E]':''}`}>{item.icon}</span>
                           {!collapsed && <span className="truncate">{item.label}</span>}
                           {/* Tooltip for collapsed */}
                           {collapsed && (
-                            <span className="pointer-events-none absolute left-[calc(100%+12px)] top-1/2 hidden -translate-y-1/2 whitespace-nowrap rounded-full border border-border-mid bg-surface-raised px-3 py-1.5 text-[12px] font-medium shadow-xl lg:group-hover:block z-50">
+                            <span className="pointer-events-none absolute left-[calc(100%+12px)] top-1/2 hidden -translate-y-1/2 whitespace-nowrap rounded-full border border-[rgba(227,178,60,0.3)] bg-[#0D4239] px-3 py-1.5 text-[12px] font-medium text-[#F7EDD7] shadow-xl lg:group-hover:block z-50">
                               {item.label}
                             </span>
                           )}
@@ -254,20 +255,20 @@ export default function Layout() {
         </nav>
 
         {/* User footer */}
-        <div className="relative z-10 border-t border-border-soft/60 p-2.5 backdrop-blur">
+        <div className="relative z-10 border-t border-[rgba(227,178,60,0.14)] p-2.5">
           {!collapsed ? (
-            <div className="flex items-center gap-3 rounded-[14px] bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.03))] border border-[rgba(255,255,255,0.08)] p-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
-              <div className="grid h-9 w-9 shrink-0 place-items-center rounded-[10px] bg-gradient-to-br from-amber-300 to-orange-500 text-[13px] font-bold text-black shadow-[0_4px_14px_rgba(244,129,31,0.35)]">{initials}</div>
+            <div className="flex items-center gap-3 rounded-[14px] bg-[linear-gradient(180deg,rgba(255,253,246,0.08),rgba(255,253,246,0.03))] border border-[rgba(227,178,60,0.16)] p-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
+              <div className="grid h-9 w-9 shrink-0 place-items-center rounded-[10px] bg-gradient-to-br from-[#F0C763] to-[#B07D1F] text-[13px] font-bold text-[#33240A] shadow-[0_4px_14px_rgba(227,178,60,0.3)]">{initials}</div>
               <div className="min-w-0 flex-1">
-                <div className="truncate text-[12.5px] font-semibold leading-tight">{admin?.name || admin?.email?.split('@')[0] || 'Admin'}</div>
-                <div className="truncate text-[11px] text-ivory-faint">{admin?.email}</div>
+                <div className="truncate text-[12.5px] font-semibold leading-tight text-[#F7EDD7]">{admin?.name || admin?.email?.split('@')[0] || 'Admin'}</div>
+                <div className="truncate text-[11px] text-[rgba(247,237,215,0.5)]">{admin?.email}</div>
               </div>
-              <button onClick={()=>{logout(); navigate('/login')}} className="grid h-8 w-8 place-items-center rounded-full bg-[rgba(255,255,255,0.06)] border border-[rgba(255,255,255,0.1)] text-ivory-dim hover:text-ivory hover:border-border-mid transition-colors" title="Sign out">{ICON.logout}</button>
+              <button onClick={()=>{logout(); navigate('/login')}} className="grid h-8 w-8 place-items-center rounded-full bg-[rgba(255,253,246,0.07)] border border-[rgba(227,178,60,0.18)] text-[rgba(247,237,215,0.6)] hover:text-[#F7EDD7] hover:border-[rgba(227,178,60,0.35)] transition-colors" title="Sign out">{ICON.logout}</button>
             </div>
           ) : (
             <div className="hidden lg:flex flex-col items-center gap-2">
-              <div className="grid h-9 w-9 place-items-center rounded-[10px] bg-gradient-to-br from-amber-300 to-orange-500 text-[13px] font-bold text-black">{initials}</div>
-              <button onClick={()=>{logout(); navigate('/login')}} className="grid h-8 w-8 place-items-center rounded-full bg-surface-1 border border-border-soft text-ivory-dim hover:text-ivory" title="Sign out">{ICON.logout}</button>
+              <div className="grid h-9 w-9 place-items-center rounded-[10px] bg-gradient-to-br from-[#F0C763] to-[#B07D1F] text-[13px] font-bold text-[#33240A]">{initials}</div>
+              <button onClick={()=>{logout(); navigate('/login')}} className="grid h-8 w-8 place-items-center rounded-full bg-[rgba(255,253,246,0.07)] border border-[rgba(227,178,60,0.18)] text-[rgba(247,237,215,0.6)] hover:text-[#F7EDD7]" title="Sign out">{ICON.logout}</button>
             </div>
           )}
         </div>
@@ -276,22 +277,22 @@ export default function Layout() {
       {/* Main */}
       <div className={`transition-all duration-300 ${mainPadding}`}>
         {/* Topbar */}
-        <header className="app-topbar sticky top-0 z-30 flex h-[72px] items-center gap-3 border-b border-border-soft bg-bg-1/90 backdrop-blur-2xl px-4 lg:px-6 supports-[backdrop-filter]:bg-bg-1/55">
-          <button onClick={()=>setDrawerOpen(true)} className="grid h-10 w-10 place-items-center rounded-full bg-surface-1 border border-border-soft text-ivory-dim hover:text-ivory lg:hidden">{ICON.menu}</button>
+        <header className="app-topbar sticky top-0 z-30 flex h-[72px] items-center gap-3 border-b border-border-soft bg-bg-1/90 backdrop-blur-2xl px-4 lg:px-6 supports-[backdrop-filter]:bg-bg-1/75">
+          <button onClick={()=>setDrawerOpen(true)} className="grid h-10 w-10 place-items-center rounded-full bg-surface-1 border border-border-mid text-ivory-dim hover:text-ivory lg:hidden">{ICON.menu}</button>
 
           <div className="hidden lg:flex items-center gap-3 min-w-0 flex-1">
-            <button onClick={()=>setCollapsed(v=>!v)} className="grid h-9 w-9 place-items-center rounded-full bg-surface-1 border border-border-soft text-ivory-faint hover:text-ivory hover:border-border-mid lg:hidden xl:grid">
+            <button onClick={()=>setCollapsed(v=>!v)} className="grid h-9 w-9 place-items-center rounded-full bg-surface-1 border border-border-mid text-ivory-faint hover:text-ivory hover:border-border-strong lg:hidden xl:grid">
               {collapsed ? <span className="rotate-180">{ICON.chevron}</span> : ICON.collapse}
             </button>
-            <div className="h-5 w-px bg-border-soft hidden xl:block" />
+            <div className="h-5 w-px bg-border-mid hidden xl:block" />
             <div className="min-w-0">
               <div className="flex items-center gap-2 text-[12px]">
-                <span className="text-ivory-faint">{activeGroup}</span>
-                <span className="text-ivory-faint/50">/</span>
-                <span className="font-semibold text-ivory">{activeLabel}</span>
+                <span className="text-ivory-faint font-semibold tracking-wide uppercase text-[10.5px]">{activeGroup}</span>
+                <span className="text-[#C8932A]">/</span>
+                <span className="font-display font-semibold text-[15px] text-ivory">{activeLabel}</span>
               </div>
               <div className="hidden lg:flex items-center gap-2 text-[11px] text-ivory-faint mt-0.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="h-1.5 w-1.5 rounded-full bg-[#1E7A54] animate-pulse shadow-[0_0_6px_rgba(30,122,84,0.6)]" />
                 {new Date().toLocaleDateString('en-IN',{weekday:'short', day:'numeric', month:'short', year:'numeric'})}
               </div>
             </div>
@@ -299,17 +300,26 @@ export default function Layout() {
 
           {/* Mobile title */}
           <div className="lg:hidden min-w-0 flex-1">
-            <div className="text-[11px] font-bold uppercase tracking-widest text-ivory-faint">{activeGroup}</div>
-            <h1 className="text-[15px] font-semibold leading-none tracking-tight truncate">{activeLabel}</h1>
+            <div className="text-[10px] font-bold uppercase tracking-widest text-ivory-faint">{activeGroup}</div>
+            <h1 className="font-display text-[16px] font-semibold leading-none tracking-tight truncate">{activeLabel}</h1>
           </div>
 
           <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
             {/* Global search - desktop */}
+            <div className="hidden lg:flex items-center gap-1 rounded-full border border-border-mid bg-surface-1 p-1">
+              <input
+                ref={topSearchRef}
+                value={query}
+                onChange={e=>setQuery(e.target.value)}
+                placeholder="Search…  /"
+                className="w-[140px] xl:w-[180px] bg-transparent border-none text-[13px] px-3 py-1.5 placeholder:text-ivory-faint focus:outline-none"
+              />
+              <span className="text-ivory-faint pr-1">{ICON.search}</span>
+            </div>
 
-
-            <div className="hidden sm:flex items-center gap-1 rounded-full border border-border-soft bg-surface-1 p-1">
+            <div className="hidden sm:flex items-center gap-1 rounded-full border border-border-mid bg-surface-1 p-1">
               <ThemeSwitcher />
-              <div className="h-5 w-px bg-border-soft" />
+              <div className="h-5 w-px bg-border-mid" />
               <NotificationsBell />
             </div>
 
@@ -319,26 +329,27 @@ export default function Layout() {
             </div>
 
             <div className="relative" ref={userMenuRef}>
-              <button onClick={()=>setUserMenu(v=>!v)} className="group flex items-center gap-2 rounded-full border border-border-soft bg-surface-1 pl-1 pr-1 lg:pr-3 py-1 hover:border-border-mid transition-colors">
-                <span className="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-amber-300 to-orange-500 text-[12px] font-bold text-black shadow-[0_2px_10px_rgba(244,129,31,0.4)]">{initials}</span>
+              <button onClick={()=>setUserMenu(v=>!v)} className="group flex items-center gap-2 rounded-full border border-border-mid bg-surface-1 pl-1 pr-1 lg:pr-3 py-1 hover:border-border-strong transition-colors">
+                <span className="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-[#0E4F45] to-[#17806F] text-[12px] font-bold text-[#FFFDF6] shadow-[0_2px_10px_rgba(14,79,69,0.35)] ring-1 ring-[rgba(200,147,42,0.4)]">{initials}</span>
                 <span className="hidden lg:block text-left leading-tight">
                   <span className="block text-[12px] font-semibold truncate max-w-[120px]">{admin?.name || admin?.email?.split('@')[0]}</span>
-                  <span className="block text-[10px] text-ivory-faint">Admin</span>
+                  <span className="block text-[10px] text-ivory-faint">{admin?.id === 'preview' ? 'Preview mode' : 'Admin'}</span>
                 </span>
                 <span className="hidden lg:grid h-5 w-5 place-items-center rounded-full bg-surface-2 text-ivory-faint group-hover:text-ivory ml-1">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 9l6 6 6-6"/></svg>
                 </span>
               </button>
               {userMenu && (
-                <div className="absolute right-0 top-[calc(100%+10px)] w-[300px] overflow-hidden rounded-[20px] border border-border-mid bg-surface-raised shadow-[0_24px_80px_rgba(0,0,0,0.45)] backdrop-blur-2xl animate-pop-in z-50">
-                  <div className="p-5 bg-[radial-gradient(120%_120%_at_0%_0%,rgba(244,129,31,0.12),transparent_60%)]">
-                    <div className="flex items-center gap-3">
-                      <div className="grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-amber-300 to-orange-500 text-[14px] font-bold text-black">{initials}</div>
+                <div className="absolute right-0 top-[calc(100%+10px)] w-[300px] overflow-hidden rounded-[20px] border border-border-mid bg-surface-raised shadow-[0_24px_80px_rgba(94,72,38,0.25)] backdrop-blur-2xl animate-pop-in z-50">
+                  <div className="relative overflow-hidden p-5 hero-green">
+                    <div className="pointer-events-none absolute -right-8 -top-10 h-36 w-36 rounded-full bg-[radial-gradient(circle,rgba(227,178,60,0.25),transparent_65%)]" />
+                    <div className="relative flex items-center gap-3">
+                      <div className="grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-[#F0C763] to-[#B07D1F] text-[14px] font-bold text-[#33240A]">{initials}</div>
                       <div className="min-w-0">
-                        <div className="text-[14px] font-semibold truncate">{admin?.name || 'Administrator'}</div>
-                        <div className="mt-0.5 truncate text-[12px] text-ivory-dim">{admin?.email}</div>
-                        <div className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-emerald-400">
-                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" /> Active session
+                        <div className="text-[14px] font-semibold text-[#F7EDD7]">{admin?.name || 'Administrator'}</div>
+                        <div className="mt-0.5 truncate text-[12px] text-[rgba(247,237,215,0.65)]">{admin?.email}</div>
+                        <div className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-[rgba(63,191,139,0.15)] border border-[rgba(63,191,139,0.35)] px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-[#7DE0B5]">
+                          <span className="h-1.5 w-1.5 rounded-full bg-[#3FBF8B] animate-pulse" /> {admin?.id === 'preview' ? 'Design preview' : 'Active session'}
                         </div>
                       </div>
                     </div>
@@ -347,7 +358,7 @@ export default function Layout() {
                     <button onClick={()=>{setUserMenu(false); navigate('/')}} className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-[13px] font-medium text-ivory-dim hover:bg-surface-1 hover:text-ivory transition-colors">
                       {ICON.dash} Dashboard
                     </button>
-                    <button onClick={()=>{logout(); navigate('/login')}} className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-[13px] font-medium text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors">
+                    <button onClick={()=>{logout(); navigate('/login')}} className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-[13px] font-medium text-[#B3402E] hover:bg-[rgba(179,64,46,0.08)] hover:text-[#96291B] transition-colors">
                       {ICON.logout} Sign out
                     </button>
                   </div>
@@ -366,9 +377,9 @@ export default function Layout() {
 
         {/* Footer quick */}
         <footer className="mx-auto max-w-[1500px] px-4 sm:px-6 lg:px-8 pb-8 pt-2">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-2 rounded-2xl border border-border-soft/60 bg-surface-1/40 px-4 py-3 text-[11px] text-ivory-faint">
-            <span className="flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" /> System operational · All services running</span>
-            <span>© {new Date().getFullYear()} Hindustani Jyotish</span>
+          <div className="relative flex flex-col sm:flex-row items-center justify-between gap-2 overflow-hidden rounded-2xl border border-border-soft bg-surface-raised px-4 py-3 text-[11px] text-ivory-faint shadow-[var(--shadow-1)]">
+            <span className="flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-[#1E7A54] animate-pulse shadow-[0_0_6px_rgba(30,122,84,0.5)]" /> System operational · All services running</span>
+            <span className="flex items-center gap-2">Crafted with <span className="text-[#C05B3C]">✦</span> · © {new Date().getFullYear()} Hindustani Jyotish</span>
           </div>
         </footer>
       </div>
